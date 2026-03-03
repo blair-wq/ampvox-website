@@ -23,16 +23,21 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
 #login-screen {
-  position:fixed; inset:0; z-index:999; background:var(--black);
+  position:fixed; inset:0; z-index:999;
+  background:var(--black);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   transition:opacity 0.6s ease, visibility 0.6s ease;
 }
 #login-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
 .login-rings { position:absolute; inset:0; pointer-events:none; }
-.login-ring { position:absolute; border-radius:50%; border:1px solid rgba(78,205,196,0.07); top:50%; left:50%; transform:translate(-50%,-50%); }
+.login-ring {
+  position:absolute; border-radius:50%;
+  border:1px solid rgba(78,205,196,0.07);
+  top:50%; left:50%; transform:translate(-50%,-50%);
+}
 .login-logo { font-family:var(--display); font-size:42px; letter-spacing:3px; color:var(--white); margin-bottom:8px; text-align:center; }
 .login-logo span { color:var(--mint); }
-.login-sub { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:64px; }
+.login-sub { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:64px; text-align:center; }
 .login-box { width:360px; padding:48px 40px; border:1px solid rgba(78,205,196,0.15); background:var(--dark); position:relative; }
 .login-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--mint), transparent); }
 .login-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; display:block; }
@@ -60,44 +65,72 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .hero-name { font-family:var(--display); font-size:clamp(64px, 8vw, 100px); line-height:0.9; letter-spacing:1px; }
 .hero-name span { color:var(--mint); }
 .hero-rule { width:48px; height:3px; background:var(--mint); margin:28px 0 20px; }
-.hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:400px; line-height:1.75; }
+.hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:360px; line-height:1.75; }
 .hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
 .stats-row { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); }
-.stat-block { padding:32px 48px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
+.stat-block { padding:32px 48px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; animation:fadeUp 0.5s ease both; }
 .stat-block:last-child { border-right:none; }
 .stat-block::after { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--mint); transition:height 0.4s ease; }
 .stat-block:hover::after { height:100%; }
 .stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
-.stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:#2a2a2a; }
-.stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; margin-top:8px; }
+.stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; }
+.stat-value.mint { color:var(--mint); }
+.stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; margin-top:8px; }
 .section { padding:48px; }
 .section + .section { border-top:1px solid rgba(255,255,255,0.04); }
 .section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:8px; }
 .section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
-.empty-state { border:1px dashed rgba(78,205,196,0.12); padding:64px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; }
-.empty-glyph { font-family:var(--display); font-size:40px; color:#1f1f1f; letter-spacing:2px; }
-.empty-title { font-family:var(--display); font-size:22px; letter-spacing:1px; color:#2d2d2d; }
-.empty-desc { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#2a2a2a; line-height:2.2; }
+.pipeline-table { width:100%; border-collapse:collapse; }
+.pipeline-table th { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); padding:12px 16px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.06); }
+.pipeline-table td { padding:20px 16px; vertical-align:middle; border-bottom:1px solid rgba(255,255,255,0.04); font-size:14px; color:#ccc; transition:background 0.2s; }
+.pipeline-table tr:hover td { background:rgba(78,205,196,0.04); }
+.brand-name { font-family:var(--body); font-weight:700; color:var(--white); font-size:15px; }
+.brand-cat { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--grey); margin-top:3px; }
+.stage-pill { display:inline-flex; align-items:center; gap:8px; padding:5px 12px; font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; border:1px solid; }
+.stage-outreach { color:#888; border-color:#333; }
+.stage-convo { color:#4E9CCD; border-color:rgba(78,156,205,0.3); background:rgba(78,156,205,0.05); }
+.stage-negotiating { color:#F0A500; border-color:rgba(240,165,0,0.3); background:rgba(240,165,0,0.05); }
+.stage-closed { color:var(--mint); border-color:rgba(78,205,196,0.3); background:rgba(78,205,196,0.05); }
+.stage-dead { color:#444; border-color:#222; }
+.stage-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.dot-outreach { background:#555; }
+.dot-convo { background:#4E9CCD; }
+.dot-negotiating { background:#F0A500; }
+.dot-closed { background:var(--mint); }
+.dot-dead { background:#333; }
+.deal-value { font-family:var(--display); font-size:22px; letter-spacing:1px; color:var(--white); }
+.deal-value.tbc { color:#444; font-size:14px; font-family:var(--mono); letter-spacing:2px; }
+.next-step { font-size:13px; color:#aaa; max-width:200px; }
+.notes-text { font-size:12px; color:#555; max-width:220px; line-height:1.5; font-style:italic; }
+.timeline-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:2px; }
+.timeline-card { padding:28px 32px; background:var(--dark); border-left:3px solid var(--mint); transition:background 0.2s; }
+.timeline-card:hover { background:var(--mid); }
+.timeline-card.urgent { border-left-color:#F0A500; }
+.tl-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--mint); margin-bottom:10px; }
+.tl-title { font-family:var(--display); font-size:20px; letter-spacing:1px; color:var(--white); margin-bottom:6px; }
+.tl-desc { font-size:12px; color:#666; line-height:1.6; }
+.earnings-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.earnings-left { padding:40px; background:var(--dark); }
+.earnings-right { padding:40px; background:var(--mid); }
+.earn-total-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
+.earn-total-val { font-family:var(--display); font-size:72px; line-height:0.9; color:var(--mint); margin-bottom:8px; }
+.earn-total-sub { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; }
+.updates-list { display:flex; flex-direction:column; gap:0; }
 .update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
-.update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
 .update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--mint); margin-bottom:6px; }
 .update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
-.update-text { font-size:14px; color:#bbb; line-height:1.85; }
-.docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
-.doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.4; }
-.doc-icon { font-family:var(--display); font-size:22px; color:#333; letter-spacing:1px; }
-.doc-title { font-weight:500; color:var(--white); font-size:14px; }
-.doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; }
-.doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
-.dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
-.footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
-.footer-logo span { color:rgba(78,205,196,0.3); }
-.footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
+.update-text { font-size:14px; color:#bbb; line-height:1.75; }
+.update-brand { color:var(--white); font-weight:500; }
+.dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.1); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
+.footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#333; }
+.footer-logo span { color:rgba(78,205,196,0.4); }
+.footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#333; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .dashboard { animation:fadeUp 0.5s ease both; }
 @media(max-width:900px) {
   .stats-row { grid-template-columns:1fr 1fr; }
   .stat-block { border-right:none; border-bottom:1px solid rgba(78,205,196,0.1); }
+  .earnings-grid { grid-template-columns:1fr; }
   .hero { flex-direction:column; align-items:flex-start; }
   .hero-date { text-align:left; }
   .update-item { grid-template-columns:1fr; gap:8px; }
@@ -108,10 +141,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 @media(max-width:600px) {
   .stats-row { grid-template-columns:1fr; }
   .hero { padding:32px 20px; }
+  .pipeline-table { display:block; overflow-x:auto; }
 }
 </style>
 </head>
 <body>
+
 <div id="login-screen">
   <div class="login-rings">
     <div class="login-ring" style="width:700px;height:700px;"></div>
@@ -128,7 +163,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
   </div>
 </div>
+
 <div id="dashboard" class="dashboard" style="display:none;">
+
   <nav class="nav">
     <div class="nav-logo">AMP<span>VOX</span></div>
     <div class="nav-meta">
@@ -136,123 +173,198 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <button class="nav-logout" onclick="logout()">LOG OUT</button>
     </div>
   </nav>
+
   <div class="ticker">
     <div class="ticker-inner">
+      <span class="ticker-item">Brand Pipeline</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Active Deals</span><span class="ticker-sep"></span>
       <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
       <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Pipeline</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Active Deals</span><span class="ticker-sep"></span>
       <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
       <span class="ticker-item">2026</span><span class="ticker-sep"></span>
     </div>
   </div>
+
   <div class="hero">
     <div>
       <div class="hero-eyebrow">Your Dashboard</div>
       <div class="hero-name">EMILY<br><span>PERCIVAL.</span></div>
       <div class="hero-rule"></div>
-      <div class="hero-desc">Welcome to your Ampvox portal. This is where you'll track every brand conversation, deal and payment — updated by your team as things move forward.</div>
+      <div class="hero-desc">Here's everything happening with your brand deals — updated by your Ampvox team in real time.</div>
     </div>
     <div class="hero-date" id="dash-date"></div>
   </div>
+
   <div class="stats-row">
-    <div class="stat-block">
-      <div class="stat-label">Active Conversations</div>
+    <div class="stat-block" style="animation-delay:0.05s">
+      <div class="stat-label">Brands Reached Out To</div>
+      <div class="stat-value mint">63</div>
+      <div class="stat-sub">Outreach sent 3 Mar 2026</div>
+    </div>
+    <div class="stat-block" style="animation-delay:0.1s">
+      <div class="stat-label">Replies Received</div>
       <div class="stat-value">0</div>
-      <div class="stat-sub">Getting started</div>
+      <div class="stat-sub">Awaiting responses</div>
     </div>
-    <div class="stat-block">
-      <div class="stat-label">Deals Closed — 2026</div>
-      <div class="stat-value">0</div>
-      <div class="stat-sub">More to come</div>
+    <div class="stat-block" style="animation-delay:0.15s">
+      <div class="stat-label">Deals Active</div>
+      <div class="stat-value mint">0</div>
+      <div class="stat-sub">None yet</div>
     </div>
-    <div class="stat-block">
-      <div class="stat-label">Pending Value</div>
-      <div class="stat-value">—</div>
-      <div class="stat-sub">Nothing in negotiation yet</div>
-    </div>
-    <div class="stat-block">
+    <div class="stat-block" style="animation-delay:0.2s">
       <div class="stat-label">Earned — 2026</div>
       <div class="stat-value">£0</div>
-      <div class="stat-sub">Watch this space</div>
+      <div class="stat-sub">No deals closed yet</div>
     </div>
   </div>
+
   <div class="section">
     <div class="section-label">01 — Brand Pipeline</div>
     <div class="section-title">WHERE THINGS STAND.</div>
-    <div class="empty-state">
-      <div class="empty-glyph">——</div>
-      <div class="empty-title">NO ACTIVE BRANDS YET</div>
-      <div class="empty-desc">Your team is working on outreach.<br>Brands will appear here as conversations begin.</div>
-    </div>
+    <table class="pipeline-table">
+      <thead>
+        <tr>
+          <th>Brand</th><th>Stage</th><th>Deal Value</th><th>Next Step</th><th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><div class="brand-name">Adanola</div><div class="brand-cat">Fashion / Activewear</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Alo Yoga</div><div class="brand-cat">Fitness / Activewear</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Anthropologie UK</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Apple TV+</div><div class="brand-cat">Streaming / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Audible UK</div><div class="brand-cat">Audio / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Bare Biology</div><div class="brand-cat">Health / Supplements</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Benefit</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Bose UK</div><div class="brand-cat">Tech / Audio</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Casetify</div><div class="brand-cat">Tech / Accessories</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Charlotte Tilbury</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">CurrentBody</div><div class="brand-cat">Beauty / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Depop</div><div class="brand-cat">Fashion / Marketplace</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Dunelm</div><div class="brand-cat">Home / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Dyson</div><div class="brand-cat">Tech / Home</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">e.l.f. Cosmetics</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Fabletics</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Foreo</div><div class="brand-cat">Beauty / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Form Nutrition</div><div class="brand-cat">Health / Supplements</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">GHD</div><div class="brand-cat">Beauty / Haircare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Girlfriend Collective</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Glossier</div><div class="brand-cat">Beauty / Skincare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Grenade</div><div class="brand-cat">Health / Nutrition</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Gymshark</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">H&amp;M</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">HelloFresh UK</div><div class="brand-cat">Food / Wellness</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Huel</div><div class="brand-cat">Health / Nutrition</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">IKEA UK</div><div class="brand-cat">Home / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Innermost</div><div class="brand-cat">Health / Supplements</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Innocent Drinks</div><div class="brand-cat">Food / Wellness</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">The INKEY List</div><div class="brand-cat">Beauty / Skincare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Klarna UK</div><div class="brand-cat">Finance / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Lululemon</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">MANGO</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Marks &amp; Spencer</div><div class="brand-cat">Fashion / Food</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Monki</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Monzo</div><div class="brand-cat">Finance / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Myprotein</div><div class="brand-cat">Health / Nutrition</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Nails Inc.</div><div class="brand-cat">Beauty / Nails</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Netflix UK</div><div class="brand-cat">Streaming / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Next UK</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Nike Women</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">NuFace</div><div class="brand-cat">Beauty / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">The Ordinary</div><div class="brand-cat">Beauty / Skincare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Paramount+</div><div class="brand-cat">Streaming / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Pixi Beauty</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">PLT</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">PMD Beauty</div><div class="brand-cat">Beauty / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Pret A Manger</div><div class="brand-cat">Food / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Rare Beauty</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">REN Clean Skincare</div><div class="brand-cat">Beauty / Skincare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Revolut</div><div class="brand-cat">Finance / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Revolution Beauty</div><div class="brand-cat">Beauty / Makeup</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Rituals</div><div class="brand-cat">Beauty / Wellness</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">SheaMoisture</div><div class="brand-cat">Beauty / Haircare</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Skiddle</div><div class="brand-cat">Events / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Sony UK</div><div class="brand-cat">Tech / Entertainment</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Sweaty Betty</div><div class="brand-cat">Fitness / Apparel</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">The White Company</div><div class="brand-cat">Home / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Trainline</div><div class="brand-cat">Travel / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Uber UK</div><div class="brand-cat">Transport / Tech</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Vida Glow</div><div class="brand-cat">Health / Wellness</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Vinted UK</div><div class="brand-cat">Fashion / Marketplace</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+        <tr><td><div class="brand-name">Zara</div><div class="brand-cat">Fashion / Lifestyle</div></td><td><span class="stage-pill stage-outreach"><span class="stage-dot dot-outreach"></span>Outreach Sent</span></td><td><div class="deal-value tbc">TBC</div></td><td><div class="next-step">Awaiting reply</div></td><td><div class="notes-text">Outreach sent 3 Mar 2026</div></td></tr>
+      </tbody>
+    </table>
   </div>
+
   <div class="section">
-    <div class="section-label">02 — Timeline & Deadlines</div>
+    <div class="section-label">02 — Timeline &amp; Deadlines</div>
     <div class="section-title">WHAT'S COMING UP.</div>
-    <div class="empty-state">
-      <div class="empty-glyph">——</div>
-      <div class="empty-title">NOTHING SCHEDULED YET</div>
-      <div class="empty-desc">Key dates and content deadlines<br>will be tracked here once deals are moving.</div>
+    <div class="timeline-grid">
+      <div class="timeline-card">
+        <div class="tl-date">10 Mar 2026</div>
+        <div class="tl-title">FOLLOW-UP ROUND</div>
+        <div class="tl-desc">Begin following up on any brands that haven't replied to the 3 March outreach.</div>
+      </div>
     </div>
   </div>
+
   <div class="section">
     <div class="section-label">03 — Earnings Tracker</div>
     <div class="section-title">THE NUMBERS.</div>
-    <div class="empty-state">
-      <div class="empty-glyph">£</div>
-      <div class="empty-title">NOTHING YET</div>
-      <div class="empty-desc">Closed deals, invoices and payments<br>will be tracked here.</div>
+    <div class="earnings-grid">
+      <div class="earnings-left">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--grey);margin-bottom:24px;">Closed Deals — 2026</div>
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:#333;padding-top:16px;">No deals closed yet.</div>
+      </div>
+      <div class="earnings-right">
+        <div class="earn-total-label">Total Earned — 2026</div>
+        <div class="earn-total-val" style="color:#2a2a2a;">£0</div>
+        <div class="earn-total-sub">No paid deals yet</div>
+      </div>
     </div>
   </div>
+
   <div class="section">
     <div class="section-label">04 — Manager Updates</div>
     <div class="section-title">FROM YOUR TEAM.</div>
-    <div class="update-item">
-      <div>
-        <div class="update-date" id="update-date"></div>
-        <div class="update-tag">👋 Welcome</div>
-      </div>
-      <div class="update-text">
-        Welcome to your Ampvox dashboard, Emily. This is your central hub for everything happening with your brand partnerships. We'll keep this updated as things progress — so check back regularly. Really excited to get started with you.
+    <div class="updates-list">
+      <div class="update-item">
+        <div class="update-meta">
+          <div class="update-date">3 Mar 2026</div>
+          <div class="update-tag">📧 Outreach</div>
+        </div>
+        <div class="update-text">
+          Today we sent personalised outreach to <span class="update-brand">63 brands</span> across beauty, fashion, fitness, home, food and entertainment — including Charlotte Tilbury, Nike Women, Gymshark, Glossier, Dyson, Lululemon and more. Every email led with your February stats: 791K views, 10.5% engagement, 86% female UK audience. All brands are now logged in the pipeline above. We'll begin following up on non-replies from 10 March onwards.
+        </div>
       </div>
     </div>
   </div>
+
   <div class="section">
-    <div class="section-label">05 — Documents & Links</div>
+    <div class="section-label">05 — Documents &amp; Links</div>
     <div class="section-title">YOUR FILES.</div>
-    <div class="docs-grid">
-      <div class="doc-card">
-        <div class="doc-icon">PDF</div>
-        <div class="doc-title">Emily Percival — Media Kit</div>
-        <div class="doc-meta">In production</div>
-        <div class="doc-status">⏳ Pending</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-icon">RATE</div>
-        <div class="doc-title">Rate Card 2026</div>
-        <div class="doc-meta">Being finalised</div>
-        <div class="doc-status">⏳ Pending</div>
-      </div>
-    </div>
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#333;padding:24px 0;">Coming soon — documents will appear here as deals progress.</div>
   </div>
+
   <div class="dash-footer">
     <div class="footer-logo">AMP<span>VOX</span></div>
     <div class="footer-meta">Emily Percival · Talent Portal · Ampvox 2026</div>
     <div class="footer-meta">ampvox.co.uk</div>
   </div>
+
 </div>
+
 <script>
   const d = new Date();
   const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
-  document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
-  document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
+  document.getElementById('dash-date').innerHTML =
+    `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
+
   const PASSWORD = 'emily2026';
+
   function tryLogin() {
     const val = document.getElementById('pw-input').value;
     const err = document.getElementById('login-error');
@@ -267,15 +379,18 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       setTimeout(() => err.classList.remove('show'), 3000);
     }
   }
+
   function logout() {
     sessionStorage.removeItem('av_auth');
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('pw-input').value = '';
   }
+
   document.getElementById('pw-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') tryLogin();
   });
+
   if (sessionStorage.getItem('av_auth') === '1') {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('dashboard').style.display = 'block';
