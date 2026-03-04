@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ampvox — Client Flow SOP</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint: #4ECDC4;
+  --mint-light: #E8F9F8;
+  --mint-dark: #38B2AA;
+  --black: #0A0A0A;
+  --dark: #1A1A1A;
+  --mid: #2D2D2D;
+  --grey: #666;
+  --light: #F5F5F5;
+  --white: #FFFFFF;
+  --blair: #4ECDC4;
+  --team: #FFD166;
+  --auto: #A8E6CF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--dark); color: var(--white); font-family: 'DM Sans', sans-serif; line-height: 1.6; min-height: 100vh; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #111; }
+  .flow-step { break-inside: avoid; }
+}
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 56px;
+  border-bottom: 1px solid rgba(78,205,196,0.15);
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--white); }
+.nav-logo span { color: var(--mint); }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.nav-tag { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--grey); }
+.print-btn {
+  font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 7px 18px; background: transparent; border: 1px solid rgba(78,205,196,0.3);
+  color: var(--mint); cursor: pointer; border-radius: 20px; transition: all 0.2s;
+}
+.print-btn:hover { background: var(--mint); color: var(--black); }
+
+.hero {
+  padding: 72px 48px 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end;
+}
+.hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--mint); margin-bottom: 16px; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7vw, 80px); line-height: 0.9; letter-spacing: 2px; color: var(--white); }
+.hero-title span { color: var(--mint); }
+.hero-sub { font-size: 14px; font-weight: 300; color: var(--grey); margin-top: 20px; max-width: 500px; line-height: 1.7; }
+
+.legend { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 10px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); white-space: nowrap; }
+
+.main { padding: 0 48px 80px; }
+
+.phase {
+  display: grid; grid-template-columns: 240px 1fr;
+  gap: 0; margin-top: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.phase:first-of-type { border-top: 1px solid rgba(255,255,255,0.04); }
+
+.phase-sidebar {
+  padding: 40px 32px 40px 0;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  position: sticky; top: 56px;
+  align-self: start;
+}
+.phase-num { font-family: 'Bebas Neue', sans-serif; font-size: 72px; color: rgba(78,205,196,0.08); line-height: 1; margin-bottom: -8px; }
+.phase-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--mint); margin-bottom: 8px; }
+.phase-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1px; color: var(--white); line-height: 1; margin-bottom: 12px; }
+.phase-timing { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(78,205,196,0.6); padding: 5px 12px; border: 1px solid rgba(78,205,196,0.2); border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+.phase-desc { font-size: 12px; color: var(--grey); line-height: 1.65; }
+.phase-steps { padding: 32px 0 32px 40px; }
+
+.flow-step {
+  display: grid; grid-template-columns: 48px 1fr;
+  gap: 0; margin-bottom: 12px; position: relative;
+}
+.flow-step:last-child { margin-bottom: 0; }
+.flow-step:not(:last-child) .step-index::after {
+  content: '';
+  position: absolute; left: 23px; top: 48px;
+  width: 2px; height: calc(100% + 12px);
+  background: linear-gradient(to bottom, rgba(78,205,196,0.2), rgba(78,205,196,0.05));
+}
+.step-index {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 14px;
+}
+.step-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(78,205,196,0.4);
+  background: var(--dark);
+  flex-shrink: 0; z-index: 1;
+}
+.step-dot.team { border-color: var(--team); background: rgba(255,209,102,0.12); }
+.step-dot.auto { border-color: var(--auto); background: rgba(168,230,207,0.1); }
+.step-dot.both { border-color: var(--mint); background: rgba(78,205,196,0.15); }
+
+.step-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 2px; padding: 16px 20px;
+  margin-left: 16px;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+}
+.step-card:hover { border-color: rgba(78,205,196,0.2); background: rgba(255,255,255,0.05); }
+.step-card.urgent { border-left: 2px solid var(--mint); }
+
+.step-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.step-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.5px; color: var(--white); line-height: 1; }
+.step-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+.badge {
+  font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 20px; font-weight: 700;
+  white-space: nowrap;
+}
+.badge-team { background: rgba(255,209,102,0.12); color: var(--team); border: 1px solid rgba(255,209,102,0.3); }
+.badge-auto { background: rgba(168,230,207,0.1); color: var(--auto); border: 1px solid rgba(168,230,207,0.3); }
+.badge-time { background: rgba(255,255,255,0.05); color: var(--grey); border: 1px solid rgba(255,255,255,0.08); }
+.badge-tool { background: rgba(78,205,196,0.07); color: rgba(78,205,196,0.7); border: 1px solid rgba(78,205,196,0.15); }
+
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-bottom: 10px; }
+.step-actions { list-style: none; }
+.step-actions li {
+  font-size: 12px; color: rgba(255,255,255,0.6);
+  padding: 5px 0 5px 16px; position: relative; line-height: 1.5;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.step-actions li:last-child { border-bottom: none; }
+.step-actions li::before { content: '→'; position: absolute; left: 0; color: var(--mint); font-size: 10px; top: 6px; }
+.step-actions li strong { color: var(--white); font-weight: 600; }
+.step-actions li em { color: var(--mint); font-style: normal; font-size: 11px; }
+
+.template-block {
+  margin-top: 10px;
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(78,205,196,0.1);
+  border-radius: 2px; overflow: hidden;
+}
+.template-block-header {
+  padding: 8px 14px; background: rgba(78,205,196,0.06);
+  font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--mint);
+  border-bottom: 1px solid rgba(78,205,196,0.1);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.copy-mini {
+  font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(78,205,196,0.5); cursor: pointer;
+  padding: 2px 8px; border: 1px solid rgba(78,205,196,0.2); border-radius: 10px;
+  background: transparent; transition: all 0.2s;
+}
+.copy-mini:hover { color: var(--mint); border-color: var(--mint); }
+.template-body { padding: 14px; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.75; white-space: pre-wrap; font-family: 'DM Sans', sans-serif; }
+.template-body strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+.template-placeholder { color: var(--mint); }
+
+.recurring-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border: 1px solid rgba(255,255,255,0.06); margin: 40px 48px 0;
+}
+.recurring-item { padding: 28px 24px; border-right: 1px solid rgba(255,255,255,0.06); }
+.recurring-item:last-child { border-right: none; }
+.recurring-freq { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--mint); margin-bottom: 10px; }
+.recurring-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--white); margin-bottom: 10px; letter-spacing: 0.5px; }
+.recurring-tasks { list-style: none; }
+.recurring-tasks li { font-size: 12px; color: rgba(255,255,255,0.45); padding: 4px 0 4px 14px; position: relative; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.5; }
+.recurring-tasks li:last-child { border-bottom: none; }
+.recurring-tasks li::before { content: '→'; position: absolute; left: 0; color: rgba(78,205,196,0.5); font-size: 9px; top: 5px; }
+
+.footer-bar {
+  margin: 48px 48px 0; padding: 24px 32px;
+  background: rgba(78,205,196,0.05); border: 1px solid rgba(78,205,196,0.1);
+  display: flex; align-items: center; gap: 24px;
+}
+.footer-bar-icon { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: rgba(78,205,196,0.3); }
+.footer-bar-text { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+.footer-bar-text strong { color: var(--white); }
+</style>
+</head>
+<body>
+
+<nav class="nav no-print">
+  <div class="nav-logo">AMP<span>VOX</span></div>
+  <div class="nav-right">
+    <div class="nav-tag">Internal SOP · Monthly Growth Retainer</div>
+    <button class="print-btn" onclick="window.print()">↓ Save as PDF</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Internal SOP · Team</div>
+    <div class="hero-title">CLIENT FLOW<br><span>RETAINER.</span></div>
+    <div class="hero-sub">Every step from Stripe payment to month-one delivery. Who does what, when, and what to send. Keep this open every time a new client comes in.</div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--mint)"></div><div class="legend-label">Team</div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--auto)"></div><div class="legend-label">Automated / Tool</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-sidebar">
+      <div class="phase-num">01</div>
+      <div class="phase-label">Phase One</div>
+      <div class="phase-title">PAYMENT RECEIVED</div>
+      <div class="phase-timing">Day 0 · Within 2 hours</div>
+      <div class="phase-desc">The clock starts the moment Stripe notifies you. First impressions are set here — speed matters.</div>
+    </div>
+    <div class="phase-steps">
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot auto"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">STRIPE PAYMENT CONFIRMED</div>
+            <div class="step-badges">
+              <span class="badge badge-auto">Automatic</span>
+              <span class="badge badge-tool">Stripe</span>
+            </div>
+          </div>
+          <div class="step-desc">Stripe sends you a payment notification. This is your trigger. Everything below starts now.</div>
+          <ul class="step-actions">
+            <li>Check your Stripe dashboard — confirm payment cleared (not just initiated)</li>
+            <li>Note the client's <strong>exact payment date</strong> — this is their billing anniversary every month</li>
+            <li>Add client to your <strong>Google Contacts</strong> with tag: <em>Retainer Client</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card urgent">
+          <div class="step-top">
+            <div class="step-title">SEND WELCOME EMAIL</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Within 2 hrs</span>
+              <span class="badge badge-tool">Gmail</span>
+            </div>
+          </div>
+          <div class="step-desc">Send the welcome email within 2 hours of payment. Sets the professional tone immediately and tells them exactly what happens next.</div>
+          <ul class="step-actions">
+            <li>Fill in: first name, strategy delivery date (within 3 days), first Monday review date, WhatsApp or Slack preference</li>
+            <li>Attach the <strong>onboarding pack</strong> or link to a hosted version</li>
+            <li>Send from <em>hello@ampvox.co.uk</em></li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>Subject line</span>
+              <button class="copy-mini" onclick="copyText(this, 'Your retainer starts now — welcome to Ampvox 🚀')">Copy</button>
+            </div>
+            <div class="template-body">Your retainer starts now — welcome to Ampvox 🚀</div>
+          </div>
+          <div class="template-block" style="margin-top:8px;">
+            <div class="template-block-header">
+              <span>Full email body</span>
+              <button class="copy-mini" onclick="copyText(this, `Hi [First Name],\n\nThis is it — you're officially a retainer client. Welcome back, and congratulations on making the commitment to keep going.\n\nYou've already done the heavy lifting in your Intensive. You know your brand voice, you have your content system, and you know what good looks like. The retainer is about making sure you never lose momentum. We're in your corner every single month — optimising, adapting, and pushing the needle forward.\n\nHERE'S HOW WE KICK OFF\n\n→ Your first monthly content strategy and calendar will land in your inbox by [Date — within 3 days of today].\n→ We'll send your weekly performance review every Monday morning, starting [Date].\n→ We'll be in touch shortly to book your first 45-minute onboarding strategy call — this is where we get under the hood of where you're at right now so we can build your strategy around reality, not assumptions.\n→ For direct messaging support, you can reach the team on [WhatsApp / Slack — confirm which]. We respond within 24 hours, Mon–Fri (and we'll jump in on weekends if something's urgent).\n\nOne thing we'll need from you straight away: view access to your social analytics across your active platforms. This lets us run your weekly performance reviews from day one. We'll follow up with a short message on how to grant access — it only takes a couple of minutes.\n\nI've attached your retainer onboarding pack — it covers how each month is structured, what we track, and a monthly report template so you always know what to expect from us. Have a read through when you get a chance.\n\nA few things that make retainer clients get the most from this: keep us looped in on anything coming up — launches, campaigns, collabs, events. The sooner we know, the more we can build around it. And when you see something in your niche that sparks an idea, send it over. The best strategies are built on real conversations, not just spreadsheets.\n\nWe're genuinely excited to keep building this with you. Let's make the next 90 days count.\n\nThe Ampvox Team\nhello@ampvox.co.uk | ampvox.co.uk`)">Copy full email</button>
+            </div>
+            <div class="template-body">Hi <span class="template-placeholder">[First Name]</span>,
+
+This is it — you're officially a retainer client. Welcome back, and congratulations on making the commitment to keep going.
+
+You've already done the heavy lifting in your Intensive. You know your brand voice, you have your content system, and you know what good looks like. The retainer is about making sure you never lose momentum. We're in your corner every single month — optimising, adapting, and pushing the needle forward.
+
+<strong>HERE'S HOW WE KICK OFF</strong>
+
+→ Your first monthly content strategy and calendar will land in your inbox by <span class="template-placeholder">[Date — within 3 days of today]</span>.
+→ We'll send your weekly performance review every Monday morning, starting <span class="template-placeholder">[Date]</span>.
+→ We'll be in touch shortly to book your first <strong>45-minute onboarding strategy call</strong> — this is where we get under the hood of where you're at right now so we can build your strategy around reality, not assumptions.
+→ For direct messaging support, you can reach the team on <span class="template-placeholder">[WhatsApp / Slack — confirm which]</span>. We respond within 24 hours, Mon–Fri (and we'll jump in on weekends if something's urgent).
+
+One thing we'll need from you straight away: <strong>view access to your social analytics</strong> across your active platforms. This lets us run your weekly performance reviews from day one. We'll follow up with a short message on how to grant access — it only takes a couple of minutes.
+
+I've attached your retainer onboarding pack — it covers how each month is structured, what we track, and a monthly report template so you always know what to expect from us. Have a read through when you get a chance.
+
+A few things that make retainer clients get the most from this: keep us looped in on anything coming up — launches, campaigns, collabs, events. The sooner we know, the more we can build around it. And when you see something in your niche that sparks an idea, send it over. The best strategies are built on real conversations, not just spreadsheets.
+
+We're genuinely excited to keep building this with you. Let's make the next 90 days count.
+
+The Ampvox Team
+hello@ampvox.co.uk | ampvox.co.uk</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">CREATE CLIENT WORKSPACE</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Same day</span>
+              <span class="badge badge-tool">Notion + Drive</span>
+            </div>
+          </div>
+          <div class="step-desc">Set up the internal workspace so you and the team are ready to deliver from day one.</div>
+          <ul class="step-actions">
+            <li>Duplicate your <strong>Notion client template</strong> → rename to client brand name</li>
+            <li>Create a <strong>Google Drive folder</strong>: <em>Clients / [Brand Name] / Month 1</em></li>
+            <li>Log billing anniversary date in Notion + set a recurring monthly reminder in Google Cal</li>
+            <li>Add client to your internal <strong>active client tracker</strong></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-sidebar">
+      <div class="phase-num">02</div>
+      <div class="phase-label">Phase Two</div>
+      <div class="phase-title">ONBOARDING & ACCESS</div>
+      <div class="phase-timing">Day 0–7 · First week</div>
+      <div class="phase-desc">Get the direct line open, get analytics access, and book the onboarding strategy call — before a single word of strategy is written.</div>
+    </div>
+    <div class="phase-steps">
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">ADD CLIENT TO WHATSAPP / SLACK</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Within 24 hrs</span>
+            </div>
+          </div>
+          <div class="step-desc">Get the direct line open immediately. This is how they'll reach you — make it feel personal from the start.</div>
+          <ul class="step-actions">
+            <li>Add client on WhatsApp or invite to your shared Slack channel (confirm which they prefer)</li>
+            <li>Send a quick intro message — keep it warm and brief</li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>WhatsApp / Slack intro message</span>
+              <button class="copy-mini" onclick="copyText(this, `Hey [Name]! It's the Ampvox team 👋 This is your direct line throughout your retainer — use it for anything. Your first strategy pack lands within the next 3 days. Excited to get started.`)">Copy</button>
+            </div>
+            <div class="template-body">Hey <span class="template-placeholder">[Name]</span>! It's the Ampvox team 👋 This is your direct line throughout your retainer — use it for anything. Your first strategy pack lands within the next 3 days. Excited to get started.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card urgent">
+          <div class="step-top">
+            <div class="step-title">REQUEST ANALYTICS ACCESS</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Within 24 hrs</span>
+            </div>
+          </div>
+          <div class="step-desc">You can't write week-one reviews without data. Get access requested immediately — follow up if not received within 48 hours.</div>
+          <ul class="step-actions">
+            <li>Email or message requesting <strong>view access</strong> to all active platform analytics (TikTok, Instagram, YouTube etc.)</li>
+            <li>Send a simple screen-share guide if they're unsure how to grant access</li>
+            <li>If running paid ads — request read-only ad account access</li>
+            <li><strong>Set a reminder:</strong> if not received in 48 hrs, chase once via WhatsApp/Slack</li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>Analytics access request — message</span>
+              <button class="copy-mini" onclick="copyText(this, `Hi [Name], to get your weekly reviews running from day one we need view access to your social analytics. Could you grant access for: [list their platforms]. Happy to jump on a 5-min call if easier! — Ampvox team`)">Copy</button>
+            </div>
+            <div class="template-body">Hi <span class="template-placeholder">[Name]</span>, to get your weekly reviews running from day one we need view access to your social analytics. Could you grant access for: <span class="template-placeholder">[list their platforms]</span>. Happy to jump on a 5-min call if easier! — Ampvox team</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card urgent">
+          <div class="step-top">
+            <div class="step-title">BOOK ONBOARDING STRATEGY CALL</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Within 48 hrs</span>
+              <span class="badge badge-tool">Calendly</span>
+            </div>
+          </div>
+          <div class="step-desc">This call happens at the start of the retainer — before the first strategy is built. It's how you understand their current situation, goals, and priorities so the strategy is built around reality from day one.</div>
+          <ul class="step-actions">
+            <li>Send your <strong>Calendly link</strong> for a 45-min call, targeting <em>day 3–7</em> of their first cycle</li>
+            <li>Frame it as an onboarding call — not a strategy review (that comes end of month)</li>
+            <li>If they don't book within 3 days, nudge via WhatsApp/Slack</li>
+            <li>Once booked — add to <strong>Google Calendar</strong> with a prep reminder 24hrs before</li>
+            <li>On the call: cover their current situation, goals, upcoming plans, and any content they're proud of or embarrassed by</li>
+            <li>Use findings to <strong>inform the Month 1 strategy</strong> before building it</li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>Calendly booking message</span>
+              <button class="copy-mini" onclick="copyText(this, `Hi [Name] — before we build your first strategy, we want to get properly under the hood. Let's book a quick 45-min onboarding call so we can understand exactly where you're at and build everything around that. Grab a time here: [Calendly link]`)">Copy</button>
+            </div>
+            <div class="template-body">Hi <span class="template-placeholder">[Name]</span> — before we build your first strategy, we want to get properly under the hood. Let's book a quick 45-min onboarding call so we can understand exactly where you're at and build everything around that. Grab a time here: <span class="template-placeholder">[Calendly link]</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-sidebar">
+      <div class="phase-num">03</div>
+      <div class="phase-label">Phase Three</div>
+      <div class="phase-title">MONTH ONE DELIVERY</div>
+      <div class="phase-timing">Day 7–10 · Post onboarding call</div>
+      <div class="phase-desc">Now you know their situation. Build the strategy around what you learned on the call — then deliver it.</div>
+    </div>
+    <div class="phase-steps">
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">AUDIT EXISTING CONTENT</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Day 1–2</span>
+            </div>
+          </div>
+          <div class="step-desc">Before building anything, understand what they've already got. Pull the data and look for patterns.</div>
+          <ul class="step-actions">
+            <li>Review last 30–60 days of content across all platforms</li>
+            <li>Pull top 5 performing posts — note format, hook, topic, length</li>
+            <li>Pull 5 lowest performing posts — note the same</li>
+            <li>Check posting frequency, consistency, and brand voice alignment</li>
+            <li>Drop findings into their <strong>Notion workspace</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot both"></div></div>
+        <div class="step-card urgent">
+          <div class="step-top">
+            <div class="step-title">BUILD & SEND MONTH 1 STRATEGY PACK</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">By day 3</span>
+              <span class="badge badge-tool">Drive + Gmail</span>
+            </div>
+          </div>
+          <div class="step-desc">The centrepiece of month one. Strategy document + content calendar, built using onboarding call findings and delivered clean and on time.</div>
+          <ul class="step-actions">
+            <li>Use onboarding call notes to inform strategic direction</li>
+            <li>Build the <strong>monthly content strategy doc</strong> in Google Drive</li>
+            <li>Build the <strong>30-day content calendar</strong> (post types, hooks, timing, platform)</li>
+            <li>Review and approve both before sending</li>
+            <li>Send via email with a short personal note — <em>not just an attachment dump</em></li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>Strategy delivery email — subject</span>
+              <button class="copy-mini" onclick="copyText(this, `Your Month 1 strategy is here — [Brand Name] 🎯`)">Copy</button>
+            </div>
+            <div class="template-body">Your Month 1 strategy is here — <span class="template-placeholder">[Brand Name]</span> 🎯
+
+Hi <span class="template-placeholder">[Name]</span>,
+
+Your first monthly strategy and content calendar are ready. Everything is built around what we've seen in your analytics and where you want to go.
+
+<strong>Attached:</strong>
+→ Month 1 Content Strategy
+→ 30-Day Content Calendar
+
+A few things worth flagging: <span class="template-placeholder">[2–3 key strategic points — keep it human, not corporate]</span>
+
+Any questions — you know where we are.
+
+The Ampvox team</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="phase-sidebar">
+      <div class="phase-num">04</div>
+      <div class="phase-label">Phase Four</div>
+      <div class="phase-title">WEEK 1 REVIEW</div>
+      <div class="phase-timing">Day 7 · Every Monday</div>
+      <div class="phase-desc">First weekly performance review. Sets the cadence. Every Monday from here on.</div>
+    </div>
+    <div class="phase-steps">
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">PULL WEEKLY PERFORMANCE DATA</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Every Monday AM</span>
+            </div>
+          </div>
+          <div class="step-desc">Pull the numbers every Monday morning before the review is sent. Keep it consistent — same metrics, same format, every week.</div>
+          <ul class="step-actions">
+            <li>Log into all client platform analytics — screenshot or export key numbers</li>
+            <li>Track: reach, engagement rate, follower change, top post of the week</li>
+            <li>Compare to previous week — flag anything that's moved significantly</li>
+            <li>Fill in weekly row in their <strong>Notion performance tracker</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">SEND WEEKLY REVIEW MESSAGE</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Every Monday, by 10am</span>
+              <span class="badge badge-tool">WhatsApp / Slack</span>
+            </div>
+          </div>
+          <div class="step-desc">Send via WhatsApp or Slack — not email. Keep it concise and actionable. 3–5 lines max, then a clear "this week focus."</div>
+          <ul class="step-actions">
+            <li>Lead with the biggest win or most interesting data point</li>
+            <li>Flag one thing that underperformed and why</li>
+            <li>Give one clear action or focus for the coming week</li>
+          </ul>
+          <div class="template-block">
+            <div class="template-block-header">
+              <span>Weekly review message template</span>
+              <button class="copy-mini" onclick="copyText(this, `📊 Weekly Review — w/c [Date]\n\n✅ Win: [Top performing post / metric — e.g. your Tuesday Reel hit 14k reach, 2x your average]\n📉 Watch: [One underperformer + quick reason why]\n🎯 This week: [One clear focus / action]\n\nKeep going — [Name]. Any questions, drop them here.`)">Copy</button>
+            </div>
+            <div class="template-body">📊 Weekly Review — w/c <span class="template-placeholder">[Date]</span>
+
+✅ Win: <span class="template-placeholder">[Top performing post / metric]</span>
+📉 Watch: <span class="template-placeholder">[One underperformer + quick reason why]</span>
+🎯 This week: <span class="template-placeholder">[One clear focus / action]</span>
+
+Keep going — <span class="template-placeholder">[Name]</span>. Any questions, drop them here.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase">
+    <div class="phase-sidebar">
+      <div class="phase-num">05</div>
+      <div class="phase-label">Phase Five</div>
+      <div class="phase-title">END OF MONTH ONE</div>
+      <div class="phase-timing">Day 25–30</div>
+      <div class="phase-desc">Strategy call, monthly report, and seamless rollover into month two. Leave them excited for what's next.</div>
+    </div>
+    <div class="phase-steps">
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">BUILD MONTHLY REPORT</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Day 24–25</span>
+              <span class="badge badge-tool">Notion / Drive</span>
+            </div>
+          </div>
+          <div class="step-desc">Complete the monthly report before the strategy call — so you walk into the call with the data already structured.</div>
+          <ul class="step-actions">
+            <li>Fill in the monthly report template (from the onboarding pack)</li>
+            <li>Pull full month metrics: followers, reach, engagement, posts published, link clicks</li>
+            <li>Identify top 3 performing pieces of content + top 3 learnings</li>
+            <li>Draft initial strategic recommendations for Month 2</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card urgent">
+          <div class="step-top">
+            <div class="step-title">RUN MONTH-END STRATEGY CALL</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Day 25–28</span>
+              <span class="badge badge-tool">Google Meet / Zoom</span>
+            </div>
+          </div>
+          <div class="step-desc">45 minutes. Walk through the report together, celebrate wins, address anything that wasn't working, and set direction for Month 2.</div>
+          <ul class="step-actions">
+            <li>Screen share the monthly report — walk through section by section</li>
+            <li>Open floor: let them talk — what felt right, what felt off, what they want more of</li>
+            <li>Agree on 2–3 strategic priorities for Month 2</li>
+            <li>Note any upcoming launches, events or campaigns to build around</li>
+            <li><strong>Record the call</strong> — send recording + written summary within 24 hours</li>
+            <li>Book next month's call before hanging up</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot team"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">SEND REPORT + CALL SUMMARY</div>
+            <div class="step-badges">
+              <span class="badge badge-team">Team</span>
+              <span class="badge badge-time">Within 24 hrs of call</span>
+              <span class="badge badge-tool">Gmail</span>
+            </div>
+          </div>
+          <div class="step-desc">Within 24 hours of the strategy call, the client gets a complete wrap-up in their inbox.</div>
+          <ul class="step-actions">
+            <li>Email: month-end report PDF + call recording link + written action summary</li>
+            <li>Written summary: bullet points — what we agreed, what they need to do, what we're doing for Month 2</li>
+            <li>End with a forward-looking line about Month 2 — keep momentum high</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-index"><div class="step-dot auto"></div></div>
+        <div class="step-card">
+          <div class="step-top">
+            <div class="step-title">BILLING RENEWS · MONTH 2 BEGINS</div>
+            <div class="step-badges">
+              <span class="badge badge-auto">Stripe Auto</span>
+              <span class="badge badge-time">On anniversary date</span>
+            </div>
+          </div>
+          <div class="step-desc">Stripe charges automatically on their anniversary date. Month 2 strategy drops within 3 days. The cycle repeats.</div>
+          <ul class="step-actions">
+            <li>Confirm Stripe payment cleared</li>
+            <li>Month 2 strategy and calendar delivered within 3 days of renewal</li>
+            <li>Repeat the monthly cycle — same structure, fresh strategy</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- RECURRING RHYTHM -->
+<div class="recurring-grid">
+  <div class="recurring-item">
+    <div class="recurring-freq">Every Monday</div>
+    <div class="recurring-title">WEEKLY REVIEW</div>
+    <ul class="recurring-tasks">
+      <li>Pull analytics from all platforms</li>
+      <li>Send performance snapshot via WhatsApp/Slack by 10am</li>
+      <li>Flag wins, flag concerns, give one action</li>
+      <li>Log data in Notion tracker</li>
+    </ul>
+  </div>
+  <div class="recurring-item">
+    <div class="recurring-freq">Every Month (Day 1–3)</div>
+    <div class="recurring-title">STRATEGY DELIVERY</div>
+    <ul class="recurring-tasks">
+      <li>Build fresh content strategy doc</li>
+      <li>Build plug-and-play content calendar</li>
+      <li>Review and approve before sending</li>
+      <li>Email delivery with personal note</li>
+    </ul>
+  </div>
+  <div class="recurring-item">
+    <div class="recurring-freq">Every Month (Day 25–28)</div>
+    <div class="recurring-title">STRATEGY CALL</div>
+    <ul class="recurring-tasks">
+      <li>Team builds report before call</li>
+      <li>Run 45-min strategy call</li>
+      <li>Record + send summary within 24hrs</li>
+      <li>Book next month's call before hanging up</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <div class="footer-bar-icon">!</div>
+  <div class="footer-bar-text"><strong>One rule above all:</strong> Never let a client go more than 7 days without hearing from Ampvox. Weekly reviews handle this automatically — but if a client reaches out, respond same day. Responsiveness is the product as much as the strategy is.</div>
+</div>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+</script>
+</body>
+</html>
