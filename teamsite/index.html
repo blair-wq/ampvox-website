@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ampvox — Team Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint: #4ECDC4;
+  --mint-dim: rgba(78,205,196,0.12);
+  --mint-border: rgba(78,205,196,0.2);
+  --black: #080808;
+  --dark: #111111;
+  --card: #161616;
+  --mid: #222222;
+  --grey: #555;
+  --muted: #888;
+  --white: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+#lock-screen {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+}
+
+.lock-inner {
+  width: 100%; max-width: 380px;
+  padding: 0 24px;
+  animation: fadeUp 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lock-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; letter-spacing: 3px;
+  color: var(--white); margin-bottom: 48px;
+  text-align: center;
+}
+.lock-logo span { color: var(--mint); }
+
+.lock-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 12px; display: block;
+}
+
+.lock-input-wrap {
+  position: relative; margin-bottom: 16px;
+}
+
+.lock-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--mid);
+  color: var(--white);
+  font-family: 'Space Mono', monospace;
+  font-size: 14px; letter-spacing: 3px;
+  padding: 16px 20px;
+  outline: none;
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.lock-input:focus { border-color: var(--mint); }
+.lock-input::placeholder { color: var(--grey); letter-spacing: 2px; }
+
+.lock-btn {
+  width: 100%;
+  background: var(--mint);
+  border: none; color: var(--black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 3px;
+  padding: 14px;
+  cursor: pointer; border-radius: 2px;
+  transition: all 0.2s;
+}
+.lock-btn:hover { background: #3dbdb5; }
+.lock-btn:active { transform: scale(0.99); }
+
+.lock-error {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: #ff6b6b; margin-top: 12px; text-align: center;
+  opacity: 0; transition: opacity 0.2s;
+}
+.lock-error.show { opacity: 1; }
+
+.lock-shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+#hub {
+  display: none;
+  position: relative; z-index: 1;
+  min-height: 100vh;
+}
+
+.hub-header {
+  padding: 48px 56px 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px;
+}
+
+.hub-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; letter-spacing: 3px; color: var(--white);
+}
+.hub-logo span { color: var(--mint); }
+
+.hub-meta { text-align: right; }
+.hub-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hub-hero {
+  padding: 64px 56px 56px;
+  position: relative; overflow: hidden;
+}
+.hub-hero::after {
+  content: 'AMPVOX';
+  position: absolute; right: -20px; top: -10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 220px; line-height: 1;
+  color: rgba(78,205,196,0.025);
+  letter-spacing: 4px; pointer-events: none; z-index: 0;
+}
+.hub-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--mint); margin-bottom: 16px; position: relative; z-index: 1;
+}
+.hub-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 0.88; letter-spacing: 2px;
+  color: var(--white); position: relative; z-index: 1;
+}
+.hub-title span { color: var(--mint); }
+.hub-sub {
+  font-size: 14px; font-weight: 300; color: var(--muted);
+  margin-top: 20px; position: relative; z-index: 1;
+}
+
+.hub-body { padding: 0 56px 80px; }
+.section { margin-top: 56px; }
+
+.section-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; color: var(--mint);
+}
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted);
+}
+.section-line {
+  flex: 1; height: 1px; background: rgba(255,255,255,0.05);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.link-card {
+  background: var(--card);
+  padding: 28px 28px 24px;
+  display: flex; flex-direction: column;
+  gap: 12px;
+  transition: background 0.2s;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  border: none; width: 100%; text-align: left;
+  color: var(--white);
+}
+.link-card:hover { background: #1d1d1d; }
+.link-card:hover .card-arrow { transform: translate(3px, -3px); opacity: 1; }
+.link-card.coming-soon { cursor: default; opacity: 0.45; }
+.link-card.coming-soon:hover { background: var(--card); }
+
+.card-top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+}
+.card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 0.5px; color: var(--white);
+  line-height: 1;
+}
+.card-arrow {
+  font-size: 16px; color: var(--mint);
+  opacity: 0.4; transition: all 0.2s; flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.card-url {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 1px; color: var(--grey);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px; font-weight: 700;
+}
+.badge-live { background: rgba(78,205,196,0.1); color: var(--mint); border: 1px solid rgba(78,205,196,0.2); }
+.badge-soon { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid rgba(255,255,255,0.08); }
+.badge-pw { background: rgba(255,209,102,0.1); color: #FFD166; border: 1px solid rgba(255,209,102,0.25); }
+.badge-doc { background: rgba(78,205,196,0.06); color: rgba(78,205,196,0.6); border: 1px solid rgba(78,205,196,0.12); }
+
+.pw-reveal {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,209,102,0.06);
+  border: 1px solid rgba(255,209,102,0.15);
+  padding: 8px 12px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+.pw-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,209,102,0.5); flex-shrink: 0;
+}
+.pw-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 2px; color: #FFD166;
+  font-weight: 700;
+}
+.pw-copy {
+  margin-left: auto;
+  font-family: 'Space Mono', monospace;
+  font-size: 7px; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,209,102,0.5); cursor: pointer;
+  padding: 2px 8px; border: 1px solid rgba(255,209,102,0.15);
+  border-radius: 10px; background: transparent; transition: all 0.2s;
+  flex-shrink: 0;
+}
+.pw-copy:hover { color: #FFD166; border-color: rgba(255,209,102,0.4); }
+
+.hub-footer {
+  padding: 24px 56px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 2px; color: var(--grey);
+}
+.footer-logo span { color: rgba(78,205,196,0.4); }
+.footer-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--grey);
+}
+
+.hub-header, .hub-hero, .section {
+  animation: fadeUp 0.5s ease both;
+}
+.hub-header { animation-delay: 0.05s; }
+.hub-hero { animation-delay: 0.1s; }
+.section:nth-child(1) { animation-delay: 0.15s; }
+.section:nth-child(2) { animation-delay: 0.2s; }
+.section:nth-child(3) { animation-delay: 0.25s; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.85);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 36px 40px;
+  max-width: 440px; width: calc(100% - 48px);
+  animation: fadeUp 0.3s ease;
+}
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 1px; color: var(--white);
+  margin-bottom: 6px;
+}
+.modal-sub {
+  font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6;
+}
+.modal-pw-block {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,209,102,0.06);
+  border: 1px solid rgba(255,209,102,0.2);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.modal-pw-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,209,102,0.5);
+}
+.modal-pw-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px; letter-spacing: 3px; color: #FFD166; font-weight: 700;
+  margin-left: 4px;
+}
+.modal-actions { display: flex; gap: 10px; }
+.modal-btn-primary {
+  flex: 1; background: var(--mint); border: none;
+  color: var(--black); font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px; letter-spacing: 2px; padding: 12px;
+  cursor: pointer; border-radius: 2px; transition: all 0.2s; text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-btn-primary:hover { background: #3dbdb5; }
+.modal-btn-secondary {
+  background: transparent; border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted); font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 20px; cursor: pointer; border-radius: 2px; transition: all 0.2s;
+}
+.modal-btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-inner">
+    <div class="lock-logo">AMP<span>VOX</span></div>
+    <span class="lock-label">Team access only</span>
+    <div class="lock-input-wrap">
+      <input type="password" class="lock-input" id="lock-input" placeholder="enter password" autocomplete="off" />
+    </div>
+    <button class="lock-btn" onclick="checkPassword()">ENTER</button>
+    <div class="lock-error" id="lock-error">Incorrect password — try again</div>
+  </div>
+</div>
+
+<!-- HUB -->
+<div id="hub">
+
+  <header class="hub-header">
+    <div class="hub-logo">AMP<span>VOX</span></div>
+    <div class="hub-meta">
+      <div class="hub-date" id="today-date"></div>
+    </div>
+  </header>
+
+  <div class="hub-hero">
+    <div class="hub-eyebrow">Internal · Team Only</div>
+    <div class="hub-title">TEAM<br><span>HUB.</span></div>
+    <div class="hub-sub">All internal links in one place. Keep this bookmarked.</div>
+  </div>
+
+  <div class="hub-body">
+
+    <!-- TALENT MANAGEMENT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <div class="section-label">Talent Management</div>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards-grid">
+
+        <div class="link-card" onclick="openLink('https://docs.google.com/document/d/1iM7NWFI5OjOgEo_mK9YY8gb_xjdYXA4w/edit?usp=share_link')">
+          <div class="card-top">
+            <div class="card-name">Contract</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-url">docs.google.com/document/…</div>
+          <div class="card-badges">
+            <span class="badge badge-live">Live</span>
+            <span class="badge badge-doc">Google Doc</span>
+          </div>
+        </div>
+
+        <div class="link-card" onclick="openModal('Emily Percival', 'https://ampvox.co.uk/Emily', 'emily2026')">
+          <div class="card-top">
+            <div class="card-name">Emily Percival</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-url">ampvox.co.uk/Emily</div>
+          <div class="card-badges">
+            <span class="badge badge-live">Live</span>
+            <span class="badge badge-pw">Password Protected</span>
+          </div>
+          <div class="pw-reveal">
+            <span class="pw-label">PW</span>
+            <span class="pw-value">emily2026</span>
+            <button class="pw-copy" onclick="event.stopPropagation(); copyPw(this, 'emily2026')">Copy</button>
+          </div>
+        </div>
+
+        <div class="link-card coming-soon">
+          <div class="card-top">
+            <div class="card-name">Not Standard Issue</div>
+          </div>
+          <div class="card-url">—</div>
+          <div class="card-badges">
+            <span class="badge badge-soon">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AGENCY WORK -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <div class="section-label">Agency Work</div>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards-grid">
+
+        <div class="link-card" onclick="openLink('https://ampvox.co.uk/onboarding')">
+          <div class="card-top">
+            <div class="card-name">Retainer Onboarding</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-url">ampvox.co.uk/onboarding</div>
+          <div class="card-badges">
+            <span class="badge badge-live">Live</span>
+          </div>
+        </div>
+
+        <div class="link-card" onclick="openLink('https://ampvox.co.uk/retainerflow')">
+          <div class="card-top">
+            <div class="card-name">Retainer Team Flow</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-url">ampvox.co.uk/retainerflow</div>
+          <div class="card-badges">
+            <span class="badge badge-live">Live</span>
+          </div>
+        </div>
+
+        <div class="link-card coming-soon">
+          <div class="card-top">
+            <div class="card-name">Intensive Onboarding</div>
+          </div>
+          <div class="card-url">—</div>
+          <div class="card-badges">
+            <span class="badge badge-soon">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="link-card coming-soon">
+          <div class="card-top">
+            <div class="card-name">Intensive Team Flow</div>
+          </div>
+          <div class="card-url">—</div>
+          <div class="card-badges">
+            <span class="badge badge-soon">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <div class="section-label">Education</div>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards-grid">
+
+        <div class="link-card coming-soon">
+          <div class="card-top">
+            <div class="card-name">Ampvox Sprint</div>
+          </div>
+          <div class="card-url">—</div>
+          <div class="card-badges">
+            <span class="badge badge-soon">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="link-card coming-soon">
+          <div class="card-top">
+            <div class="card-name">Ampvox Creative</div>
+          </div>
+          <div class="card-url">—</div>
+          <div class="card-badges">
+            <span class="badge badge-soon">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="hub-footer">
+    <div class="footer-logo">AMP<span>VOX</span></div>
+    <div class="footer-tag">Internal use only · Do not share</div>
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Emily Percival</div>
+    <div class="modal-sub">This page is password protected. Copy the password below before opening.</div>
+    <div class="modal-pw-block">
+      <span class="modal-pw-key">Password</span>
+      <span class="modal-pw-val" id="modal-pw-val">emily2026</span>
+    </div>
+    <div class="modal-actions">
+      <a class="modal-btn-primary" id="modal-link" href="#" target="_blank" onclick="closeModalDirect()">Open Page ↗</a>
+      <button class="modal-btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const HUB_PASSWORD = 'ampvox2026';
+
+function checkPassword() {
+  const input = document.getElementById('lock-input');
+  const error = document.getElementById('lock-error');
+  const wrap = document.querySelector('.lock-input-wrap');
+
+  if (input.value === HUB_PASSWORD) {
+    document.getElementById('lock-screen').style.opacity = '0';
+    document.getElementById('lock-screen').style.transition = 'opacity 0.4s ease';
+    setTimeout(() => {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('hub').style.display = 'block';
+    }, 400);
+  } else {
+    error.classList.add('show');
+    wrap.classList.add('lock-shake');
+    input.value = '';
+    setTimeout(() => wrap.classList.remove('lock-shake'), 400);
+    setTimeout(() => error.classList.remove('show'), 3000);
+  }
+}
+
+document.getElementById('lock-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+function openLink(url) {
+  window.open(url, '_blank');
+}
+
+function openModal(name, url, pw) {
+  document.getElementById('modal-title').textContent = name;
+  document.getElementById('modal-pw-val').textContent = pw;
+  document.getElementById('modal-link').href = url;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function copyPw(btn, pw) {
+  navigator.clipboard.writeText(pw).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+const d = new Date();
+document.getElementById('today-date').textContent = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
+</script>
+</body>
+</html>
