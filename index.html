@@ -238,9 +238,10 @@
         /* ── SINGLE TESTIMONIAL SPLIT LAYOUT ── */
         .testimonial-split { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: center; max-width: 1100px; }
         .testimonial-split .display { margin-bottom: 0; font-size: clamp(44px, 4.5vw, 68px); }
-        .testimonial-split .testimonial-card { padding: 40px 44px; border: 1px solid rgba(0,0,0,0.07); border-radius: 4px; }
-        .testimonial-split .testimonial-quote { margin-bottom: 0; }
-        .testimonial-split .testimonial-quote::before { text-align: left; margin-bottom: 12px; font-size: 56px; line-height: 1; }
+        .testimonial-split .testimonial-card { padding: 0; border: none; border-radius: 0; }
+        .testimonial-split .testimonial-quote { margin-bottom: 0; font-size: 17px; line-height: 1.85; }
+        .testimonial-split .testimonial-quote::before { content: '\201C'; display: inline; font-size: 1.3em; line-height: 0; vertical-align: -0.15em; margin-right: 3px; text-align: left; margin-bottom: 0; }
+        .testimonial-split .testimonial-quote::after { content: '\201D'; font-family: 'Bebas Neue', sans-serif; font-size: 1.3em; color: var(--mint); line-height: 0; vertical-align: -0.15em; margin-left: 3px; }
 
         /* ── CONTACT FORM ── */
         .contact-form { max-width: 640px; margin: 52px auto 0; text-align: left; }
@@ -2589,9 +2590,9 @@ gB/8NNX7v407+Gmr938aAIv4jTD3qT+I1Gf4qAI6KKKAP//Z" alt="Blair" style="width:100%;
 
 <!-- 7. TESTIMONIALS -->
 <section class="section section-white" style="padding-top: 20px;">
+    <div class="label label-dark" style="margin-bottom: 32px;">Client Results</div>
     <div class="testimonial-split">
         <div>
-            <div class="label label-dark">Client Results</div>
             <h2 class="display display-black">A CLIENT.<br>IN THEIR OWN WORDS.</h2>
         </div>
         <div class="testimonial-card">
@@ -2667,8 +2668,11 @@ gB/8NNX7v407+Gmr938aAIv4jTD3qT+I1Gf4qAI6KKKAP//Z" alt="Blair" style="width:100%;
     </div>
     <div class="contact-form">
         <div class="form-divider"><span class="form-divider-text">Or send us a message</span></div>
-        <form action="https://formspree.io/f/blair@ampvox.co.uk" method="POST">
+        <form action="https://formsubmit.co/blair@ampvox.co.uk" method="POST">
             <input type="hidden" name="_subject" value="New enquiry from Ampvox website">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
+            <input type="hidden" name="_next" value="https://ampvox.co.uk">
             <div class="form-row">
                 <div>
                     <label class="form-label" for="cf-name">Full Name</label>
