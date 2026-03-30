@@ -390,18 +390,29 @@
             .service-tag { font-size: 8px; }
             .feature-list li:nth-child(n+6) { display: none; }
 
-            /* Process — horizontal scroll instead of stacking */
+            /* Process — full-bleed horizontal scroll carousel */
+            #process { padding-left: 0 !important; padding-right: 0 !important; }
+            #process .label { padding-left: 20px; margin-bottom: 8px; }
+            #process .display { padding-left: 20px; margin-bottom: 8px; }
             .process-grid { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory; padding-bottom: 12px; margin-top: 24px; }
+                scroll-snap-type: x mandatory; padding: 0 20px 16px 20px; margin-top: 20px;
+                scrollbar-width: none; -ms-overflow-style: none; }
+            .process-grid::-webkit-scrollbar { display: none; }
             .process-step { min-width: 78vw; scroll-snap-align: start; flex-shrink: 0;
-                border-right: 1px solid rgba(255,255,255,0.06) !important; border-bottom: none !important; padding: 24px 20px; }
-            .process-step-num { font-size: 60px; margin-bottom: 0; }
-            #process .display { margin-bottom: 8px; }
+                border-right: none !important; border-bottom: none !important;
+                padding: 24px 16px; margin-right: 12px;
+                background: rgba(255,255,255,0.04); border-radius: 8px; }
+            .process-step:last-child { margin-right: 0; }
+            .process-step-num { font-size: 56px; margin-bottom: 0; }
+            .process-swipe-hint { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px;
+                color: rgba(255,255,255,0.3); padding: 10px 20px 0; }
 
             /* About */
             .about-image { min-height: auto; height: 180px; }
             .about-content h2 { font-size: 36px; }
-            .about-stat-num { font-size: 36px; }
+            .about-stats { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+            .about-stat-num { font-size: 32px; }
+            .about-stat-lbl { font-size: 8px; letter-spacing: 1px; }
 
             /* Mission strip — hide on mobile, content duplicates About section */
             .mission-strip { display: none; }
@@ -2571,6 +2582,7 @@ gB/8NNX7v407+Gmr938aAIv4jTD3qT+I1Gf4qAI6KKKAP//Z" alt="Blair" style="width:100%;
             <p class="process-step-desc">Strategy compounds. Community grows. Every piece of content builds on the last. This is the difference between posting and actually growing.</p>
         </div>
     </div>
+    <div class="process-swipe-hint">SWIPE FOR MORE →</div>
 </section>
 
 <!-- WAVE: Dark → Black -->
