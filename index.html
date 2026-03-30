@@ -392,9 +392,11 @@
 
             /* Process — horizontal scroll instead of stacking */
             .process-grid { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory; padding-bottom: 12px; }
-            .process-step { min-width: 75vw; scroll-snap-align: start; flex-shrink: 0;
-                border-right: 1px solid rgba(255,255,255,0.06) !important; border-bottom: none !important; padding: 28px 20px; }
+                scroll-snap-type: x mandatory; padding-bottom: 12px; margin-top: 24px; }
+            .process-step { min-width: 78vw; scroll-snap-align: start; flex-shrink: 0;
+                border-right: 1px solid rgba(255,255,255,0.06) !important; border-bottom: none !important; padding: 24px 20px; }
+            .process-step-num { font-size: 60px; margin-bottom: 0; }
+            #process .display { margin-bottom: 8px; }
 
             /* About */
             .about-image { min-height: auto; height: 180px; }
@@ -404,8 +406,9 @@
             /* Mission strip — hide on mobile, content duplicates About section */
             .mission-strip { display: none; }
 
-            /* Logos strip — hide on mobile, ticker covers this */
-            .logos-strip { display: none; }
+            /* Logos strip — compact 2-col grid on mobile */
+            .logos-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; margin-top: 28px; opacity: 1 !important; }
+            .logo-text { font-size: 18px; }
 
             /* Testimonial */
             .testimonial-card { padding: 0; }
