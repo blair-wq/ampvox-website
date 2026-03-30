@@ -390,27 +390,24 @@
             .service-tag { font-size: 8px; }
             .feature-list li:nth-child(n+6) { display: none; }
 
-            /* Process — full-bleed horizontal scroll carousel */
-            #process { padding-left: 0 !important; padding-right: 0 !important; }
-            #process .label { padding-left: 20px; margin-bottom: 8px; }
-            #process .display { padding-left: 20px; margin-bottom: 8px; }
-            .process-grid { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory; padding: 0 20px 16px 20px; margin-top: 20px;
-                scrollbar-width: none; -ms-overflow-style: none; }
-            .process-grid::-webkit-scrollbar { display: none; }
-            .process-step { min-width: 78vw; scroll-snap-align: start; flex-shrink: 0;
-                border-right: none !important; border-bottom: none !important;
-                padding: 24px 16px; margin-right: 12px;
-                background: rgba(255,255,255,0.04); border-radius: 8px; }
-            .process-step:last-child { margin-right: 0; }
-            .process-step-num { font-size: 56px; margin-bottom: 0; }
-            .process-swipe-hint { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px;
-                color: rgba(255,255,255,0.3); padding: 10px 20px 0; }
+            /* Process — stacked cards (like services) */
+            #process .display { margin-bottom: 20px; }
+            .process-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 20px; }
+            .process-step { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+                padding: 24px 0; display: grid; grid-template-columns: 56px 1fr; gap: 0 16px; align-items: start; }
+            .process-step:last-child { border-bottom: none !important; }
+            .process-step-num { font-size: 48px; line-height: 1; color: rgba(78,205,196,0.2); }
+            .process-step-tag { margin-bottom: 6px; }
+            .process-step-title { font-size: 22px; margin-bottom: 8px; }
+            .process-step-desc { font-size: 13px; }
+            .process-swipe-hint { display: none; }
 
             /* About */
+            #about { padding-bottom: 36px !important; }
             .about-image { min-height: auto; height: 180px; }
             .about-content h2 { font-size: 36px; }
-            .about-stats { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+            .about-stats { display: grid !important; grid-template-columns: repeat(3, 1fr) !important;
+                gap: 12px !important; margin-top: 24px !important; padding-top: 20px !important; }
             .about-stat-num { font-size: 32px; }
             .about-stat-lbl { font-size: 8px; letter-spacing: 1px; }
 
