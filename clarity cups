@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Clarity Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body {
+  font-family:'Inter',system-ui,sans-serif;
+  background: radial-gradient(ellipse at 25% 15%, #1c2d40 0%, #0e1c2c 55%, #07111c 100%);
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:44px 20px 70px;
+  color:#d8e8f4;
+}
+
+/* ── Header ─────────────────────────────── */
+.hdr { text-align:center; margin-bottom:52px; }
+.hdr h1 {
+  font-size:2rem; font-weight:300; letter-spacing:.1em;
+  color:#e8f4ff; margin-bottom:7px;
+}
+.hdr p { color:#4a7090; font-size:.88rem; letter-spacing:.06em; }
+
+/* ── Top two jugs row ────────────────────── */
+.top-row {
+  display:flex; gap:90px; justify-content:center;
+  flex-wrap:wrap; margin-bottom:52px;
+}
+
+/* ── Each jug column ─────────────────────── */
+.jug-col { display:flex; flex-direction:column; align-items:center; }
+
+.jug-label {
+  font-size:.78rem; font-weight:500; letter-spacing:.1em;
+  text-transform:uppercase; margin-bottom:14px; text-align:center;
+}
+.jug-label.change { color:#7a9cb8; }
+.jug-label.know   { color:#55aae0; }
+.jug-label.balance{ color:#6eb8e8; font-size:.72rem; }
+
+/* ── Jug wrapper ─────────────────────────── */
+.jug-wrap {
+  position:relative; width:210px; height:320px;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),
+             filter .22s ease;
+}
+.jug-wrap.balance-wrap { width:260px; height:220px; }
+.jug-wrap.drag-on { filter:drop-shadow(0 0 12px rgba(80,180,255,.55)); }
+
+/* SVG sits over everything */
+.jug-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; }
+
+/* Items scroll area inside jug */
+.jug-items {
+  position:absolute;
+  left:38px; right:38px; top:92px; bottom:28px;
+  overflow-y:auto; overflow-x:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  gap:5px; padding:6px 4px; z-index:4;
+}
+.jug-items::-webkit-scrollbar{width:2px}
+.jug-items::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:2px}
+
+.empty-hint {
+  text-align:center; font-size:.67rem; color:rgba(255,255,255,.18);
+  font-style:italic; line-height:1.7; padding:6px; pointer-events:none;
+}
+.jug-items.filled .empty-hint{display:none}
+
+/* ── Item tags ───────────────────────────── */
+.tag {
+  border-radius:18px; padding:5px 26px 5px 11px;
+  font-size:.73rem; line-height:1.45; word-break:break-word;
+  position:relative; cursor:grab; user-select:none;
+  transition:transform .12s, box-shadow .12s;
+  animation:popIn .22s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn {
+  from{opacity:0;transform:scale(.55) translateY(10px)}
+  to  {opacity:1;transform:scale(1)   translateY(0)}
+}
+.tag:hover{transform:scale(1.05)}
+.tag.in-know {
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(255,255,255,.4);
+  color:#0a3a58;
+  box-shadow:0 1px 8px rgba(0,0,0,.25);
+}
+.tag.in-change {
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  color:#b0c8da;
+  box-shadow:0 1px 5px rgba(0,0,0,.18);
+}
+.tag .del {
+  position:absolute; right:7px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer;
+  font-size:.58rem; color:rgba(255,255,255,.3);
+  opacity:0; transition:opacity .15s; padding:2px; line-height:1;
+}
+.tag:hover .del{opacity:1}
+.tag .del:hover{color:#ff7070}
+
+.count-lbl {
+  margin-top:10px; font-size:.7rem;
+  color:#304050; letter-spacing:.04em;
+}
+
+/* ── Balance section ─────────────────────── */
+.balance-sec { display:flex; flex-direction:column; align-items:center; margin-bottom:52px; }
+.balance-note {
+  margin-top:12px; font-size:.75rem; color:#3a6080; text-align:center;
+  max-width:300px; line-height:1.6; letter-spacing:.02em;
+}
+
+/* ── Input panel ─────────────────────────── */
+.panel {
+  width:100%; max-width:600px;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:22px; padding:28px 30px;
+}
+.panel h3 {
+  font-size:.84rem; font-weight:400; color:#5a8aaa;
+  margin-bottom:16px; letter-spacing:.04em;
+}
+.inp-row { display:flex; gap:10px; margin-bottom:14px; }
+.inp-row input {
+  flex:1; padding:12px 18px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:12px; font-size:.9rem; font-family:inherit;
+  color:#d8eeff; outline:none;
+  transition:border-color .2s, background .2s;
+}
+.inp-row input::placeholder{color:rgba(255,255,255,.22)}
+.inp-row input:focus{border-color:rgba(80,180,255,.5);background:rgba(255,255,255,.09)}
+
+.btn-row{display:flex;gap:12px}
+.btn {
+  flex:1; padding:12px 14px; border:none; border-radius:12px;
+  font-size:.83rem; font-family:inherit; cursor:pointer; font-weight:500;
+  letter-spacing:.02em;
+  transition:transform .15s, box-shadow .15s, background .15s;
+}
+.btn:active{transform:scale(.96)!important}
+.btn-change {
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14); color:#8aaec8;
+}
+.btn-change:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.btn-know {
+  background:linear-gradient(135deg,#3aa8e8,#1462a8);
+  color:#fff; box-shadow:0 3px 14px rgba(30,110,200,.28);
+}
+.btn-know:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,110,200,.4)}
+.hint {
+  text-align:center; font-size:.67rem;
+  color:rgba(255,255,255,.18); margin-top:14px; letter-spacing:.03em;
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>My Clarity Dashboard</h1>
+  <p>A space to understand where you stand</p>
+</div>
+
+<!-- ══════════════ TOP TWO JUGS ══════════════ -->
+<div class="top-row">
+
+  <!-- ── CHANGE jug (left) ── -->
+  <div class="jug-col">
+    <div class="jug-label change">Things I'd like to change</div>
+    <div class="jug-wrap" id="changeWrap"
+         ondragover="jugDragOver(event,'change')"
+         ondragleave="jugDragLeave(event,'change')"
+         ondrop="jugDrop(event,'change')">
+
+      <svg class="jug-svg" viewBox="0 0 200 310" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Interior clip (jug body only, no neck) -->
+          <clipPath id="cBodyClip">
+            <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"/>
+          </clipPath>
+          <!-- Gradient for glass material -->
+          <linearGradient id="cGlass" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="rgba(200,230,255,.16)"/>
+            <stop offset="14%"  stop-color="rgba(200,230,255,.05)"/>
+            <stop offset="86%"  stop-color="rgba(200,230,255,.03)"/>
+            <stop offset="100%" stop-color="rgba(200,230,255,.12)"/>
+          </linearGradient>
+          <!-- Neck clip -->
+          <clipPath id="cNeckClip">
+            <rect x="66" y="38" width="68" height="46" rx="9"/>
+          </clipPath>
+          <filter id="cShadow" x="-15%" y="-8%" width="130%" height="130%">
+            <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="rgba(0,0,0,.55)"/>
+          </filter>
+        </defs>
+
+        <!-- ── Empty interior (very faint tint) ── -->
+        <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"
+              fill="rgba(120,160,200,.04)"/>
+
+        <!-- ── Glass body ── -->
+        <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"
+              fill="url(#cGlass)" filter="url(#cShadow)"/>
+
+        <!-- Body outline -->
+        <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"
+              fill="none" stroke="rgba(160,200,230,.3)" stroke-width="1.6"/>
+
+        <!-- Left highlight (the key 3-D effect) -->
+        <path d="M55,90 C51,90 41,104 38,150 L34,238"
+              fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2.8" stroke-linecap="round"/>
+        <!-- Secondary inner highlight -->
+        <path d="M64,86 L62,190"
+              fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1.2" stroke-linecap="round"/>
+
+        <!-- ── Neck ── -->
+        <rect x="66" y="38" width="68" height="46" rx="9"
+              fill="rgba(120,160,200,.06)" stroke="rgba(160,200,230,.3)" stroke-width="1.6"/>
+        <!-- Neck left highlight -->
+        <path d="M68,42 L68,80" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- ── Opening rim ── -->
+        <ellipse cx="100" cy="40" rx="38" ry="7.5" fill="rgba(120,160,200,.1)" stroke="rgba(160,200,230,.36)" stroke-width="1.6"/>
+        <path d="M64,38 Q100,30 136,38" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.6" stroke-linecap="round"/>
+
+        <!-- ── Handle ── -->
+        <path d="M164,118 Q204,118 204,162 Q204,206 164,206"
+              fill="none" stroke="rgba(160,200,230,.35)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Handle highlight -->
+        <path d="M164,123 Q199,123 199,162 Q199,200 164,200"
+              fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2" stroke-linecap="round"/>
+
+        <!-- ── Base shadow ── -->
+        <ellipse cx="100" cy="287" rx="64" ry="7" fill="rgba(0,0,0,.3)"/>
+      </svg>
+
+      <div class="jug-items" id="changeItems">
+        <div class="empty-hint">Things you'd like<br/>to work on</div>
+      </div>
+    </div>
+    <div class="count-lbl" id="changeCount">0 things</div>
+  </div>
+
+  <!-- ── KNOW jug (right) ── -->
+  <div class="jug-col">
+    <div class="jug-label know">Things I know &amp; have</div>
+    <div class="jug-wrap" id="knowWrap"
+         ondragover="jugDragOver(event,'know')"
+         ondragleave="jugDragLeave(event,'know')"
+         ondrop="jugDrop(event,'know')">
+
+      <svg class="jug-svg" viewBox="0 0 200 310" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="kBodyClip">
+            <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"/>
+          </clipPath>
+          <clipPath id="kNeckClip">
+            <rect x="66" y="38" width="68" height="46" rx="9"/>
+          </clipPath>
+          <linearGradient id="kWater" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#54c0ff"/>
+            <stop offset="55%"  stop-color="#1a82cc"/>
+            <stop offset="100%" stop-color="#0c5898"/>
+          </linearGradient>
+          <linearGradient id="kGlass" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="rgba(255,255,255,.24)"/>
+            <stop offset="14%"  stop-color="rgba(255,255,255,.07)"/>
+            <stop offset="86%"  stop-color="rgba(255,255,255,.04)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,.16)"/>
+          </linearGradient>
+          <filter id="kShadow" x="-15%" y="-8%" width="130%" height="130%">
+            <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="rgba(0,30,80,.6)"/>
+          </filter>
+        </defs>
+
+        <!-- ── Water fill (clipped to body) ── -->
+        <g clip-path="url(#kBodyClip)">
+          <rect x="0" y="80" width="200" height="210" fill="url(#kWater)"/>
+          <!-- Wave 1 -->
+          <path d="M-40,96 Q0,80 40,96 Q80,112 120,96 Q160,80 200,96 Q240,112 250,96 L250,300 L-40,300 Z"
+                fill="rgba(100,210,255,.28)">
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0;-60,0;0,0" dur="5s" repeatCount="indefinite"/>
+          </path>
+          <!-- Wave 2 -->
+          <path d="M-40,90 Q10,76 50,90 Q90,104 130,90 Q170,76 220,90 L220,300 L-40,300 Z"
+                fill="rgba(130,220,255,.15)">
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0;55,0;0,0" dur="7.5s" repeatCount="indefinite"/>
+          </path>
+          <!-- Depth shimmer dots -->
+          <circle cx="58"  cy="175" r="3" fill="rgba(255,255,255,.18)">
+            <animate attributeName="opacity" values=".18;.5;.18" dur="2.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="128" cy="218" r="2.2" fill="rgba(255,255,255,.13)">
+            <animate attributeName="opacity" values=".12;.4;.12" dur="3.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="88"  cy="252" r="2.6" fill="rgba(255,255,255,.15)">
+            <animate attributeName="opacity" values=".15;.45;.15" dur="4.4s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- Water in neck -->
+        <g clip-path="url(#kNeckClip)">
+          <rect x="66" y="38" width="68" height="46" fill="url(#kWater)"/>
+        </g>
+
+        <!-- ── Glass body ── -->
+        <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"
+              fill="url(#kGlass)" filter="url(#kShadow)"/>
+
+        <!-- Body outline -->
+        <path d="M52,80 C48,80 36,96 34,144 L28,270 Q27,286 52,286 L148,286 Q173,286 172,270 L166,144 C164,96 152,80 148,80 Z"
+              fill="none" stroke="rgba(80,190,255,.55)" stroke-width="1.6"/>
+
+        <!-- Left highlight -->
+        <path d="M55,90 C51,90 41,104 38,150 L34,238"
+              fill="none" stroke="rgba(255,255,255,.48)" stroke-width="3" stroke-linecap="round"/>
+        <!-- Secondary inner highlight -->
+        <path d="M64,86 L62,190"
+              fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.3" stroke-linecap="round"/>
+
+        <!-- ── Neck ── -->
+        <rect x="66" y="38" width="68" height="46" rx="9"
+              fill="url(#kGlass)" stroke="rgba(80,190,255,.55)" stroke-width="1.6"/>
+        <path d="M68,42 L68,80" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- ── Rim ── -->
+        <ellipse cx="100" cy="40" rx="38" ry="7.5"
+              fill="rgba(60,160,240,.2)" stroke="rgba(80,190,255,.6)" stroke-width="1.6"/>
+        <path d="M64,38 Q100,30 136,38" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- ── Handle ── -->
+        <path d="M164,118 Q204,118 204,162 Q204,206 164,206"
+              fill="none" stroke="rgba(80,190,255,.5)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M164,123 Q199,123 199,162 Q199,200 164,200"
+              fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.2" stroke-linecap="round"/>
+
+        <!-- ── Base shadow ── -->
+        <ellipse cx="100" cy="287" rx="64" ry="7" fill="rgba(0,20,60,.45)"/>
+      </svg>
+
+      <div class="jug-items" id="knowItems">
+        <div class="empty-hint">Your strengths &amp;<br/>certainties live here</div>
+      </div>
+    </div>
+    <div class="count-lbl" id="knowCount">0 things</div>
+  </div>
+</div>
+
+<!-- ══════════════ BALANCE JUG ══════════════ -->
+<div class="balance-sec">
+  <div class="jug-label balance">My Overall Balance</div>
+  <div class="jug-wrap balance-wrap" id="balWrap">
+    <svg class="jug-svg" id="balSVG" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="bBodyClip">
+          <path d="M38,56 C34,56 24,68 22,104 L16,196 Q15,210 38,210 L222,210 Q245,210 244,196 L238,104 C236,68 226,56 222,56 Z"/>
+        </clipPath>
+        <linearGradient id="bWater" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#62c8ff"/>
+          <stop offset="50%"  stop-color="#1e90d8"/>
+          <stop offset="100%" stop-color="#0e62a8"/>
+        </linearGradient>
+        <linearGradient id="bGlass" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="rgba(255,255,255,.22)"/>
+          <stop offset="13%"  stop-color="rgba(255,255,255,.06)"/>
+          <stop offset="87%"  stop-color="rgba(255,255,255,.03)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,.14)"/>
+        </linearGradient>
+        <filter id="bShadow" x="-10%" y="-8%" width="120%" height="130%">
+          <feDropShadow dx="0" dy="5" stdDeviation="9" flood-color="rgba(0,20,60,.6)"/>
+        </filter>
+      </defs>
+
+      <!-- Water (y set by JS) -->
+      <g clip-path="url(#bBodyClip)">
+        <rect id="balWaterRect" x="0" y="210" width="260" height="220" fill="url(#bWater)"/>
+        <!-- Wave group: vertical offset by JS, horizontal animated -->
+        <g id="balWaveG">
+          <path d="M-40,158 Q20,144 80,158 Q140,172 200,158 Q260,144 310,158 L310,230 L-40,230 Z"
+                fill="rgba(100,215,255,.35)">
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0;-70,0;0,0" dur="4.5s" repeatCount="indefinite"/>
+          </path>
+        </g>
+      </g>
+
+      <!-- Glass body -->
+      <path d="M38,56 C34,56 24,68 22,104 L16,196 Q15,210 38,210 L222,210 Q245,210 244,196 L238,104 C236,68 226,56 222,56 Z"
+            fill="url(#bGlass)" filter="url(#bShadow)"/>
+      <path d="M38,56 C34,56 24,68 22,104 L16,196 Q15,210 38,210 L222,210 Q245,210 244,196 L238,104 C236,68 226,56 222,56 Z"
+            fill="none" stroke="rgba(100,200,255,.45)" stroke-width="1.6"/>
+
+      <!-- Left highlight -->
+      <path d="M41,64 C37,64 28,74 25,108 L20,188"
+            fill="none" stroke="rgba(255,255,255,.42)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M54,60 L52,185"
+            fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.3" stroke-linecap="round"/>
+
+      <!-- Neck (wide bowl opening) -->
+      <rect x="76" y="26" width="108" height="34" rx="9"
+            fill="rgba(60,140,220,.1)" stroke="rgba(100,200,255,.45)" stroke-width="1.6"/>
+      <path d="M78,26 L78,58" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.6" stroke-linecap="round"/>
+
+      <!-- Rim -->
+      <ellipse cx="130" cy="28" rx="57" ry="9"
+            fill="rgba(60,160,240,.18)" stroke="rgba(100,200,255,.55)" stroke-width="1.6"/>
+      <path d="M74,26 Q130,16 186,26" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.7" stroke-linecap="round"/>
+
+      <!-- Handles (both sides for a wider jug) -->
+      <path d="M238,90 Q260,90 260,124 Q260,158 238,158"
+            fill="none" stroke="rgba(100,200,255,.42)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M22,90 Q0,90 0,124 Q0,158 22,158"
+            fill="none" stroke="rgba(100,200,255,.42)" stroke-width="2.2" stroke-linecap="round"/>
+
+      <!-- Base -->
+      <ellipse cx="130" cy="210" rx="96" ry="8" fill="rgba(0,20,60,.4)"/>
+    </svg>
+  </div>
+  <div class="balance-note" id="balNote">Add items to both jugs to see your balance</div>
+</div>
+
+<!-- ══════════════ INPUT PANEL ══════════════ -->
+<div class="panel">
+  <h3>Add something to your dashboard:</h3>
+  <div class="inp-row">
+    <input type="text" id="textInput"
+           placeholder="e.g.  I communicate really well with people…"
+           onkeydown="handleKey(event)"/>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-change" onclick="addItem('change')">← I'd like to change this</button>
+    <button class="btn btn-know"   onclick="addItem('know')">I know &amp; have this →</button>
+  </div>
+</div>
+
+<script>
+/* ── State ───────────────────────────────── */
+const S = { know:[], change:[] };
+let dragging = null;
+
+/* ── Balance jug geometry (viewBox 0 0 260 220) ── */
+const BAL = { top:56, bottom:210 }; // y-range of jug body
+
+/* ── Add ─────────────────────────────────── */
+function addItem(jug) {
+  const inp = document.getElementById('textInput');
+  const txt = inp.value.trim();
+  if (!txt) { inp.focus(); return; }
+  S[jug].push({ id: Date.now() + Math.random(), text: txt });
+  inp.value = '';
+  inp.focus();
+  render(jug);
+  updateBalance();
+  boing(jug === 'know' ? 'knowWrap' : 'changeWrap');
+}
+
+function handleKey(e) { if (e.key==='Enter') addItem('know'); }
+
+/* ── Remove ──────────────────────────────── */
+function removeItem(jug, id) {
+  S[jug] = S[jug].filter(i => i.id !== id);
+  render(jug);
+  updateBalance();
+}
+
+/* ── Render items ────────────────────────── */
+function render(jug) {
+  const el    = document.getElementById(jug==='know' ? 'knowItems'   : 'changeItems');
+  const badge = document.getElementById(jug==='know' ? 'knowCount'   : 'changeCount');
+  const items = S[jug];
+
+  el.innerHTML = '';
+
+  // Hint
+  const hint = document.createElement('div');
+  hint.className = 'empty-hint';
+  hint.innerHTML = jug === 'know'
+    ? 'Your strengths &amp;<br/>certainties live here'
+    : "Things you'd like<br/>to work on";
+  el.appendChild(hint);
+
+  if (items.length) el.classList.add('filled');
+  else el.classList.remove('filled');
+
+  items.forEach(item => {
+    const t = document.createElement('div');
+    t.className = `tag in-${jug}`;
+    t.draggable = true;
+    t.dataset.id  = item.id;
+    t.dataset.jug = jug;
+    t.innerHTML = `<span>${esc(item.text)}</span>
+      <button class="del" onclick="removeItem('${jug}',${item.id})">✕</button>`;
+    t.addEventListener('dragstart', e => {
+      dragging = { id: item.id, fromJug: jug };
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => t.style.opacity = '.3', 0);
+    });
+    t.addEventListener('dragend', () => { t.style.opacity='1'; dragging=null; });
+    el.appendChild(t);
+  });
+
+  const n = items.length;
+  badge.textContent = n===0 ? '0 things' : n===1 ? '1 thing' : `${n} things`;
+}
+
+/* ── Balance jug water update ────────────── */
+let balCurrentY = BAL.bottom; // starts empty
+
+function updateBalance() {
+  const kn = S.know.length;
+  const ch = S.change.length;
+  const total = kn + ch;
+
+  const fill = total === 0 ? 0 : kn / total;
+  const h = BAL.bottom - BAL.top;
+  const targetY = BAL.bottom - fill * h;
+
+  animateBalWater(targetY);
+
+  const note = document.getElementById('balNote');
+  if (total === 0) {
+    note.textContent = 'Add items to both jugs to see your balance';
+  } else if (fill === 1) {
+    note.textContent = `All ${kn} things are in "know & have" — wonderful ✨`;
+  } else if (fill === 0) {
+    note.textContent = `All ${ch} things are in "change" — keep reflecting`;
+  } else {
+    const pct = Math.round(fill * 100);
+    note.textContent = `${kn} known  ·  ${ch} to change  ·  ${pct}% full`;
+  }
+}
+
+function animateBalWater(targetY) {
+  const rect  = document.getElementById('balWaterRect');
+  const waveG = document.getElementById('balWaveG');
+  const startY = balCurrentY;
+  const dur = 900;
+  const t0 = performance.now();
+
+  // Baseline wave path is centered around y≈158 in the viewBox
+  const WAVE_BASE_Y = 158;
+
+  function step(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    // ease-in-out cubic
+    const e = p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p+2,3)/2;
+    const y = startY + (targetY - startY) * e;
+
+    rect.setAttribute('y', y);
+    // Shift wave group vertically so wave sits at water surface
+    const offset = y - WAVE_BASE_Y;
+    waveG.setAttribute('transform', `translate(0,${offset})`);
+
+    if (p < 1) requestAnimationFrame(step);
+    else balCurrentY = targetY;
+  }
+  requestAnimationFrame(step);
+  balCurrentY = targetY; // update immediately so next call has correct start
+}
+
+/* ── Drag & drop ─────────────────────────── */
+function jugDragOver(e, jug) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.getElementById(jug==='know' ? 'knowWrap' : 'changeWrap').classList.add('drag-on');
+}
+function jugDragLeave(e, jug) {
+  document.getElementById(jug==='know' ? 'knowWrap' : 'changeWrap').classList.remove('drag-on');
+}
+function jugDrop(e, toJug) {
+  e.preventDefault();
+  jugDragLeave(e, toJug);
+  if (!dragging || dragging.fromJug === toJug) return;
+  const item = S[dragging.fromJug].find(i => i.id === dragging.id);
+  if (!item) return;
+  S[dragging.fromJug] = S[dragging.fromJug].filter(i => i.id !== dragging.id);
+  S[toJug].push(item);
+  render(dragging.fromJug);
+  render(toJug);
+  updateBalance();
+  boing(toJug==='know' ? 'knowWrap' : 'changeWrap');
+  dragging = null;
+}
+
+/* ── Boing ───────────────────────────────── */
+function boing(id) {
+  const el = document.getElementById(id);
+  el.style.transform = 'scale(1.07) translateY(-4px)';
+  setTimeout(() => el.style.transform = '', 240);
+}
+
+/* ── HTML escape ─────────────────────────── */
+function esc(s) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
