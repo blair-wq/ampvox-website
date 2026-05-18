@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdul-Samad Mohammed - Ampvox Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint:#4ECDC4;
+  --mint-dark:#38B2AA;
+  --black:#0A0A0A;
+  --dark:#1A1A1A;
+  --grey:#888888;
+  --white:#FFFFFF;
+  --display:'Bebas Neue', sans-serif;
+  --body:'DM Sans', sans-serif;
+  --mono:'Space Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
+
+#login-screen {
+  position:fixed; inset:0; z-index:999; background:var(--black);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#login-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.login-rings { position:absolute; inset:0; pointer-events:none; }
+.login-ring { position:absolute; border-radius:50%; border:1px solid rgba(78,205,196,0.07); top:50%; left:50%; transform:translate(-50%,-50%); }
+.login-logo { font-family:var(--display); font-size:42px; letter-spacing:3px; color:var(--white); margin-bottom:8px; text-align:center; }
+.login-logo span { color:var(--mint); }
+.login-sub { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:64px; }
+.login-box { width:min(360px, calc(100vw - 40px)); padding:48px 40px; border:1px solid rgba(78,205,196,0.15); background:var(--dark); position:relative; }
+.login-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--mint), transparent); }
+.login-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; display:block; }
+.login-input { width:100%; background:var(--black); border:1px solid #333; color:var(--white); font-family:var(--mono); font-size:13px; padding:14px 16px; letter-spacing:3px; outline:none; transition:border-color 0.2s; margin-bottom:24px; }
+.login-input:focus { border-color:var(--mint); }
+.login-btn { width:100%; background:var(--mint); color:var(--black); border:none; font-family:var(--display); font-size:20px; letter-spacing:2px; padding:16px; cursor:pointer; transition:background 0.2s; }
+.login-btn:hover { background:var(--mint-dark); }
+.login-error { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:#ff6b6b; text-align:center; margin-top:16px; opacity:0; transition:opacity 0.2s; }
+.login-error.show { opacity:1; }
+
+.nav { position:sticky; top:0; z-index:100; background:var(--black); border-bottom:1px solid rgba(78,205,196,0.15); display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:60px; }
+.nav-logo { font-family:var(--display); font-size:22px; letter-spacing:2px; }
+.nav-logo span { color:var(--mint); }
+.nav-meta { display:flex; align-items:center; gap:32px; }
+.nav-user { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); }
+.nav-user strong { color:var(--mint); }
+.nav-logout { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; cursor:pointer; border:none; background:none; transition:color 0.2s; }
+.nav-logout:hover { color:var(--mint); }
+
+.ticker { background:var(--mint); padding:10px 0; overflow:hidden; white-space:nowrap; }
+.ticker-inner { display:inline-block; animation:tick 30s linear infinite; }
+.ticker-item { display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--black); padding:0 24px; }
+.ticker-sep { display:inline-block; width:4px; height:4px; background:var(--black); border-radius:50%; vertical-align:middle; opacity:0.4; }
+@keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+.hero { padding:60px 48px 48px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+.hero-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:16px; }
+.hero-name { font-family:var(--display); font-size:clamp(64px, 8vw, 100px); line-height:0.9; letter-spacing:1px; }
+.hero-name span { color:var(--mint); }
+.hero-rule { width:48px; height:3px; background:var(--mint); margin:28px 0 20px; }
+.hero-desc { font-size:14px; font-weight:300; color:var(--grey); max-width:430px; line-height:1.75; }
+.hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
+
+.stats-row { display:grid; grid-template-columns:repeat(5, 1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); }
+.stat-block { padding:32px 48px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
+.stat-block:last-child { border-right:none; }
+.stat-block::after { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--mint); transition:height 0.4s ease; }
+.stat-block:hover::after { height:100%; }
+.stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
+.stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:var(--white); }
+.stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:8px; line-height:1.6; }
+
+.section { padding:48px; }
+.section + .section { border-top:1px solid rgba(255,255,255,0.04); }
+.section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:8px; }
+.section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
+
+.pipeline-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; }
+.deal-card { background:var(--dark); padding:28px; min-height:250px; display:flex; flex-direction:column; justify-content:space-between; border-top:2px solid rgba(78,205,196,0.45); }
+.deal-top { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:24px; }
+.deal-brand { font-family:var(--display); font-size:28px; line-height:1; letter-spacing:1px; }
+.deal-status { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--black); background:var(--mint); padding:6px 8px; white-space:nowrap; }
+.deal-meta { display:grid; gap:14px; margin-bottom:24px; }
+.deal-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
+.deal-value { font-size:13px; line-height:1.65; color:#bdbdbd; }
+.deal-money { font-family:var(--display); font-size:42px; line-height:1; color:var(--mint); letter-spacing:1px; }
+.deal-note { font-family:var(--mono); font-size:9px; letter-spacing:2px; line-height:2; text-transform:uppercase; color:#555; }
+
+.timeline-list, .earnings-table { border-top:1px solid rgba(255,255,255,0.04); }
+.timeline-item { display:grid; grid-template-columns:150px 1fr auto; gap:28px; align-items:center; padding:24px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.timeline-date { font-family:var(--display); font-size:30px; color:var(--mint); line-height:0.95; }
+.timeline-date span { display:block; font-family:var(--mono); font-size:9px; letter-spacing:3px; color:#444; margin-top:8px; }
+.timeline-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+.timeline-desc { font-size:13px; color:#888; line-height:1.7; }
+.timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
+
+.earning-row { display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.earning-head { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; }
+.earning-brand { font-weight:700; font-size:14px; }
+.earning-detail { font-size:12px; color:#777; margin-top:5px; line-height:1.6; }
+.earning-amount { font-family:var(--display); font-size:32px; color:var(--mint); }
+.earning-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+.update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
+.update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
+.update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--mint); margin-bottom:6px; }
+.update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
+.update-text { font-size:14px; color:#bbb; line-height:1.85; }
+
+.docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
+.doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.82; }
+.doc-icon { font-family:var(--display); font-size:22px; color:var(--mint); letter-spacing:1px; }
+.doc-title { font-weight:500; color:var(--white); font-size:14px; }
+.doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; line-height:1.7; }
+.doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+.dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; gap:20px; }
+.footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
+.footer-logo span { color:rgba(78,205,196,0.3); }
+.footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.dashboard { animation:fadeUp 0.5s ease both; }
+
+@media(max-width:900px) {
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .stat-block { border-right:none; border-bottom:1px solid rgba(78,205,196,0.1); }
+  .hero { flex-direction:column; align-items:flex-start; }
+  .hero-date { text-align:left; }
+  .update-item, .timeline-item, .earning-row { grid-template-columns:1fr; gap:10px; align-items:start; }
+  .nav { padding:0 20px; }
+  .section { padding:32px 20px; }
+  .stat-block { padding:24px 20px; }
+}
+@media(max-width:600px) {
+  .stats-row { grid-template-columns:1fr; }
+  .hero { padding:32px 20px; }
+  .nav-meta { gap:16px; }
+  .dash-footer { flex-direction:column; align-items:flex-start; padding:24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-rings">
+    <div class="login-ring" style="width:700px;height:700px;"></div>
+    <div class="login-ring" style="width:500px;height:500px;"></div>
+    <div class="login-ring" style="width:300px;height:300px;"></div>
+    <div class="login-ring" style="width:150px;height:150px;"></div>
+  </div>
+  <div class="login-logo">AMP<span>VOX</span></div>
+  <div class="login-sub">Talent Portal</div>
+  <div class="login-box">
+    <label class="login-label" for="pw-input">Access Code</label>
+    <input class="login-input" type="password" id="pw-input" placeholder="........" autocomplete="off">
+    <button class="login-btn" onclick="tryLogin()">ENTER DASHBOARD</button>
+    <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
+  </div>
+</div>
+
+<div id="dashboard" class="dashboard" style="display:none;">
+
+  <nav class="nav">
+    <div class="nav-logo">AMP<span>VOX</span></div>
+    <div class="nav-meta">
+      <div class="nav-user">Viewing as <strong>Abdul-Samad Mohammed</strong></div>
+      <button class="nav-logout" onclick="logout()">LOG OUT</button>
+    </div>
+  </nav>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Abdul-Samad Mohammed</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">PR / Affiliate</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Abdul-Samad Mohammed</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">PR / Affiliate</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Your Dashboard</div>
+      <div class="hero-name">ABDUL<br><span>MOHAMMED.</span></div>
+      <div class="hero-rule"></div>
+      <div class="hero-desc">Welcome to your Ampvox portal. This is where you can track brand conversations, PR gifts, affiliate offers, contracts and payments as your team moves everything forward.</div>
+    </div>
+    <div class="hero-date" id="dash-date"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-block">
+      <div class="stat-label">Tracked Opportunities</div>
+      <div class="stat-value">2</div>
+      <div class="stat-sub">Brand and PR</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Active Negotiations</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">TrainPal rate under review</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">PR / Gifted</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">Life Loop trial pack</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Brand Touchpoints This Week</div>
+      <div class="stat-value">2</div>
+      <div class="stat-sub">Week of 18 May</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Earned - 2026</div>
+      <div class="stat-value">£0</div>
+      <div class="stat-sub">No paid deal closed yet</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">01 - Brand Pipeline</div>
+    <div class="section-title">WHERE THINGS STAND.</div>
+    <div class="pipeline-grid">
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">TrainPal</div>
+            <div class="deal-status">Negotiating</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Campaign</div>
+              <div class="deal-value">30-second Instagram Reel with a discount code integration, with the possibility of posting across Instagram and TikTok.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">TrainPal is still being reviewed. Their latest proposal is $100 base, rising to $300 total if either platform reaches 13K views within 48 hours.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="deal-money">TBC</div>
+          <div class="deal-note">Rate to be confirmed before accepting</div>
+        </div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Life<br>Loop</div>
+            <div class="deal-status">Gifted</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Opportunity</div>
+              <div class="deal-value">Daily Loop functional chewing gum trial pack, including Energy, Energy+ and Wellness variants.</div>
+            </div>
+            <div>
+              <div class="deal-label">Terms</div>
+              <div class="deal-value">No paid partnership yet. If Abdul posts after trying the product, he gets a 10% audience discount code and earns 10% commission through the affiliate link.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Address supplied privately - product being shipped</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">02 - Timeline & Deadlines</div>
+    <div class="section-title">WHAT'S MOVING.</div>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">12 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">TrainPal collaboration came in</div>
+          <div class="timeline-desc">TrainPal asked for rates for a 30-second Instagram Reel with a special discount code.</div>
+        </div>
+        <div class="timeline-pill">Inbound</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">12 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Life Loop gifted trial accepted</div>
+          <div class="timeline-desc">Life Loop confirmed the gifted trial and affiliate setup; Abdul supplied shipping details privately for the product send-out.</div>
+        </div>
+        <div class="timeline-pill">PR</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">TrainPal counteroffer received</div>
+          <div class="timeline-desc">TrainPal proposed $100 base plus performance uplift to $300 if either Instagram or TikTok reaches 13K views within 48 hours.</div>
+        </div>
+        <div class="timeline-pill">Negotiate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">03 - Weekly Outreach</div>
+    <div class="section-title">BRANDS CONTACTED / UPDATED THIS WEEK.</div>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">TrainPal</div>
+          <div class="timeline-desc">Rate conversation is active. Next move is to decide the confirmed fee, counter the performance model, or decline the low base fee.</div>
+        </div>
+        <div class="timeline-pill">Active</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">12 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Life Loop</div>
+          <div class="timeline-desc">Gifted trial and affiliate terms are sorted. Product should be sent to Abdul before any decision on posting.</div>
+        </div>
+        <div class="timeline-pill">Sorted</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 - Earnings Tracker</div>
+    <div class="section-title">THE NUMBERS.</div>
+    <div class="earnings-table">
+      <div class="earning-row earning-head">
+        <div>Campaign</div>
+        <div>Amount</div>
+        <div>Status</div>
+        <div>Notes</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">TrainPal</div>
+          <div class="earning-detail">30-second Reel / discount code integration</div>
+        </div>
+        <div class="earning-amount">TBC</div>
+        <div class="earning-status">Negotiating</div>
+        <div class="earning-detail">Rate is still to be confirmed. Brand has countered with a lower base plus performance uplift.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">Life Loop</div>
+          <div class="earning-detail">Daily Loop gum trial and affiliate link</div>
+        </div>
+        <div class="earning-amount">Gifted</div>
+        <div class="earning-status">Shipping</div>
+        <div class="earning-detail">10% commission if followers order through Abdul's affiliate link. No paid fee agreed at this stage.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">Closed Paid Deals</div>
+          <div class="earning-detail">Confirmed 2026 brand fees</div>
+        </div>
+        <div class="earning-amount">£0</div>
+        <div class="earning-status">None yet</div>
+        <div class="earning-detail">No paid Abdul campaign has been fully agreed and invoiced from the emails reviewed so far.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">05 - Manager Updates</div>
+    <div class="section-title">FROM YOUR TEAM.</div>
+    <div class="update-item">
+      <div>
+        <div class="update-date" id="update-date"></div>
+        <div class="update-tag">TrainPal</div>
+      </div>
+      <div class="update-text">
+        TrainPal is still in negotiation. The price is being kept as TBC while the latest brand counteroffer is reviewed, so this needs a decision before accepting.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">12 MAY 2026</div>
+        <div class="update-tag">Gifted PR</div>
+      </div>
+      <div class="update-text">
+        Life Loop's product trial is moving as a gifted/affiliate opportunity. Abdul's shipping details were provided privately and the brand can send out the Daily Loop trial pack.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06 - Documents & Links</div>
+    <div class="section-title">YOUR FILES.</div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">RATE</div>
+        <div class="doc-title">TrainPal Rate Thread</div>
+        <div class="doc-meta">Rate TBC / counter pending</div>
+        <div class="doc-status">Active</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">PR</div>
+        <div class="doc-title">Life Loop PR / Affiliate</div>
+        <div class="doc-meta">10% discount and 10% commission</div>
+        <div class="doc-status">Shipping</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-footer">
+    <div class="footer-logo">AMP<span>VOX</span></div>
+    <div class="footer-meta">Abdul-Samad Mohammed - Talent Portal - Ampvox 2026</div>
+    <div class="footer-meta">ampvox.co.uk</div>
+  </div>
+
+</div>
+
+<script>
+  const d = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
+  document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
+
+  const PASSWORD = 'abdul2026';
+
+  function tryLogin() {
+    const val = document.getElementById('pw-input').value;
+    const err = document.getElementById('login-error');
+    if (val === PASSWORD) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard').style.display = 'block';
+      sessionStorage.setItem('av_auth_abdul', '1');
+    } else {
+      err.classList.add('show');
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+      setTimeout(() => err.classList.remove('show'), 3000);
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('av_auth_abdul');
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+
+  if (sessionStorage.getItem('av_auth_abdul') === '1') {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('dashboard').style.display = 'block';
+  }
+</script>
+</body>
+</html>
