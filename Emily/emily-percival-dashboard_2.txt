@@ -1,9 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emily Percival — Ampvox Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint: #4ECDC4;
+  --mint-light: #E8F9F8;
+  --mint-dark: #38B2AA;
+  --black: #0A0A0A;
+  --dark: #1A1A1A;
+  --mid: #2D2D2D;
+  --grey: #888888;
+  --light: #F5F5F5;
+  --white: #FFFFFF;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
 
+/* ═══ LOGIN ═══ */
+#login-screen {
+  position:fixed; inset:0; z-index:999; background:var(--black);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#login-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.login-rings { position:absolute; inset:0; pointer-events:none; }
+.login-ring { position:absolute; border-radius:50%; border:1px solid rgba(78,205,196,0.07); top:50%; left:50%; transform:translate(-50%,-50%); }
+.login-logo { font-family:var(--display); font-size:42px; letter-spacing:3px; color:var(--white); margin-bottom:8px; text-align:center; }
+.login-logo span { color:var(--mint); }
+.login-sub { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:64px; }
+.login-box { width:360px; padding:48px 40px; border:1px solid rgba(78,205,196,0.15); background:var(--dark); position:relative; }
+.login-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--mint), transparent); }
+.login-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; display:block; }
+.login-input { width:100%; background:var(--black); border:1px solid #333; color:var(--white); font-family:var(--mono); font-size:13px; padding:14px 16px; letter-spacing:3px; outline:none; transition:border-color 0.2s; margin-bottom:24px; }
+.login-input:focus { border-color:var(--mint); }
+.login-btn { width:100%; background:var(--mint); color:var(--black); border:none; font-family:var(--display); font-size:20px; letter-spacing:2px; padding:16px; cursor:pointer; transition:background 0.2s; }
+.login-btn:hover { background:var(--mint-dark); }
+.login-error { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:#ff6b6b; text-align:center; margin-top:16px; opacity:0; transition:opacity 0.2s; }
+.login-error.show { opacity:1; }
 
+/* ═══ NAV ═══ */
+.nav { position:sticky; top:0; z-index:100; background:var(--black); border-bottom:1px solid rgba(78,205,196,0.15); display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:60px; }
+.nav-logo { font-family:var(--display); font-size:22px; letter-spacing:2px; }
+.nav-logo span { color:var(--mint); }
+.nav-meta { display:flex; align-items:center; gap:32px; }
+.nav-user { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); }
+.nav-user strong { color:var(--mint); }
+.nav-logout { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; cursor:pointer; border:none; background:none; transition:color 0.2s; }
+.nav-logout:hover { color:var(--mint); }
 
+/* ═══ TICKER ═══ */
+.ticker { background:var(--mint); padding:10px 0; overflow:hidden; white-space:nowrap; }
+.ticker-inner { display:inline-block; animation:tick 30s linear infinite; }
+.ticker-item { display:inline-block; font-family:var(--body); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--black); padding:0 24px; }
+.ticker-sep { display:inline-block; width:4px; height:4px; background:var(--black); border-radius:50%; vertical-align:middle; opacity:0.4; }
+@keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-AMPVOX
-TALENT PORTAL
-ACCESS CODE
-ENTER DASHBOARD
-Incorrect access code. Try again.
+/* ═══ HERO ═══ */
+.hero { padding:60px 48px 48px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+.hero-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:16px; }
+.hero-name { font-family:var(--display); font-size:clamp(64px, 8vw, 100px); line-height:0.9; letter-spacing:1px; }
+.hero-name span { color:var(--mint); }
+.hero-rule { width:48px; height:3px; background:var(--mint); margin:28px 0 20px; }
+.hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:400px; line-height:1.75; }
+.hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
+
+/* ═══ STATS ROW ═══ */
+.stats-row { display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); }
+.stat-block { padding:32px 48px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
+.stat-block:last-child { border-right:none; }
+.stat-block::after { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--mint); transition:height 0.4s ease; }
+.stat-block:hover::after { height:100%; }
+.stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
+.stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:var(--white); }
+.stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:8px; }
+
+/* ═══ SECTION ═══ */
+.section { padding:48px; }
+.section + .section { border-top:1px solid rgba(255,255,255,0.04); }
+.section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:8px; }
+.section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
+
+/* ═══ EMPTY STATE ═══ */
+.empty-state { border:1px dashed rgba(78,205,196,0.12); padding:64px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; }
+.empty-glyph { font-family:var(--display); font-size:40px; color:#1f1f1f; letter-spacing:2px; }
+.empty-title { font-family:var(--display); font-size:22px; letter-spacing:1px; color:#2d2d2d; }
+.empty-desc { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#2a2a2a; line-height:2.2; }
+
+/* ═══ PIPELINE ═══ */
+.pipeline-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; }
+.deal-card { background:var(--dark); padding:28px; min-height:230px; display:flex; flex-direction:column; justify-content:space-between; border-top:2px solid rgba(78,205,196,0.45); }
+.deal-card.is-prospect { border-top-color:#444; opacity:0.72; }
+.deal-top { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:24px; }
+.deal-brand { font-family:var(--display); font-size:28px; line-height:1; letter-spacing:1px; }
+.deal-status { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--black); background:var(--mint); padding:6px 8px; white-space:nowrap; }
+.deal-card.is-prospect .deal-status { background:#333; color:#999; }
+.deal-meta { display:grid; gap:14px; margin-bottom:24px; }
+.deal-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
+.deal-value { font-size:13px; line-height:1.65; color:#bdbdbd; }
+.deal-money { font-family:var(--display); font-size:42px; line-height:1; color:var(--mint); letter-spacing:1px; }
+.deal-note { font-family:var(--mono); font-size:9px; letter-spacing:2px; line-height:2; text-transform:uppercase; color:#555; }
+
+/* ═══ TIMELINE ═══ */
+.timeline-list { border-top:1px solid rgba(255,255,255,0.04); }
+.timeline-item { display:grid; grid-template-columns:150px 1fr auto; gap:28px; align-items:center; padding:24px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.timeline-date { font-family:var(--display); font-size:30px; color:var(--mint); line-height:0.95; }
+.timeline-date span { display:block; font-family:var(--mono); font-size:9px; letter-spacing:3px; color:#444; margin-top:8px; }
+.timeline-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+.timeline-desc { font-size:13px; color:#888; line-height:1.7; }
+.timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
+
+/* ═══ EARNINGS ═══ */
+.earnings-table { border-top:1px solid rgba(255,255,255,0.04); }
+.earning-row { display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.earning-head { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; }
+.earning-brand { font-weight:700; font-size:14px; }
+.earning-detail { font-size:12px; color:#777; margin-top:5px; line-height:1.6; }
+.earning-amount { font-family:var(--display); font-size:32px; color:var(--mint); }
+.earning-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+/* ═══ UPDATES ═══ */
+.update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
+.update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
+.update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--mint); margin-bottom:6px; }
+.update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
+.update-text { font-size:14px; color:#bbb; line-height:1.85; }
+
+/* ═══ DOCS ═══ */
+.docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
+.doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.82; }
+.doc-icon { font-family:var(--display); font-size:22px; color:var(--mint); letter-spacing:1px; }
+.doc-title { font-weight:500; color:var(--white); font-size:14px; }
+.doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; }
+.doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+/* ═══ FOOTER ═══ */
+.dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
+.footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
+.footer-logo span { color:rgba(78,205,196,0.3); }
+.footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.dashboard { animation:fadeUp 0.5s ease both; }
+
+@media(max-width:900px) {
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .stat-block { border-right:none; border-bottom:1px solid rgba(78,205,196,0.1); }
+  .hero { flex-direction:column; align-items:flex-start; }
+  .hero-date { text-align:left; }
+  .update-item { grid-template-columns:1fr; gap:8px; }
+  .timeline-item, .earning-row { grid-template-columns:1fr; gap:10px; align-items:start; }
+  .nav { padding:0 20px; }
+  .section { padding:32px 20px; }
+  .stat-block { padding:24px 20px; }
+}
+@media(max-width:600px) {
+  .stats-row { grid-template-columns:1fr; }
+  .hero { padding:32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-rings">
+    <div class="login-ring" style="width:700px;height:700px;"></div>
+    <div class="login-ring" style="width:500px;height:500px;"></div>
+    <div class="login-ring" style="width:300px;height:300px;"></div>
+    <div class="login-ring" style="width:150px;height:150px;"></div>
+  </div>
+  <div class="login-logo">AMP<span>VOX</span></div>
+  <div class="login-sub">Talent Portal</div>
+  <div class="login-box">
+    <label class="login-label" for="pw-input">Access Code</label>
+    <input class="login-input" type="password" id="pw-input" placeholder="••••••••" autocomplete="off">
+    <button class="login-btn" onclick="tryLogin()">ENTER DASHBOARD</button>
+    <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard" style="display:none;">
+
+  <nav class="nav">
+    <div class="nav-logo">AMP<span>VOX</span></div>
+    <div class="nav-meta">
+      <div class="nav-user">Viewing as <strong>Emily Percival</strong></div>
+      <button class="nav-logout" onclick="logout()">LOG OUT</button>
+    </div>
+  </nav>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Your Dashboard</div>
+      <div class="hero-name">EMILY<br><span>PERCIVAL.</span></div>
+      <div class="hero-rule"></div>
+      <div class="hero-desc">Welcome to your Ampvox portal. This is where you'll track every brand conversation, deal and payment — updated by your team as things move forward.</div>
+    </div>
+    <div class="hero-date" id="dash-date"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-block">
+      <div class="stat-label">Tracked Opportunities</div>
+      <div class="stat-value">7</div>
+      <div class="stat-sub">Paid, PR and chased</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Deals Closed — 2026</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">Campus x NBCUniversal</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">PR / Gifted</div>
+      <div class="stat-value">6</div>
+      <div class="stat-sub">Live, gifted or chased</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Brands Reached This Week</div>
+      <div class="stat-value">2</div>
+      <div class="stat-sub">Week of 18 May</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Earned — 2026</div>
+      <div class="stat-value">£1.5K</div>
+      <div class="stat-sub">Closed brand fee</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">01 — Brand Pipeline</div>
+    <div class="section-title">WHERE THINGS STAND.</div>
+    <div class="pipeline-grid">
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Campus x<br>NBCUniversal</div>
+            <div class="deal-status">Closed</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Campaign</div>
+              <div class="deal-value">Finding Emily film launch activity, including event content and TikTok posting.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Content approved and live. Signed contract and invoice have both been sent to Campus.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="deal-money">£1,500</div>
+          <div class="deal-note">Fee agreed for one post with usage rights</div>
+        </div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Groa<br>Beauty</div>
+            <div class="deal-status">Confirmed</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Opportunity</div>
+              <div class="deal-value">Parklife Festival invite in Manchester after Emily tried the Lash & Brow Serum.</div>
+            </div>
+            <div>
+              <div class="deal-label">Next Step</div>
+              <div class="deal-value">Waiting for full invitation and event details from Groa.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Sunday 21 June 2026 · Manchester</div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Apple<br>Open Day</div>
+            <div class="deal-status">Completed</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">PR Event</div>
+              <div class="deal-value">Emily was confirmed for Apple's Open Day at Battersea Power Station on 6 May 2026.</div>
+            </div>
+            <div>
+              <div class="deal-label">Notes</div>
+              <div class="deal-value">Organic PR event. Apple noted no gifting/payment, with possible post-event device loans handled through their HLA process.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">London · 6 May 2026</div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">MCoBeauty</div>
+            <div class="deal-status">PR List</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Emily is on MCoBeauty's 6-month PR gifting list. Updated shipping phone requirement sent to NORTH Agency on 18 May 2026.</div>
+            </div>
+            <div>
+              <div class="deal-label">Previous Drop</div>
+              <div class="deal-value">MCoBeauty PR gift was confirmed as on its way on 28 March 2026.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Ongoing PR gifting scheme</div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">The INKEY<br>List</div>
+            <div class="deal-status">Gifted</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Product</div>
+              <div class="deal-value">Exosome Hydro-Glow Complex care package sent via Royal Mail.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Parcel was on its way on 30 March 2026; NORTH followed up on 7 April to check it arrived safely.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Tag @theinkeylist if shared</div>
+      </div>
+
+      <div class="deal-card">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">VO5</div>
+            <div class="deal-status">Posted</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">PR Seeding</div>
+              <div class="deal-value">Heat Protection Spray content was already posted when Socially Powerful followed up on 14 May 2026.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Tags: @vo5 / @vo5_official · #VO5 #LittleVictories</div>
+      </div>
+
+      <div class="deal-card is-prospect">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Estée<br>Lauder</div>
+            <div class="deal-status">Chased</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">PR Mailer</div>
+              <div class="deal-value">DayWear Jelly Cleanser and DayWear Sorbet Creme gifting campaign.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">PR whereabouts have been chased. Waiting for confirmation on where the mailer is / when it is due to arrive.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Follow-up sent · awaiting PR update</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">02 — Timeline & Deadlines</div>
+    <div class="section-title">WHAT'S MOVING.</div>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">28 MAR<span>2026</span></div>
+        <div>
+          <div class="timeline-title">MCoBeauty PR gift shipped</div>
+          <div class="timeline-desc">NORTH Agency confirmed Emily's MCoBeauty PR gift was officially on its way.</div>
+        </div>
+        <div class="timeline-pill">PR</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">30 MAR<span>2026</span></div>
+        <div>
+          <div class="timeline-title">The INKEY List care package shipped</div>
+          <div class="timeline-desc">Exosome Hydro-Glow Complex package sent, with Royal Mail tracking included in the PR email.</div>
+        </div>
+        <div class="timeline-pill">Gifted</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">06 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Apple Open Day</div>
+          <div class="timeline-desc">Emily remained confirmed to attend the Apple PR event at Battersea Power Station after Blair had to pull out.</div>
+        </div>
+        <div class="timeline-pill">PR Event</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">14 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Campus invoice details received</div>
+          <div class="timeline-desc">Invoice should be addressed to Besixth Ltd t/a Campus Group, Studio 124 Netil Corner, 2 Bocking Street, London, E8 4RU.</div>
+        </div>
+        <div class="timeline-pill">Finance</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">22 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Finding Emily cinema release</div>
+          <div class="timeline-desc">Caption referenced cinema release and Universal Pictures UK tags for the Campus/NBCUniversal campaign.</div>
+        </div>
+        <div class="timeline-pill">Campaign</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Campus invoice sent</div>
+          <div class="timeline-desc">The £1,500 invoice has been sent over to Campus. Payment is now pending from their side.</div>
+        </div>
+        <div class="timeline-pill">Sent</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">MCoBeauty shipping details updated</div>
+          <div class="timeline-desc">NORTH Agency requested a phone number for MCoBeauty's updated shipping requirements; Blair sent it over.</div>
+        </div>
+        <div class="timeline-pill">Sorted</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Estée Lauder PR chased</div>
+          <div class="timeline-desc">The DayWear PR mailer has been chased to check where the product is and when Emily should expect it.</div>
+        </div>
+        <div class="timeline-pill">Chased</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">21 JUN<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Groa x Parklife Festival</div>
+          <div class="timeline-desc">Emily has been added to the list. Full invitation and more event information are still to follow from Groa.</div>
+        </div>
+        <div class="timeline-pill">Upcoming</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">03 — Weekly Outreach</div>
+    <div class="section-title">BRANDS CONTACTED THIS WEEK.</div>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">MCoBeauty</div>
+          <div class="timeline-desc">Shipping details were sent back to NORTH Agency so Emily can stay active on the 6-month MCoBeauty PR gifting list.</div>
+        </div>
+        <div class="timeline-pill">Reached</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">18 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Estée Lauder</div>
+          <div class="timeline-desc">PR was chased with Socially Powerful after Emily filled out the form but had not received the DayWear mailer yet.</div>
+        </div>
+        <div class="timeline-pill">Chased</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 — Earnings Tracker</div>
+    <div class="section-title">THE NUMBERS.</div>
+    <div class="earnings-table">
+      <div class="earning-row earning-head">
+        <div>Campaign</div>
+        <div>Amount</div>
+        <div>Status</div>
+        <div>Notes</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">Campus x NBCUniversal</div>
+          <div class="earning-detail">Finding Emily TikTok campaign</div>
+        </div>
+        <div class="earning-amount">£1,500</div>
+        <div class="earning-status">Invoice sent</div>
+        <div class="earning-detail">Invoice sent to Campus. Payment is now pending from their side.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">VO5</div>
+          <div class="earning-detail">Heat Protection Spray seeding</div>
+        </div>
+        <div class="earning-amount">Gifted</div>
+        <div class="earning-status">Posted</div>
+        <div class="earning-detail">Brand reminder received 14 May; Blair replied that Emily had already posted.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">MCoBeauty</div>
+          <div class="earning-detail">6-month PR gifting list</div>
+        </div>
+        <div class="earning-amount">Gifted</div>
+        <div class="earning-status">Active</div>
+        <div class="earning-detail">Shipping phone requirement completed 18 May 2026 so gifting can continue.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">Apple Open Day</div>
+          <div class="earning-detail">Organic PR event</div>
+        </div>
+        <div class="earning-amount">PR</div>
+        <div class="earning-status">Completed</div>
+        <div class="earning-detail">No creator payment or product gifting stated by Apple; potential device loans were separate from gifting.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">The INKEY List</div>
+          <div class="earning-detail">Exosome Hydro-Glow Complex care package</div>
+        </div>
+        <div class="earning-amount">Gifted</div>
+        <div class="earning-status">Shipped</div>
+        <div class="earning-detail">Package was sent on 30 March 2026 with a follow-up on 7 April.</div>
+      </div>
+      <div class="earning-row">
+        <div>
+          <div class="earning-brand">Estée Lauder</div>
+          <div class="earning-detail">DayWear PR mailer</div>
+        </div>
+        <div class="earning-amount">Gifted</div>
+        <div class="earning-status">Chased</div>
+        <div class="earning-detail">PR has been chased for a delivery/status update.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">05 — Manager Updates</div>
+    <div class="section-title">FROM YOUR TEAM.</div>
+    <div class="update-item">
+      <div>
+        <div class="update-date" id="update-date"></div>
+        <div class="update-tag">Invoice Sent</div>
+      </div>
+      <div class="update-text">
+        The Campus x NBCUniversal invoice has now been sent over. The campaign is closed on content and paperwork; we're now just waiting for payment to come through.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">18 MAY 2026</div>
+        <div class="update-tag">Estée PR</div>
+      </div>
+      <div class="update-text">
+        Estée Lauder PR has been chased to find out where the DayWear mailer is. Waiting on a delivery/status update before marking it as received.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">18 MAY 2026</div>
+        <div class="update-tag">PR Sorted</div>
+      </div>
+      <div class="update-text">
+        MCoBeauty asked for an updated phone number for their 6-month PR gifting list. That's now been sent over, so the shipping requirement is handled and future MCoBeauty gifting can continue.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">14 MAY 2026</div>
+        <div class="update-tag">Campaign Update</div>
+      </div>
+      <div class="update-text">
+        Your Campus x NBCUniversal campaign is now closed out on the content side. The video went live, the signed contract has been sent over, and Campus confirmed the invoice address for payment.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">06 MAY 2026</div>
+        <div class="update-tag">Apple PR</div>
+      </div>
+      <div class="update-text">
+        Apple Open Day was confirmed for you at Battersea Power Station. Blair could not attend on the day, but confirmed with Apple that you were still attending.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">07 APR 2026</div>
+        <div class="update-tag">Gifted PR</div>
+      </div>
+      <div class="update-text">
+        The INKEY List care package was sent, with a later check-in from NORTH Agency to confirm it arrived safely. MCoBeauty also had a PR gift confirmed as on its way at the end of March.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">11 MAY 2026</div>
+        <div class="update-tag">Upcoming Event</div>
+      </div>
+      <div class="update-text">
+        Groa have added you to the list for Parklife Festival in Manchester on Sunday 21 June 2026. We're waiting on the full invite and event details before confirming logistics.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06 — Documents & Links</div>
+    <div class="section-title">YOUR FILES.</div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">PDF</div>
+        <div class="doc-title">Campus x NBCUniversal Contract</div>
+        <div class="doc-meta">Sent to Campus · 14 May 2026</div>
+        <div class="doc-status">Complete</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">INV</div>
+        <div class="doc-title">Campus Invoice</div>
+        <div class="doc-meta">£1,500 · Sent to Campus</div>
+        <div class="doc-status">Payment pending</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">RATE</div>
+        <div class="doc-title">Rate Benchmark</div>
+        <div class="doc-meta">Standard TikTok rate: £3,000</div>
+        <div class="doc-status">Active</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">PR</div>
+        <div class="doc-title">MCoBeauty PR List</div>
+        <div class="doc-meta">6-month gifting scheme</div>
+        <div class="doc-status">Active</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">EVT</div>
+        <div class="doc-title">Apple Open Day</div>
+        <div class="doc-meta">Battersea Power Station · 6 May</div>
+        <div class="doc-status">Completed</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">MAIL</div>
+        <div class="doc-title">Estée Lauder PR Mailer</div>
+        <div class="doc-meta">DayWear Cleanser & Sorbet Creme</div>
+        <div class="doc-status">Chased</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-footer">
+    <div class="footer-logo">AMP<span>VOX</span></div>
+    <div class="footer-meta">Emily Percival · Talent Portal · Ampvox 2026</div>
+    <div class="footer-meta">ampvox.co.uk</div>
+  </div>
+
+</div>
+
+<script>
+  const d = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
+  document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
+
+  // ⬇ Change this to whatever password you want Emily to use
+  const PASSWORD = 'emily2026';
+
+  function tryLogin() {
+    const val = document.getElementById('pw-input').value;
+    const err = document.getElementById('login-error');
+    if (val === PASSWORD) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard').style.display = 'block';
+      sessionStorage.setItem('av_auth', '1');
+    } else {
+      err.classList.add('show');
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+      setTimeout(() => err.classList.remove('show'), 3000);
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('av_auth');
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+
+  if (sessionStorage.getItem('av_auth') === '1') {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('dashboard').style.display = 'block';
+  }
+</script>
+</body>
+</html>
