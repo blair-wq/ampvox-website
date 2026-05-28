@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Not Standard Issue — Ampvox Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0A0A'/%3E%3Ctext x='16' y='22' font-family='Arial Black,sans-serif' font-size='13' font-weight='900' fill='%23ffffff' text-anchor='middle' letter-spacing='0.5'%3EAMP%3C/text%3E%3Ctext x='16' y='30' font-family='Arial Black,sans-serif' font-size='10' font-weight='900' fill='%234ECDC4' text-anchor='middle' letter-spacing='2'%3EVOX%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -274,8 +275,8 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   <div class="stats-row">
     <div class="stat-block">
       <div class="stat-label">Tracked Opportunities</div>
-      <div class="stat-value">0</div>
-      <div class="stat-sub">Building pipeline</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">Napapijri · rate proposed</div>
     </div>
     <div class="stat-block">
       <div class="stat-label">Deals Closed — 2026</div>
@@ -298,10 +299,29 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   <div class="section">
     <div class="section-label">01 — Brand Pipeline</div>
     <div class="section-title">WHERE THINGS STAND.</div>
-    <div class="empty-state">
-      <div class="empty-glyph">NSI</div>
-      <div class="empty-title">Pipeline Loading</div>
-      <div class="empty-desc">George is brand new to the Ampvox roster.<br>This section will update as brand conversations open up.</div>
+    <div class="pipeline-grid">
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Napapijri</div>
+            <div class="deal-status">In Discussion</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Opportunity</div>
+              <div class="deal-value">Brand partnership outreach. George has been in contact with the Napapijri team and has put forward a fee proposal.</div>
+            </div>
+            <div>
+              <div class="deal-label">Next Step</div>
+              <div class="deal-value">Awaiting Napapijri's response to the rate proposal.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="deal-money">£1,000</div>
+          <div class="deal-note">Rate proposed · awaiting response</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -310,6 +330,14 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="section-label">02 — Timeline & Deadlines</div>
     <div class="section-title">WHAT'S MOVING.</div>
     <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">28 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Napapijri — £1,000 rate proposed</div>
+          <div class="timeline-desc">George is in contact with Napapijri. A fee of £1,000 has been put forward. Awaiting their response.</div>
+        </div>
+        <div class="timeline-pill active">Awaiting Reply</div>
+      </div>
       <div class="timeline-item">
         <div class="timeline-date">28 MAY<span>2026</span></div>
         <div>
@@ -347,6 +375,15 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="update-item">
       <div>
         <div class="update-date" id="update-date"></div>
+        <div class="update-tag">Napapijri</div>
+      </div>
+      <div class="update-text">
+        You've been in contact with Napapijri and have put a £1,000 fee proposal to them. Napapijri are a strong brand fit given your adventure travel content — their outdoor gear positioning lines up well with the Mongol Rally story. We're waiting on their response. Will update this as soon as we hear back.
+      </div>
+    </div>
+    <div class="update-item">
+      <div>
+        <div class="update-date" id="update-date-2"></div>
         <div class="update-tag">Welcome</div>
       </div>
       <div class="update-text">
@@ -474,6 +511,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
   document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
   document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
+  document.getElementById('update-date-2').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
 
   const PASSWORD = 'nsi2026';
   function tryLogin() {
