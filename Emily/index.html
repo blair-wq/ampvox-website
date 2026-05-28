@@ -22,7 +22,6 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
-
 /* ═══ LOGIN ═══ */
 #login-screen {
   position:fixed; inset:0; z-index:999; background:var(--black);
@@ -44,7 +43,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .login-btn:hover { background:var(--mint-dark); }
 .login-error { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:#ff6b6b; text-align:center; margin-top:16px; opacity:0; transition:opacity 0.2s; }
 .login-error.show { opacity:1; }
-
 /* ═══ NAV ═══ */
 .nav { position:sticky; top:0; z-index:100; background:var(--black); border-bottom:1px solid rgba(78,205,196,0.15); display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:60px; }
 .nav-logo { font-family:var(--display); font-size:22px; letter-spacing:2px; }
@@ -54,14 +52,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .nav-user strong { color:var(--mint); }
 .nav-logout { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; cursor:pointer; border:none; background:none; transition:color 0.2s; }
 .nav-logout:hover { color:var(--mint); }
-
 /* ═══ TICKER ═══ */
 .ticker { background:var(--mint); padding:10px 0; overflow:hidden; white-space:nowrap; }
 .ticker-inner { display:inline-block; animation:tick 30s linear infinite; }
 .ticker-item { display:inline-block; font-family:var(--body); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--black); padding:0 24px; }
 .ticker-sep { display:inline-block; width:4px; height:4px; background:var(--black); border-radius:50%; vertical-align:middle; opacity:0.4; }
 @keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-
 /* ═══ HERO ═══ */
 .hero { padding:60px 48px 48px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
 .hero-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:16px; }
@@ -70,7 +66,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .hero-rule { width:48px; height:3px; background:var(--mint); margin:28px 0 20px; }
 .hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:400px; line-height:1.75; }
 .hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
-
 /* ═══ STATS ROW ═══ */
 .stats-row { display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); }
 .stat-block { padding:32px 48px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
@@ -80,33 +75,33 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
 .stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:var(--white); }
 .stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:8px; }
-
+/* ═══ ANALYTICS ROW ═══ */
+.analytics-row { display:grid; grid-template-columns:repeat(6,1fr); border-bottom:1px solid rgba(78,205,196,0.1); background:rgba(78,205,196,0.03); }
+.analytics-block { padding:24px 32px; border-right:1px solid rgba(78,205,196,0.07); }
+.analytics-block:last-child { border-right:none; }
+.analytics-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:8px; }
+.analytics-value { font-family:var(--display); font-size:34px; letter-spacing:1px; line-height:1; color:var(--mint); }
+.analytics-sub { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#333; margin-top:6px; }
 /* ═══ SECTION ═══ */
 .section { padding:48px; }
 .section + .section { border-top:1px solid rgba(255,255,255,0.04); }
 .section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--mint); margin-bottom:8px; }
 .section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
-
-/* ═══ EMPTY STATE ═══ */
-.empty-state { border:1px dashed rgba(78,205,196,0.12); padding:64px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; }
-.empty-glyph { font-family:var(--display); font-size:40px; color:#1f1f1f; letter-spacing:2px; }
-.empty-title { font-family:var(--display); font-size:22px; letter-spacing:1px; color:#2d2d2d; }
-.empty-desc { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#2a2a2a; line-height:2.2; }
-
 /* ═══ PIPELINE ═══ */
 .pipeline-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; }
 .deal-card { background:var(--dark); padding:28px; min-height:230px; display:flex; flex-direction:column; justify-content:space-between; border-top:2px solid rgba(78,205,196,0.45); }
 .deal-card.is-prospect { border-top-color:#444; opacity:0.72; }
+.deal-card.is-new { border-top-color:#F0A500; }
 .deal-top { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:24px; }
 .deal-brand { font-family:var(--display); font-size:28px; line-height:1; letter-spacing:1px; }
 .deal-status { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--black); background:var(--mint); padding:6px 8px; white-space:nowrap; }
 .deal-card.is-prospect .deal-status { background:#333; color:#999; }
+.deal-card.is-new .deal-status { background:#F0A500; color:var(--black); }
 .deal-meta { display:grid; gap:14px; margin-bottom:24px; }
 .deal-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
 .deal-value { font-size:13px; line-height:1.65; color:#bdbdbd; }
 .deal-money { font-family:var(--display); font-size:42px; line-height:1; color:var(--mint); letter-spacing:1px; }
 .deal-note { font-family:var(--mono); font-size:9px; letter-spacing:2px; line-height:2; text-transform:uppercase; color:#555; }
-
 /* ═══ TIMELINE ═══ */
 .timeline-list { border-top:1px solid rgba(255,255,255,0.04); }
 .timeline-item { display:grid; grid-template-columns:150px 1fr auto; gap:28px; align-items:center; padding:24px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
@@ -115,7 +110,8 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .timeline-title { font-size:15px; font-weight:700; margin-bottom:6px; }
 .timeline-desc { font-size:13px; color:#888; line-height:1.7; }
 .timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
-
+.timeline-pill.active { border-color:rgba(78,205,196,0.4); color:var(--mint); }
+.timeline-pill.new { border-color:rgba(240,165,0,0.4); color:#F0A500; }
 /* ═══ EARNINGS ═══ */
 .earnings-table { border-top:1px solid rgba(255,255,255,0.04); }
 .earning-row { display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
@@ -124,14 +120,27 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .earning-detail { font-size:12px; color:#777; margin-top:5px; line-height:1.6; }
 .earning-amount { font-family:var(--display); font-size:32px; color:var(--mint); }
 .earning-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
-
+/* ═══ OUTREACH TABLE ═══ */
+.outreach-summary { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-bottom:32px; }
+.outreach-stat { background:var(--dark); padding:20px 24px; }
+.outreach-stat-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:8px; }
+.outreach-stat-value { font-family:var(--display); font-size:38px; color:var(--white); line-height:1; }
+.outreach-stat-sub { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:6px; }
+.outreach-brands { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:2px; }
+.outreach-brand-row { background:var(--dark); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; }
+.outreach-brand-name { font-size:13px; font-weight:500; color:var(--white); }
+.outreach-brand-status { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; }
+.status-sent { color:#555; }
+.status-replied { color:var(--mint); }
+.status-active { color:#F0A500; }
+.status-failed { color:#ff6b6b; opacity:0.6; }
+.status-redirected { color:#a78bfa; }
 /* ═══ UPDATES ═══ */
 .update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
 .update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
 .update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--mint); margin-bottom:6px; }
 .update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
 .update-text { font-size:14px; color:#bbb; line-height:1.85; }
-
 /* ═══ DOCS ═══ */
 .docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
 .doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.82; }
@@ -139,18 +148,16 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .doc-title { font-weight:500; color:var(--white); font-size:14px; }
 .doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; }
 .doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
-
 /* ═══ FOOTER ═══ */
 .dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
 .footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
 .footer-logo span { color:rgba(78,205,196,0.3); }
 .footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
-
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .dashboard { animation:fadeUp 0.5s ease both; }
-
 @media(max-width:900px) {
   .stats-row { grid-template-columns:1fr 1fr; }
+  .analytics-row { grid-template-columns:1fr 1fr 1fr; }
   .stat-block { border-right:none; border-bottom:1px solid rgba(78,205,196,0.1); }
   .hero { flex-direction:column; align-items:flex-start; }
   .hero-date { text-align:left; }
@@ -159,15 +166,16 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   .nav { padding:0 20px; }
   .section { padding:32px 20px; }
   .stat-block { padding:24px 20px; }
+  .outreach-summary { grid-template-columns:1fr 1fr; }
 }
 @media(max-width:600px) {
   .stats-row { grid-template-columns:1fr; }
+  .analytics-row { grid-template-columns:1fr 1fr; }
   .hero { padding:32px 20px; }
 }
 </style>
 </head>
 <body>
-
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-rings">
@@ -185,10 +193,8 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
   </div>
 </div>
-
 <!-- DASHBOARD -->
 <div id="dashboard" class="dashboard" style="display:none;">
-
   <nav class="nav">
     <div class="nav-logo">AMP<span>VOX</span></div>
     <div class="nav-meta">
@@ -196,24 +202,32 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <button class="nav-logout" onclick="logout()">LOG OUT</button>
     </div>
   </nav>
-
   <div class="ticker">
     <div class="ticker-inner">
       <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
       <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">363K TikTok Followers</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2.8M Views · 28 Days</span><span class="ticker-sep"></span>
+      <span class="ticker-item">96% UK Audience</span><span class="ticker-sep"></span>
+      <span class="ticker-item">86% Female</span><span class="ticker-sep"></span>
+      <span class="ticker-item">68% Aged 18–24</span><span class="ticker-sep"></span>
       <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
       <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
       <span class="ticker-item">2026</span><span class="ticker-sep"></span>
       <span class="ticker-item">Emily Percival</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
       <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">363K TikTok Followers</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2.8M Views · 28 Days</span><span class="ticker-sep"></span>
+      <span class="ticker-item">96% UK Audience</span><span class="ticker-sep"></span>
+      <span class="ticker-item">86% Female</span><span class="ticker-sep"></span>
+      <span class="ticker-item">68% Aged 18–24</span><span class="ticker-sep"></span>
       <span class="ticker-item">Your Voice</span><span class="ticker-sep"></span>
       <span class="ticker-item">Amplified</span><span class="ticker-sep"></span>
       <span class="ticker-item">2026</span><span class="ticker-sep"></span>
     </div>
   </div>
-
   <div class="hero">
     <div>
       <div class="hero-eyebrow">Your Dashboard</div>
@@ -224,11 +238,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="hero-date" id="dash-date"></div>
   </div>
 
+  <!-- ── KEY STATS ── -->
   <div class="stats-row">
     <div class="stat-block">
       <div class="stat-label">Tracked Opportunities</div>
-      <div class="stat-value">7</div>
-      <div class="stat-sub">Paid, PR and chased</div>
+      <div class="stat-value">12</div>
+      <div class="stat-sub">Paid, PR and active leads</div>
     </div>
     <div class="stat-block">
       <div class="stat-label">Deals Closed — 2026</div>
@@ -241,9 +256,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <div class="stat-sub">Live, gifted or chased</div>
     </div>
     <div class="stat-block">
-      <div class="stat-label">Brands Reached This Week</div>
-      <div class="stat-value">2</div>
-      <div class="stat-sub">Week of 18 May</div>
+      <div class="stat-label">Brands Pitched This Week</div>
+      <div class="stat-value">90+</div>
+      <div class="stat-sub">Week of 25 May 2026</div>
     </div>
     <div class="stat-block">
       <div class="stat-label">Earned — 2026</div>
@@ -252,10 +267,47 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
   </div>
 
+  <!-- ── MEDIA KIT ANALYTICS ── -->
+  <div class="analytics-row">
+    <div class="analytics-block">
+      <div class="analytics-label">TikTok Followers</div>
+      <div class="analytics-value">363K</div>
+      <div class="analytics-sub">Primary platform</div>
+    </div>
+    <div class="analytics-block">
+      <div class="analytics-label">28-Day Post Views</div>
+      <div class="analytics-value">2.8M</div>
+      <div class="analytics-sub">+65.7% vs prior period</div>
+    </div>
+    <div class="analytics-block">
+      <div class="analytics-label">28-Day Profile Views</div>
+      <div class="analytics-value">61K</div>
+      <div class="analytics-sub">+41.6% vs prior period</div>
+    </div>
+    <div class="analytics-block">
+      <div class="analytics-label">28-Day Shares</div>
+      <div class="analytics-value">5.7K</div>
+      <div class="analytics-sub">+160.2% vs prior period</div>
+    </div>
+    <div class="analytics-block">
+      <div class="analytics-label">UK Audience</div>
+      <div class="analytics-value">96%</div>
+      <div class="analytics-sub">86% female · 69% aged 18–24</div>
+    </div>
+    <div class="analytics-block">
+      <div class="analytics-label">All-Time TikTok Likes</div>
+      <div class="analytics-value">28.2M</div>
+      <div class="analytics-sub">6,322 Instagram followers</div>
+    </div>
+  </div>
+
+  <!-- ── BRAND PIPELINE ── -->
   <div class="section">
     <div class="section-label">01 — Brand Pipeline</div>
     <div class="section-title">WHERE THINGS STAND.</div>
     <div class="pipeline-grid">
+
+      <!-- EXISTING DEALS -->
       <div class="deal-card">
         <div>
           <div class="deal-top">
@@ -269,13 +321,13 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
             </div>
             <div>
               <div class="deal-label">Status</div>
-              <div class="deal-value">Content approved and live. Signed contract and invoice have both been sent to Campus.</div>
+              <div class="deal-value">Content approved and live. Signed contract and invoice both sent to Campus.</div>
             </div>
           </div>
         </div>
         <div>
           <div class="deal-money">£1,500</div>
-          <div class="deal-note">Fee agreed for one post with usage rights</div>
+          <div class="deal-note">Fee agreed · invoice sent · payment pending</div>
         </div>
       </div>
 
@@ -312,7 +364,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
             </div>
             <div>
               <div class="deal-label">Notes</div>
-              <div class="deal-value">Organic PR event. Apple noted no gifting/payment, with possible post-event device loans handled through their HLA process.</div>
+              <div class="deal-value">Organic PR event. No gifting/payment; possible post-event device loans handled via HLA.</div>
             </div>
           </div>
         </div>
@@ -331,12 +383,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
               <div class="deal-value">Emily is on MCoBeauty's 6-month PR gifting list. Updated shipping phone requirement sent to NORTH Agency on 18 May 2026.</div>
             </div>
             <div>
-              <div class="deal-label">Previous Drop</div>
-              <div class="deal-value">MCoBeauty PR gift was confirmed as on its way on 28 March 2026.</div>
+              <div class="deal-label">Note</div>
+              <div class="deal-value">Separate direct outreach to MCoBeauty (May 28) received a response: not currently taking new UK collabs — keep on file.</div>
             </div>
           </div>
         </div>
-        <div class="deal-note">Ongoing PR gifting scheme</div>
+        <div class="deal-note">Ongoing PR gifting via NORTH Agency</div>
       </div>
 
       <div class="deal-card">
@@ -394,45 +446,162 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="deal-note">Follow-up sent · awaiting PR update</div>
       </div>
+
+      <!-- NEW THIS WEEK -->
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Monday<br>Haircare</div>
+            <div class="deal-status">Active</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Conversation</div>
+              <div class="deal-value">Pitched 27 May. Their team (Shubham) replied 28 May requesting Emily's social links.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Emily's Instagram and TikTok links sent over on 28 May 2026. Awaiting their response.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">New this week · awaiting follow-up</div>
+      </div>
+
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">G4Free<br>UK</div>
+            <div class="deal-status">Active</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Conversation</div>
+              <div class="deal-value">Pitched 25 May. Nora replied 27 May expressing interest in paid collaboration and asking for rates and profile link.</div>
+            </div>
+            <div>
+              <div class="deal-label">Next Step</div>
+              <div class="deal-value">Reply needed — send rate card and Emily's profile links.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">New this week · reply required</div>
+      </div>
+
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Suuksess</div>
+            <div class="deal-status">In Discussion</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Conversation</div>
+              <div class="deal-value">Pitched 25 May. They replied 26 May asking for media kit and package options — media kit sent 26 May.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">27 May reply suggests standard rate (£3,000) still over their budget. Ongoing negotiation / keep warm.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Media kit sent · budget discussion ongoing</div>
+      </div>
+
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Astrid<br>&amp; Miyu</div>
+            <div class="deal-status">In Progress</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Conversation</div>
+              <div class="deal-value">Pitched via customer care 27 May. They replied redirecting to Ellie Walker (Global PR) at ellie.walker@astridandmiyu.com.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Emailed Ellie Walker directly on 28 May 2026. Awaiting response.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Correct contact reached · awaiting reply</div>
+      </div>
+
+      <div class="deal-card is-new">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Abbott<br>Lyon</div>
+            <div class="deal-status">In Progress</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Conversation</div>
+              <div class="deal-value">Pitched via help@ on 27 May. Zendesk support replied redirecting to ambassadors@abbottlyon.com.</div>
+            </div>
+            <div>
+              <div class="deal-label">Status</div>
+              <div class="deal-value">Emailed ambassadors@abbottlyon.com on 28 May 2026. Awaiting response.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Correct contact reached · awaiting reply</div>
+      </div>
+
     </div>
   </div>
 
+  <!-- ── TIMELINE ── -->
   <div class="section">
     <div class="section-label">02 — Timeline & Deadlines</div>
     <div class="section-title">WHAT'S MOVING.</div>
     <div class="timeline-list">
+
       <div class="timeline-item">
-        <div class="timeline-date">28 MAR<span>2026</span></div>
+        <div class="timeline-date">28 MAY<span>2026</span></div>
         <div>
-          <div class="timeline-title">MCoBeauty PR gift shipped</div>
-          <div class="timeline-desc">NORTH Agency confirmed Emily's MCoBeauty PR gift was officially on its way.</div>
+          <div class="timeline-title">Mass outreach follow-ups — Monday Haircare, Astrid &amp; Miyu, Abbott Lyon</div>
+          <div class="timeline-desc">Monday Haircare responded and requested Emily's social links — sent same day. Astrid &amp; Miyu and Abbott Lyon both redirected to correct contacts, both emailed today.</div>
         </div>
-        <div class="timeline-pill">PR</div>
+        <div class="timeline-pill active">Active</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-date">30 MAR<span>2026</span></div>
+        <div class="timeline-date">27 MAY<span>2026</span></div>
         <div>
-          <div class="timeline-title">The INKEY List care package shipped</div>
-          <div class="timeline-desc">Exosome Hydro-Glow Complex package sent, with Royal Mail tracking included in the PR email.</div>
+          <div class="timeline-title">90+ brand outreach campaign launched</div>
+          <div class="timeline-desc">Large-scale pitching wave sent to beauty, fashion, jewellery, haircare, lifestyle and food &amp; drink brands across UK and US. Key responses in from Monday Haircare, G4free UK, Cocokind, Rhode Skin, Good Molecules, Rare Beauty, Abbott Lyon (redirected), Astrid &amp; Miyu (redirected), Trip (redirected). Delivery failures noted for r.e.m. beauty, The Ordinary, Sol de Janeiro, Red Bull UK, ASOS, Monki, Weekday, and several others.</div>
         </div>
-        <div class="timeline-pill">Gifted</div>
+        <div class="timeline-pill new">New</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-date">06 MAY<span>2026</span></div>
+        <div class="timeline-date">27 MAY<span>2026</span></div>
         <div>
-          <div class="timeline-title">Apple Open Day</div>
-          <div class="timeline-desc">Emily remained confirmed to attend the Apple PR event at Battersea Power Station after Blair had to pull out.</div>
+          <div class="timeline-title">G4free UK — paid collab interest</div>
+          <div class="timeline-desc">G4free UK (Nora) replied to the pitch asking for Emily's rates and profile link. Reply with rate card still needed.</div>
         </div>
-        <div class="timeline-pill">PR Event</div>
+        <div class="timeline-pill active">Reply Needed</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-date">14 MAY<span>2026</span></div>
+        <div class="timeline-date">26 MAY<span>2026</span></div>
         <div>
-          <div class="timeline-title">Campus invoice details received</div>
-          <div class="timeline-desc">Invoice should be addressed to Besixth Ltd t/a Campus Group, Studio 124 Netil Corner, 2 Bocking Street, London, E8 4RU.</div>
+          <div class="timeline-title">Suuksess media kit sent</div>
+          <div class="timeline-desc">Suuksess requested Emily's media kit after the May 25 pitch. Media kit and package options sent over 26 May. Budget discussion ongoing — standard rate currently above their ceiling.</div>
         </div>
-        <div class="timeline-pill">Finance</div>
+        <div class="timeline-pill new">In Discussion</div>
       </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">25 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">First outreach wave — beauty &amp; fashion brands</div>
+          <div class="timeline-desc">Pitched Beauty Bay, Ruby Hammer, COLEYES, Suuksess, G4free UK, Revolution Beauty, Glow Recipe, Summer Fridays, Drunk Elephant, ColourPop, Benefit, Charlotte Tilbury, Glossier, SKIMS, Princess Polly, Oh Polly, Boohoo, Jaded London and more.</div>
+        </div>
+        <div class="timeline-pill new">New</div>
+      </div>
+
       <div class="timeline-item">
         <div class="timeline-date">22 MAY<span>2026</span></div>
         <div>
@@ -441,6 +610,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="timeline-pill">Campaign</div>
       </div>
+
       <div class="timeline-item">
         <div class="timeline-date">18 MAY<span>2026</span></div>
         <div>
@@ -449,6 +619,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="timeline-pill">Sent</div>
       </div>
+
       <div class="timeline-item">
         <div class="timeline-date">18 MAY<span>2026</span></div>
         <div>
@@ -457,6 +628,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="timeline-pill">Sorted</div>
       </div>
+
       <div class="timeline-item">
         <div class="timeline-date">18 MAY<span>2026</span></div>
         <div>
@@ -465,6 +637,34 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="timeline-pill">Chased</div>
       </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">14 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Campus invoice details received</div>
+          <div class="timeline-desc">Invoice should be addressed to Besixth Ltd t/a Campus Group, Studio 124 Netil Corner, 2 Bocking Street, London, E8 4RU.</div>
+        </div>
+        <div class="timeline-pill">Finance</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">06 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">Apple Open Day</div>
+          <div class="timeline-desc">Emily remained confirmed to attend the Apple PR event at Battersea Power Station after Blair had to pull out.</div>
+        </div>
+        <div class="timeline-pill">PR Event</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">30 MAR<span>2026</span></div>
+        <div>
+          <div class="timeline-title">The INKEY List care package shipped</div>
+          <div class="timeline-desc">Exosome Hydro-Glow Complex package sent, with Royal Mail tracking included in the PR email.</div>
+        </div>
+        <div class="timeline-pill">Gifted</div>
+      </div>
+
       <div class="timeline-item">
         <div class="timeline-date">21 JUN<span>2026</span></div>
         <div>
@@ -473,32 +673,135 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="timeline-pill">Upcoming</div>
       </div>
+
     </div>
   </div>
 
+  <!-- ── WEEKLY OUTREACH ── -->
   <div class="section">
     <div class="section-label">03 — Weekly Outreach</div>
     <div class="section-title">BRANDS CONTACTED THIS WEEK.</div>
-    <div class="timeline-list">
-      <div class="timeline-item">
-        <div class="timeline-date">18 MAY<span>2026</span></div>
-        <div>
-          <div class="timeline-title">MCoBeauty</div>
-          <div class="timeline-desc">Shipping details were sent back to NORTH Agency so Emily can stay active on the 6-month MCoBeauty PR gifting list.</div>
-        </div>
-        <div class="timeline-pill">Reached</div>
+
+    <div class="outreach-summary">
+      <div class="outreach-stat">
+        <div class="outreach-stat-label">Total Brands Pitched</div>
+        <div class="outreach-stat-value">90+</div>
+        <div class="outreach-stat-sub">25–28 May 2026</div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-date">18 MAY<span>2026</span></div>
-        <div>
-          <div class="timeline-title">Estée Lauder</div>
-          <div class="timeline-desc">PR was chased with Socially Powerful after Emily filled out the form but had not received the DayWear mailer yet.</div>
-        </div>
-        <div class="timeline-pill">Chased</div>
+      <div class="outreach-stat">
+        <div class="outreach-stat-label">Positive Responses</div>
+        <div class="outreach-stat-value">8</div>
+        <div class="outreach-stat-sub">Replied, active or redirected</div>
       </div>
+      <div class="outreach-stat">
+        <div class="outreach-stat-label">Failed Deliveries</div>
+        <div class="outreach-stat-value">15</div>
+        <div class="outreach-stat-sub">Bad email addresses</div>
+      </div>
+      <div class="outreach-stat">
+        <div class="outreach-stat-label">Active New Leads</div>
+        <div class="outreach-stat-value">5</div>
+        <div class="outreach-stat-sub">Monday HC, G4Free, Suuksess, A&amp;M, Abbott Lyon</div>
+      </div>
+    </div>
+
+    <div class="outreach-brands">
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Monday Haircare</span><span class="outreach-brand-status status-active">Links sent ✓</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">G4free UK</span><span class="outreach-brand-status status-active">Reply needed</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Suuksess</span><span class="outreach-brand-status status-active">Kit sent · negotiating</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Astrid &amp; Miyu</span><span class="outreach-brand-status status-active">Ellie Walker emailed</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Abbott Lyon</span><span class="outreach-brand-status status-active">Ambassadors emailed</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Trip</span><span class="outreach-brand-status status-redirected">Redirected · affiliates</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Lush</span><span class="outreach-brand-status status-redirected">Re-emailed lushpr@</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Rare Beauty</span><span class="outreach-brand-status status-redirected">Directed to PR form</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Cocokind</span><span class="outreach-brand-status status-replied">Auto-reply · acknowledged</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Rhode Skin</span><span class="outreach-brand-status status-replied">Auto-reply · forwarded</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Good Molecules</span><span class="outreach-brand-status status-replied">Replied · keep in touch</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Space NK</span><span class="outreach-brand-status status-replied">Auto-reply received</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">H&amp;M UK</span><span class="outreach-brand-status status-redirected">CS wrong dept</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Rednote</span><span class="outreach-brand-status status-replied">Chinese market details sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Beauty Bay</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Ruby Hammer</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">COLEYES</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Revolution Beauty</span><span class="outreach-brand-status status-sent">Sent (×2)</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Glow Recipe</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Summer Fridays</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">North Agency</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Drunk Elephant</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">ColourPop</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Benefit Cosmetics</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Charlotte Tilbury</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Glossier</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">White Fox Boutique</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">SKIMS</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Princess Polly</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Oh Polly</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Boohoo</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Jaded London</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Block Blast</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Kosas</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Thrive Causemetics</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Refy Beauty</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">BYOMA</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Saie Beauty</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">OUAI</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Touchland</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">NARS</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">e.l.f. Cosmetics</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Djerf Avenue</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">En Route Jewelry</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Flower Knows</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Wonderskin</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Public Desire</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Hello Molly</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Garage Clothing</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Pepper Mayo</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Tiger Mist</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Meshki</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Lounge Underwear</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Romwe</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Mejuri</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Evry Jewels</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Frankies Bikinis</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Ciele Cosmetics</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Aesop</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Boots</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Superdrug</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Lookfantastic</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Cult Beauty</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Poppi</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Adanola</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Missguided</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Zara UK</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Bershka</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Pull&amp;Bear</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Lucy &amp; Yak</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Estrid</span><span class="outreach-brand-status status-sent">Sent (×2)</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Wild</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Function of Beauty</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Hair Syrup</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Beauty Works</span><span class="outreach-brand-status status-sent">Sent (×2)</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Isle of Paradise</span><span class="outreach-brand-status status-sent">Sent</span></div>
+      <!-- FAILED -->
+      <div class="outreach-brand-row"><span class="outreach-brand-name">r.e.m. beauty</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">The Ordinary</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Sol de Janeiro</span><span class="outreach-brand-status status-failed">Failed — mailbox full</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Hertility</span><span class="outreach-brand-status status-failed">Failed — server error</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Red Bull UK</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">ASOS</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Monki</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Weekday</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Skinnydip London</span><span class="outreach-brand-status status-failed">Failed — undeliverable</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Urban Outfitters</span><span class="outreach-brand-status status-failed">Failed — blocked</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Missoma</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Neom</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Bondi Sands</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">Shop Cider</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
+      <div class="outreach-brand-row"><span class="outreach-brand-name">I Saw It First</span><span class="outreach-brand-status status-failed">Failed — bad address</span></div>
     </div>
   </div>
 
+  <!-- ── EARNINGS ── -->
   <div class="section">
     <div class="section-label">04 — Earnings Tracker</div>
     <div class="section-title">THE NUMBERS.</div>
@@ -530,7 +833,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <div class="earning-row">
         <div>
           <div class="earning-brand">MCoBeauty</div>
-          <div class="earning-detail">6-month PR gifting list</div>
+          <div class="earning-detail">6-month PR gifting list (via NORTH Agency)</div>
         </div>
         <div class="earning-amount">Gifted</div>
         <div class="earning-status">Active</div>
@@ -543,7 +846,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         </div>
         <div class="earning-amount">PR</div>
         <div class="earning-status">Completed</div>
-        <div class="earning-detail">No creator payment or product gifting stated by Apple; potential device loans were separate from gifting.</div>
+        <div class="earning-detail">No creator payment or product gifting stated by Apple; potential device loans were separate.</div>
       </div>
       <div class="earning-row">
         <div>
@@ -566,18 +869,61 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
   </div>
 
+  <!-- ── MANAGER UPDATES ── -->
   <div class="section">
     <div class="section-label">05 — Manager Updates</div>
     <div class="section-title">FROM YOUR TEAM.</div>
+
     <div class="update-item">
       <div>
         <div class="update-date" id="update-date"></div>
+        <div class="update-tag">Big Week</div>
+      </div>
+      <div class="update-text">
+        We've had a really big outreach week — over 90 brands pitched across beauty, fashion, haircare, jewellery, lifestyle and food &amp; drink. Five active conversations have already opened up: Monday Haircare (links sent, waiting on their reply), G4free UK (interested in paid — reply still needed from our side), Suuksess (media kit sent, budget discussion ongoing), Astrid &amp; Miyu (redirected to their Global PR lead Ellie Walker), and Abbott Lyon (redirected to their ambassadors team).
+      </div>
+    </div>
+
+    <div class="update-item">
+      <div>
+        <div class="update-date">28 MAY 2026</div>
+        <div class="update-tag">G4free UK</div>
+      </div>
+      <div class="update-text">
+        G4free UK got back to us expressing genuine interest in a paid collaboration — they've asked for Emily's rates and profile link. We need to send over the rate card and her socials. This is a warm lead worth following up quickly.
+      </div>
+    </div>
+
+    <div class="update-item">
+      <div>
+        <div class="update-date">28 MAY 2026</div>
+        <div class="update-tag">Monday Haircare</div>
+      </div>
+      <div class="update-text">
+        Monday Haircare's team (Shubham) responded to the pitch and asked for Emily's social links. These have been sent over — her Instagram and TikTok profiles are now with them. Awaiting next steps.
+      </div>
+    </div>
+
+    <div class="update-item">
+      <div>
+        <div class="update-date">26 MAY 2026</div>
+        <div class="update-tag">Suuksess</div>
+      </div>
+      <div class="update-text">
+        Suuksess came back positively on the pitch and asked for Emily's media kit and package options — those were sent over on 26 May. A 27 May follow-up from them suggests the standard £3,000 rate is still above their current budget, but the door is open. Worth exploring a scaled-back package if the right opportunity comes up.
+      </div>
+    </div>
+
+    <div class="update-item">
+      <div>
+        <div class="update-date">18 MAY 2026</div>
         <div class="update-tag">Invoice Sent</div>
       </div>
       <div class="update-text">
         The Campus x NBCUniversal invoice has now been sent over. The campaign is closed on content and paperwork; we're now just waiting for payment to come through.
       </div>
     </div>
+
     <div class="update-item">
       <div>
         <div class="update-date">18 MAY 2026</div>
@@ -587,6 +933,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         Estée Lauder PR has been chased to find out where the DayWear mailer is. Waiting on a delivery/status update before marking it as received.
       </div>
     </div>
+
     <div class="update-item">
       <div>
         <div class="update-date">18 MAY 2026</div>
@@ -596,33 +943,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         MCoBeauty asked for an updated phone number for their 6-month PR gifting list. That's now been sent over, so the shipping requirement is handled and future MCoBeauty gifting can continue.
       </div>
     </div>
-    <div class="update-item">
-      <div>
-        <div class="update-date">14 MAY 2026</div>
-        <div class="update-tag">Campaign Update</div>
-      </div>
-      <div class="update-text">
-        Your Campus x NBCUniversal campaign is now closed out on the content side. The video went live, the signed contract has been sent over, and Campus confirmed the invoice address for payment.
-      </div>
-    </div>
-    <div class="update-item">
-      <div>
-        <div class="update-date">06 MAY 2026</div>
-        <div class="update-tag">Apple PR</div>
-      </div>
-      <div class="update-text">
-        Apple Open Day was confirmed for you at Battersea Power Station. Blair could not attend on the day, but confirmed with Apple that you were still attending.
-      </div>
-    </div>
-    <div class="update-item">
-      <div>
-        <div class="update-date">07 APR 2026</div>
-        <div class="update-tag">Gifted PR</div>
-      </div>
-      <div class="update-text">
-        The INKEY List care package was sent, with a later check-in from NORTH Agency to confirm it arrived safely. MCoBeauty also had a PR gift confirmed as on its way at the end of March.
-      </div>
-    </div>
+
     <div class="update-item">
       <div>
         <div class="update-date">11 MAY 2026</div>
@@ -632,12 +953,26 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         Groa have added you to the list for Parklife Festival in Manchester on Sunday 21 June 2026. We're waiting on the full invite and event details before confirming logistics.
       </div>
     </div>
+
   </div>
 
+  <!-- ── DOCUMENTS & LINKS ── -->
   <div class="section">
     <div class="section-label">06 — Documents & Links</div>
     <div class="section-title">YOUR FILES.</div>
     <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">MK</div>
+        <div class="doc-title">Emily Percival Media Kit</div>
+        <div class="doc-meta">Ampvox · MK·01 · May 2026</div>
+        <div class="doc-status">Active — sent to Suuksess 26 May</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">RATE</div>
+        <div class="doc-title">Rate Card</div>
+        <div class="doc-meta">TikTok from £3,000 · Reel from £900</div>
+        <div class="doc-status">Active</div>
+      </div>
       <div class="doc-card">
         <div class="doc-icon">PDF</div>
         <div class="doc-title">Campus x NBCUniversal Contract</div>
@@ -651,15 +986,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         <div class="doc-status">Payment pending</div>
       </div>
       <div class="doc-card">
-        <div class="doc-icon">RATE</div>
-        <div class="doc-title">Rate Benchmark</div>
-        <div class="doc-meta">Standard TikTok rate: £3,000</div>
-        <div class="doc-status">Active</div>
-      </div>
-      <div class="doc-card">
         <div class="doc-icon">PR</div>
         <div class="doc-title">MCoBeauty PR List</div>
-        <div class="doc-meta">6-month gifting scheme</div>
+        <div class="doc-meta">6-month gifting scheme via NORTH</div>
         <div class="doc-status">Active</div>
       </div>
       <div class="doc-card">
@@ -674,6 +1003,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
         <div class="doc-meta">DayWear Cleanser & Sorbet Creme</div>
         <div class="doc-status">Chased</div>
       </div>
+      <div class="doc-card">
+        <div class="doc-icon">EVT</div>
+        <div class="doc-title">Groa x Parklife</div>
+        <div class="doc-meta">Manchester · 21 June 2026</div>
+        <div class="doc-status">Invite pending</div>
+      </div>
     </div>
   </div>
 
@@ -682,18 +1017,13 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="footer-meta">Emily Percival · Talent Portal · Ampvox 2026</div>
     <div class="footer-meta">ampvox.co.uk</div>
   </div>
-
 </div>
-
 <script>
   const d = new Date();
   const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
   document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
   document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
-
-  // ⬇ Change this to whatever password you want Emily to use
   const PASSWORD = 'emily2026';
-
   function tryLogin() {
     const val = document.getElementById('pw-input').value;
     const err = document.getElementById('login-error');
@@ -708,21 +1038,18 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       setTimeout(() => err.classList.remove('show'), 3000);
     }
   }
-
   function logout() {
     sessionStorage.removeItem('av_auth');
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('pw-input').value = '';
   }
-
   document.getElementById('pw-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') tryLogin();
   });
-
   if (sessionStorage.getItem('av_auth') === '1') {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('dashboard').style.display = 'none';
   }
 </script>
 </body>
