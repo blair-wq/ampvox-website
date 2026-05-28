@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Not Standard Issue — Ampvox Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #4ECDC4;
+  --gold-light: #E8F9F8;
+  --gold-dark: #38B2AA;
+  --black: #0A0A0A;
+  --dark: #1A1A1A;
+  --mid: #2D2D2D;
+  --grey: #888888;
+  --light: #F5F5F5;
+  --white: #FFFFFF;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
+
+/* ═══ LOGIN ═══ */
+#login-screen {
+  position:fixed; inset:0; z-index:999; background:var(--black);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#login-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.login-wordmark { font-family:var(--display); font-size:clamp(56px,10vw,96px); letter-spacing:4px; line-height:1; color:var(--white); text-align:center; }
+.login-wordmark span { color:var(--gold); }
+.login-tagline { font-family:var(--mono); font-size:9px; letter-spacing:6px; text-transform:uppercase; color:#444; margin-top:12px; margin-bottom:56px; text-align:center; }
+.login-rule { width:32px; height:2px; background:var(--gold); margin:0 auto 56px; }
+.login-box { width:380px; }
+.login-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:#555; margin-bottom:12px; display:block; }
+.login-input { width:100%; background:var(--dark); border:none; border-bottom:1px solid #2a2a2a; color:var(--white); font-family:var(--display); font-size:28px; letter-spacing:4px; padding:14px 0; outline:none; transition:border-color 0.2s; margin-bottom:32px; }
+.login-input:focus { border-bottom-color:var(--gold); }
+.login-btn { width:100%; background:var(--gold); color:var(--black); border:none; font-family:var(--display); font-size:22px; letter-spacing:3px; padding:18px; cursor:pointer; transition:background 0.2s; }
+.login-btn:hover { background:var(--gold-dark); }
+.login-error { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#ff6b6b; text-align:center; margin-top:16px; opacity:0; transition:opacity 0.2s; }
+.login-error.show { opacity:1; }
+
+/* ═══ NAV ═══ */
+.nav { position:sticky; top:0; z-index:100; background:var(--black); border-bottom:1px solid rgba(78,205,196,0.15); display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:60px; }
+.nav-logo { font-family:var(--display); font-size:22px; letter-spacing:2px; }
+.nav-logo span { color:var(--gold); }
+.nav-meta { display:flex; align-items:center; gap:32px; }
+.nav-user { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); }
+.nav-user strong { color:var(--gold); }
+.nav-logout { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; cursor:pointer; border:none; background:none; transition:color 0.2s; }
+.nav-logout:hover { color:var(--gold); }
+
+/* ═══ TICKER ═══ */
+.ticker { background:var(--gold); padding:10px 0; overflow:hidden; white-space:nowrap; }
+.ticker-inner { display:inline-block; animation:tick 35s linear infinite; }
+.ticker-item { display:inline-block; font-family:var(--body); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--black); padding:0 24px; }
+.ticker-sep { display:inline-block; width:4px; height:4px; background:var(--black); border-radius:50%; vertical-align:middle; opacity:0.4; }
+@keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ═══ HERO ═══ */
+.hero { padding:60px 48px 48px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+.hero-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+.hero-name { font-family:var(--display); font-size:clamp(52px, 7vw, 88px); line-height:0.9; letter-spacing:1px; }
+.hero-name span { color:var(--gold); }
+.hero-rule { width:48px; height:3px; background:var(--gold); margin:28px 0 20px; }
+.hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:440px; line-height:1.75; }
+.hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
+.hero-handle { font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--gold); margin-top:16px; }
+
+/* ═══ PLATFORM ROW ═══ */
+.platform-row { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); background:rgba(78,205,196,0.02); }
+.platform-block { padding:28px 40px; border-right:1px solid rgba(78,205,196,0.08); position:relative; overflow:hidden; }
+.platform-block:last-child { border-right:none; }
+.platform-block::after { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--gold); transition:height 0.4s ease; }
+.platform-block:hover::after { height:100%; }
+.platform-name { font-family:var(--display); font-size:22px; letter-spacing:2px; color:var(--gold); margin-bottom:6px; }
+.platform-handle { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:16px; }
+.platform-stat { margin-top:10px; }
+.platform-stat-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
+.platform-stat-value { font-family:var(--display); font-size:36px; letter-spacing:1px; color:var(--white); line-height:1; }
+.platform-stat-sub { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:4px; }
+
+/* ═══ STATS ROW ═══ */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid rgba(78,205,196,0.1); }
+.stat-block { padding:32px 40px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
+.stat-block:last-child { border-right:none; }
+.stat-block::after { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--gold); transition:height 0.4s ease; }
+.stat-block:hover::after { height:100%; }
+.stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
+.stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:var(--white); }
+.stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:8px; }
+
+/* ═══ SECTION ═══ */
+.section { padding:48px; }
+.section + .section { border-top:1px solid rgba(255,255,255,0.04); }
+.section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
+
+/* ═══ EMPTY STATE ═══ */
+.empty-state { border:1px dashed rgba(78,205,196,0.12); padding:64px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; }
+.empty-glyph { font-family:var(--display); font-size:40px; color:#1f1f1f; letter-spacing:2px; }
+.empty-title { font-family:var(--display); font-size:22px; letter-spacing:1px; color:#2d2d2d; }
+.empty-desc { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#2a2a2a; line-height:2.2; }
+
+/* ═══ PIPELINE ═══ */
+.pipeline-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; }
+.deal-card { background:var(--dark); padding:28px; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; border-top:2px solid rgba(78,205,196,0.45); }
+.deal-card.is-prospect { border-top-color:#333; opacity:0.72; }
+.deal-card.is-new { border-top-color:var(--gold); }
+.deal-top { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:20px; }
+.deal-brand { font-family:var(--display); font-size:28px; line-height:1; letter-spacing:1px; }
+.deal-status { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--black); background:var(--gold); padding:6px 8px; white-space:nowrap; }
+.deal-card.is-prospect .deal-status { background:#333; color:#999; }
+.deal-meta { display:grid; gap:12px; margin-bottom:20px; }
+.deal-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
+.deal-value { font-size:13px; line-height:1.65; color:#bdbdbd; }
+.deal-money { font-family:var(--display); font-size:42px; line-height:1; color:var(--gold); letter-spacing:1px; }
+.deal-note { font-family:var(--mono); font-size:9px; letter-spacing:2px; line-height:2; text-transform:uppercase; color:#555; }
+
+/* ═══ TIMELINE ═══ */
+.timeline-list { border-top:1px solid rgba(255,255,255,0.04); }
+.timeline-item { display:grid; grid-template-columns:150px 1fr auto; gap:28px; align-items:center; padding:24px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.timeline-date { font-family:var(--display); font-size:30px; color:var(--gold); line-height:0.95; }
+.timeline-date span { display:block; font-family:var(--mono); font-size:9px; letter-spacing:3px; color:#444; margin-top:8px; }
+.timeline-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+.timeline-desc { font-size:13px; color:#888; line-height:1.7; }
+.timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
+.timeline-pill.active { border-color:rgba(78,205,196,0.4); color:var(--gold); }
+
+/* ═══ EARNINGS ═══ */
+.earnings-table { border-top:1px solid rgba(255,255,255,0.04); }
+.earning-row { display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.earning-head { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; }
+.earning-brand { font-weight:700; font-size:14px; }
+.earning-detail { font-size:12px; color:#777; margin-top:5px; line-height:1.6; }
+.earning-amount { font-family:var(--display); font-size:32px; color:var(--gold); }
+.earning-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+/* ═══ UPDATES ═══ */
+.update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
+.update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
+.update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
+.update-text { font-size:14px; color:#bbb; line-height:1.85; }
+
+/* ═══ DOCS ═══ */
+.docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
+.doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.82; }
+.doc-icon { font-family:var(--display); font-size:22px; color:var(--gold); letter-spacing:1px; }
+.doc-title { font-weight:500; color:var(--white); font-size:14px; }
+.doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; }
+.doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
+
+/* ═══ FOOTER ═══ */
+.dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
+.footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
+.footer-logo span { color:rgba(78,205,196,0.3); }
+.footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.dashboard { animation:fadeUp 0.5s ease both; }
+
+@media(max-width:900px) {
+  .platform-row { grid-template-columns:1fr; }
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .stat-block { border-right:none; border-bottom:1px solid rgba(78,205,196,0.1); }
+  .hero { flex-direction:column; align-items:flex-start; }
+  .hero-date { text-align:left; }
+  .update-item { grid-template-columns:1fr; gap:8px; }
+  .timeline-item, .earning-row { grid-template-columns:1fr; gap:10px; align-items:start; }
+  .nav { padding:0 20px; }
+  .section { padding:32px 20px; }
+  .stat-block { padding:24px 20px; }
+}
+@media(max-width:600px) {
+  .stats-row { grid-template-columns:1fr; }
+  .hero { padding:32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-wordmark">AMP<span>VOX</span></div>
+  <div class="login-tagline">Your Voice. Amplified.</div>
+  <div class="login-rule"></div>
+  <div class="login-box">
+    <label class="login-label" for="pw-input">Access Code</label>
+    <input class="login-input" type="password" id="pw-input" placeholder="••••••" autocomplete="off">
+    <button class="login-btn" onclick="tryLogin()">ENTER DASHBOARD</button>
+    <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard" style="display:none;">
+  <nav class="nav">
+    <div class="nav-logo">AMP<span>VOX</span></div>
+    <div class="nav-meta">
+      <div class="nav-user">Viewing as <strong>Not Standard Issue</strong></div>
+      <button class="nav-logout" onclick="logout()">LOG OUT</button>
+    </div>
+  </nav>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Not Standard Issue</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Travel Creator</span><span class="ticker-sep"></span>
+      <span class="ticker-item">TikTok · Instagram · YouTube</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Go Everywhere</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Show Everything</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Not Standard Issue</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Travel Creator</span><span class="ticker-sep"></span>
+      <span class="ticker-item">TikTok · Instagram · YouTube</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Brand Partnerships</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Go Everywhere</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Show Everything</span><span class="ticker-sep"></span>
+      <span class="ticker-item">2026</span><span class="ticker-sep"></span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Your Dashboard</div>
+      <div class="hero-name">NOT<br><span>STANDARD</span><br>ISSUE.</div>
+      <div class="hero-rule"></div>
+      <div class="hero-desc">Welcome to your Ampvox portal. This is where you'll track every brand conversation, deal and payment — updated by your team as things move forward.</div>
+      <div class="hero-handle">@not.standard.issue &nbsp;·&nbsp; @not_standard_issue &nbsp;·&nbsp; @Not_Standard_Issue</div>
+    </div>
+    <div class="hero-date" id="dash-date"></div>
+  </div>
+
+  <!-- PLATFORMS -->
+  <div class="platform-row">
+    <div class="platform-block">
+      <div class="platform-name">TIKTOK</div>
+      <div class="platform-handle">@not.standard.issue · Primary</div>
+      <div class="platform-stat">
+        <div class="platform-stat-label">Followers</div>
+        <div class="platform-stat-value">—</div>
+        <div class="platform-stat-sub">Update when available</div>
+      </div>
+    </div>
+    <div class="platform-block">
+      <div class="platform-name">INSTAGRAM</div>
+      <div class="platform-handle">@not_standard_issue</div>
+      <div class="platform-stat">
+        <div class="platform-stat-label">Followers</div>
+        <div class="platform-stat-value">—</div>
+        <div class="platform-stat-sub">Update when available</div>
+      </div>
+    </div>
+    <div class="platform-block">
+      <div class="platform-name">YOUTUBE</div>
+      <div class="platform-handle">@not_standard_issue</div>
+      <div class="platform-stat">
+        <div class="platform-stat-label">Subscribers</div>
+        <div class="platform-stat-value">—</div>
+        <div class="platform-stat-sub">Update when available</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-block">
+      <div class="stat-label">Tracked Opportunities</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">Building pipeline</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Deals Closed — 2026</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">New to Ampvox</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">PR / Gifted</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">Coming soon</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Earned — 2026</div>
+      <div class="stat-value">£0</div>
+      <div class="stat-sub">Just getting started</div>
+    </div>
+  </div>
+
+  <!-- BRAND PIPELINE -->
+  <div class="section">
+    <div class="section-label">01 — Brand Pipeline</div>
+    <div class="section-title">WHERE THINGS STAND.</div>
+    <div class="empty-state">
+      <div class="empty-glyph">NSI</div>
+      <div class="empty-title">Pipeline Loading</div>
+      <div class="empty-desc">George is brand new to the Ampvox roster.<br>This section will update as brand conversations open up.</div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="section-label">02 — Timeline & Deadlines</div>
+    <div class="section-title">WHAT'S MOVING.</div>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">28 MAY<span>2026</span></div>
+        <div>
+          <div class="timeline-title">George joins the Ampvox roster</div>
+          <div class="timeline-desc">Not Standard Issue officially onboarded to Ampvox. Dashboard live, outreach and brand pitching to begin.</div>
+        </div>
+        <div class="timeline-pill active">New</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EARNINGS -->
+  <div class="section">
+    <div class="section-label">03 — Earnings Tracker</div>
+    <div class="section-title">THE NUMBERS.</div>
+    <div class="earnings-table">
+      <div class="earning-row earning-head">
+        <div>Campaign</div>
+        <div>Amount</div>
+        <div>Status</div>
+        <div>Notes</div>
+      </div>
+    </div>
+    <div class="empty-state" style="margin-top:2px;">
+      <div class="empty-glyph">£—</div>
+      <div class="empty-title">No Earnings Yet</div>
+      <div class="empty-desc">First deals will appear here once closed.</div>
+    </div>
+  </div>
+
+  <!-- MANAGER UPDATES -->
+  <div class="section">
+    <div class="section-label">04 — Manager Updates</div>
+    <div class="section-title">FROM YOUR TEAM.</div>
+    <div class="update-item">
+      <div>
+        <div class="update-date" id="update-date"></div>
+        <div class="update-tag">Welcome</div>
+      </div>
+      <div class="update-text">
+        Welcome to Ampvox, George. This is your dashboard — it'll be updated by Blair as brand conversations, deals and PR come in. Everything from pitch activity to signed contracts to payments will live here. Check back regularly.
+      </div>
+    </div>
+  </div>
+
+  <!-- NICHE & FIT -->
+  <div class="section">
+    <div class="section-label">05 — Creator Profile</div>
+    <div class="section-title">THE FIT.</div>
+    <div class="pipeline-grid">
+      <div class="deal-card" style="border-top-color:rgba(78,205,196,0.3);">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Travel<br>Content</div>
+            <div class="deal-status">Primary</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Niche</div>
+              <div class="deal-value">Travel, destinations, adventures and experiences. Content that takes audiences somewhere new.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">TikTok · Instagram · YouTube</div>
+      </div>
+      <div class="deal-card" style="border-top-color:rgba(78,205,196,0.3);">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Best-Fit<br>Brands</div>
+            <div class="deal-status">Target</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Category 1</div>
+              <div class="deal-value">Travel & Hotels — airlines, accommodation, booking platforms, luggage.</div>
+            </div>
+            <div>
+              <div class="deal-label">Category 2</div>
+              <div class="deal-value">Lifestyle & Tech — cameras, audio, wearables, apps built around movement.</div>
+            </div>
+            <div>
+              <div class="deal-label">Category 3</div>
+              <div class="deal-value">Food & Drink — brands with a global or adventurous positioning.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Outreach starting soon</div>
+      </div>
+      <div class="deal-card" style="border-top-color:rgba(78,205,196,0.3);">
+        <div>
+          <div class="deal-top">
+            <div class="deal-brand">Rate<br>Card</div>
+            <div class="deal-status">Active</div>
+          </div>
+          <div class="deal-meta">
+            <div>
+              <div class="deal-label">Dedicated TikTok</div>
+              <div class="deal-value">TBC — rate to be set with Blair based on audience size and niche.</div>
+            </div>
+            <div>
+              <div class="deal-label">Cross-Post Package</div>
+              <div class="deal-value">TikTok + Instagram Reel — pricing TBC.</div>
+            </div>
+            <div>
+              <div class="deal-label">YouTube Integration</div>
+              <div class="deal-value">Mid-roll or dedicated video pricing — TBC.</div>
+            </div>
+          </div>
+        </div>
+        <div class="deal-note">Rates to be confirmed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="section">
+    <div class="section-label">06 — Documents & Links</div>
+    <div class="section-title">YOUR FILES.</div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">MK</div>
+        <div class="doc-title">Media Kit</div>
+        <div class="doc-meta">Not Standard Issue · Ampvox 2026</div>
+        <div class="doc-status">In preparation</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">RATE</div>
+        <div class="doc-title">Rate Card</div>
+        <div class="doc-meta">TikTok · Instagram · YouTube</div>
+        <div class="doc-status">TBC</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">TT</div>
+        <div class="doc-title">TikTok Profile</div>
+        <div class="doc-meta">@not.standard.issue</div>
+        <div class="doc-status">Active</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">IG</div>
+        <div class="doc-title">Instagram Profile</div>
+        <div class="doc-meta">@not_standard_issue</div>
+        <div class="doc-status">Active</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">YT</div>
+        <div class="doc-title">YouTube Channel</div>
+        <div class="doc-meta">@not_standard_issue</div>
+        <div class="doc-status">Active</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-footer">
+    <div class="footer-logo">AMP<span>VOX</span></div>
+    <div class="footer-meta">Not Standard Issue · Talent Portal · Ampvox 2026</div>
+    <div class="footer-meta">ampvox.co.uk</div>
+  </div>
+</div>
+
+<script>
+  const d = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
+  document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
+
+  const PASSWORD = 'nsi2026';
+  function tryLogin() {
+    const val = document.getElementById('pw-input').value;
+    const err = document.getElementById('login-error');
+    if (val === PASSWORD) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard').style.display = 'block';
+      sessionStorage.setItem('av_nsi_auth', '1');
+    } else {
+      err.classList.add('show');
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+      setTimeout(() => err.classList.remove('show'), 3000);
+    }
+  }
+  function logout() {
+    sessionStorage.removeItem('av_nsi_auth');
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+  if (sessionStorage.getItem('av_nsi_auth') === '1') {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('dashboard').style.display = 'block';
+  }
+</script>
+</body>
+</html>
