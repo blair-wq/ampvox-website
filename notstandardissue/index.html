@@ -23,7 +23,6 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--black); color:var(--white); font-family:var(--body); overflow-x:hidden; }
-
 /* ═══ LOGIN ═══ */
 #login-screen {
   position:fixed; inset:0; z-index:999; background:var(--black);
@@ -43,7 +42,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .login-btn:hover { background:var(--gold-dark); }
 .login-error { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#ff6b6b; text-align:center; margin-top:16px; opacity:0; transition:opacity 0.2s; }
 .login-error.show { opacity:1; }
-
 /* ═══ NAV ═══ */
 .nav { position:sticky; top:0; z-index:100; background:var(--black); border-bottom:1px solid rgba(78,205,196,0.15); display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:60px; }
 .nav-logo { font-family:var(--display); font-size:22px; letter-spacing:2px; }
@@ -53,14 +51,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .nav-user strong { color:var(--gold); }
 .nav-logout { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#444; cursor:pointer; border:none; background:none; transition:color 0.2s; }
 .nav-logout:hover { color:var(--gold); }
-
 /* ═══ TICKER ═══ */
 .ticker { background:var(--gold); padding:10px 0; overflow:hidden; white-space:nowrap; }
-.ticker-inner { display:inline-block; animation:tick 35s linear infinite; }
+.ticker-inner { display:inline-block; animation:tick 45s linear infinite; }
 .ticker-item { display:inline-block; font-family:var(--body); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--black); padding:0 24px; }
 .ticker-sep { display:inline-block; width:4px; height:4px; background:var(--black); border-radius:50%; vertical-align:middle; opacity:0.4; }
 @keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-
 /* ═══ HERO ═══ */
 .hero { padding:60px 48px 48px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
 .hero-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
@@ -70,7 +66,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .hero-desc { font-family:var(--body); font-size:14px; font-weight:300; color:var(--grey); max-width:440px; line-height:1.75; }
 .hero-date { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#333; text-align:right; line-height:2; }
 .hero-handle { font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--gold); margin-top:16px; }
-
 /* ═══ PLATFORM ROW ═══ */
 .platform-row { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(78,205,196,0.1); border-bottom:1px solid rgba(78,205,196,0.1); background:rgba(78,205,196,0.02); }
 .platform-block { padding:28px 40px; border-right:1px solid rgba(78,205,196,0.08); position:relative; overflow:hidden; }
@@ -83,7 +78,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .platform-stat-label { font-family:var(--mono); font-size:8px; letter-spacing:3px; text-transform:uppercase; color:#444; margin-bottom:4px; }
 .platform-stat-value { font-family:var(--display); font-size:36px; letter-spacing:1px; color:var(--white); line-height:1; }
 .platform-stat-sub { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:4px; }
-
 /* ═══ STATS ROW ═══ */
 .stats-row { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid rgba(78,205,196,0.1); }
 .stat-block { padding:32px 40px; border-right:1px solid rgba(78,205,196,0.1); position:relative; overflow:hidden; }
@@ -93,19 +87,16 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .stat-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:12px; }
 .stat-value { font-family:var(--display); font-size:52px; letter-spacing:1px; line-height:1; color:var(--white); }
 .stat-sub { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; margin-top:8px; }
-
 /* ═══ SECTION ═══ */
 .section { padding:48px; }
 .section + .section { border-top:1px solid rgba(255,255,255,0.04); }
 .section-label { font-family:var(--mono); font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
 .section-title { font-family:var(--display); font-size:36px; letter-spacing:1px; margin-bottom:32px; }
-
 /* ═══ EMPTY STATE ═══ */
 .empty-state { border:1px dashed rgba(78,205,196,0.12); padding:64px 40px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; }
 .empty-glyph { font-family:var(--display); font-size:40px; color:#1f1f1f; letter-spacing:2px; }
 .empty-title { font-family:var(--display); font-size:22px; letter-spacing:1px; color:#2d2d2d; }
 .empty-desc { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#2a2a2a; line-height:2.2; }
-
 /* ═══ PIPELINE ═══ */
 .pipeline-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; }
 .deal-card { background:var(--dark); padding:28px; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; border-top:2px solid rgba(78,205,196,0.45); }
@@ -120,7 +111,21 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .deal-value { font-size:13px; line-height:1.65; color:#bdbdbd; }
 .deal-money { font-family:var(--display); font-size:42px; line-height:1; color:var(--gold); letter-spacing:1px; }
 .deal-note { font-family:var(--mono); font-size:9px; letter-spacing:2px; line-height:2; text-transform:uppercase; color:#555; }
-
+/* ═══ OUTREACH TABLE ═══ */
+.outreach-category { margin-bottom:2px; }
+.outreach-cat-header { display:grid; grid-template-columns:200px 1fr 80px 80px; gap:16px; align-items:center; background:#111; padding:14px 20px; cursor:pointer; user-select:none; }
+.outreach-cat-header:hover { background:#161616; }
+.outreach-cat-name { font-family:var(--display); font-size:18px; letter-spacing:1px; color:var(--gold); }
+.outreach-cat-count { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.outreach-cat-sent { font-family:var(--display); font-size:18px; color:var(--white); text-align:right; }
+.outreach-cat-bounced { font-family:var(--display); font-size:18px; color:#ff6b6b; text-align:right; }
+.outreach-brands { background:var(--dark); padding:16px 20px; display:flex; flex-wrap:wrap; gap:8px; }
+.brand-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; padding:6px 10px; border:1px solid rgba(78,205,196,0.2); color:var(--gold); }
+.brand-pill.bounced { border-color:rgba(255,107,107,0.2); color:#ff6b6b; opacity:0.7; }
+.brand-pill.auto-reply { border-color:rgba(78,205,196,0.5); background:rgba(78,205,196,0.06); }
+.outreach-legend { display:flex; gap:24px; padding:16px 20px 0; }
+.legend-item { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.legend-dot { width:8px; height:8px; border-radius:50%; }
 /* ═══ TIMELINE ═══ */
 .timeline-list { border-top:1px solid rgba(255,255,255,0.04); }
 .timeline-item { display:grid; grid-template-columns:150px 1fr auto; gap:28px; align-items:center; padding:24px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
@@ -130,7 +135,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .timeline-desc { font-size:13px; color:#888; line-height:1.7; }
 .timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
 .timeline-pill.active { border-color:rgba(78,205,196,0.4); color:var(--gold); }
-
 /* ═══ EARNINGS ═══ */
 .earnings-table { border-top:1px solid rgba(255,255,255,0.04); }
 .earning-row { display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
@@ -139,14 +143,12 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .earning-detail { font-size:12px; color:#777; margin-top:5px; line-height:1.6; }
 .earning-amount { font-family:var(--display); font-size:32px; color:var(--gold); }
 .earning-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
-
 /* ═══ UPDATES ═══ */
 .update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
 .update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
 .update-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
 .update-tag { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#333; }
 .update-text { font-size:14px; color:#bbb; line-height:1.85; }
-
 /* ═══ DOCS ═══ */
 .docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:2px; }
 .doc-card { padding:28px; background:var(--dark); display:flex; flex-direction:column; gap:10px; opacity:0.82; }
@@ -154,16 +156,13 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .doc-title { font-weight:500; color:var(--white); font-size:14px; }
 .doc-meta { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#444; }
 .doc-status { font-family:var(--mono); font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#F0A500; }
-
 /* ═══ FOOTER ═══ */
 .dash-footer { padding:24px 48px; border-top:1px solid rgba(78,205,196,0.08); display:flex; justify-content:space-between; align-items:center; margin-top:40px; }
 .footer-logo { font-family:var(--display); font-size:18px; letter-spacing:2px; color:#222; }
 .footer-logo span { color:rgba(78,205,196,0.3); }
 .footer-meta { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#222; }
-
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .dashboard { animation:fadeUp 0.5s ease both; }
-
 @media(max-width:900px) {
   .platform-row { grid-template-columns:1fr; }
   .stats-row { grid-template-columns:1fr 1fr; }
@@ -175,6 +174,8 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   .nav { padding:0 20px; }
   .section { padding:32px 20px; }
   .stat-block { padding:24px 20px; }
+  .outreach-cat-header { grid-template-columns:1fr auto auto; }
+  .outreach-cat-name { font-size:14px; }
 }
 @media(max-width:600px) {
   .stats-row { grid-template-columns:1fr; }
@@ -183,7 +184,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 </style>
 </head>
 <body>
-
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-wordmark">AMP<span>VOX</span></div>
@@ -196,7 +196,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="login-error" id="login-error">Incorrect access code. Try again.</div>
   </div>
 </div>
-
 <!-- DASHBOARD -->
 <div id="dashboard" class="dashboard" style="display:none;">
   <nav class="nav">
@@ -206,36 +205,38 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <button class="nav-logout" onclick="logout()">LOG OUT</button>
     </div>
   </nav>
-
   <div class="ticker">
     <div class="ticker-inner">
       <span class="ticker-item">Not Standard Issue</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
       <span class="ticker-item">Adventure Travel Creator</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Mongol Rally 2025 — Completed</span><span class="ticker-sep"></span>
+      <span class="ticker-item">100 Brands Outreached — 18 Jun 2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">60 Emails Delivered · 40 Bounced</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Napapijri — In Discussion · £1,000 Proposed</span><span class="ticker-sep"></span>
       <span class="ticker-item">7,564 Instagram Followers</span><span class="ticker-sep"></span>
       <span class="ticker-item">3M Views — Top Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">1.3M Views — 2nd Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">757K Views — 3rd Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">245K Instagram Views — Last 30 Days</span><span class="ticker-sep"></span>
       <span class="ticker-item">120K Accounts Reached · +656%</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Napapijri — In Discussion · 85.1K Reel</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Mongol Rally 2025 — Completed</span><span class="ticker-sep"></span>
       <span class="ticker-item">81.3% Male Audience</span><span class="ticker-sep"></span>
       <span class="ticker-item">Not Standard Issue</span><span class="ticker-sep"></span>
       <span class="ticker-item">Managed by Ampvox</span><span class="ticker-sep"></span>
       <span class="ticker-item">Adventure Travel Creator</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Mongol Rally 2025 — Completed</span><span class="ticker-sep"></span>
+      <span class="ticker-item">100 Brands Outreached — 18 Jun 2026</span><span class="ticker-sep"></span>
+      <span class="ticker-item">60 Emails Delivered · 40 Bounced</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Napapijri — In Discussion · £1,000 Proposed</span><span class="ticker-sep"></span>
       <span class="ticker-item">7,564 Instagram Followers</span><span class="ticker-sep"></span>
       <span class="ticker-item">3M Views — Top Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">1.3M Views — 2nd Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">757K Views — 3rd Reel</span><span class="ticker-sep"></span>
       <span class="ticker-item">245K Instagram Views — Last 30 Days</span><span class="ticker-sep"></span>
       <span class="ticker-item">120K Accounts Reached · +656%</span><span class="ticker-sep"></span>
-      <span class="ticker-item">Napapijri — In Discussion · 85.1K Reel</span><span class="ticker-sep"></span>
+      <span class="ticker-item">Mongol Rally 2025 — Completed</span><span class="ticker-sep"></span>
       <span class="ticker-item">81.3% Male Audience</span><span class="ticker-sep"></span>
     </div>
   </div>
-
   <!-- HERO -->
   <div class="hero">
     <div>
@@ -247,7 +248,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
     <div class="hero-date" id="dash-date"></div>
   </div>
-
   <!-- PLATFORMS -->
   <div class="platform-row">
     <div class="platform-block">
@@ -278,7 +278,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
   <!-- INSTAGRAM ANALYTICS ROW -->
   <div class="stats-row" style="grid-template-columns:repeat(4,1fr);border-top:none;">
     <div class="stat-block">
@@ -302,13 +301,11 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <div class="stat-sub">317 follows · 97 unfollows · +3% net</div>
     </div>
   </div>
-
   <!-- AUDIENCE -->
   <div class="section">
     <div class="section-label">Instagram Audience</div>
     <div class="section-title">WHO'S WATCHING.</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
-      <!-- Gender -->
       <div style="background:var(--dark);padding:32px;">
         <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:20px;">Gender</div>
         <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px;">
@@ -323,7 +320,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
           <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#444;">Female</div>
         </div>
       </div>
-      <!-- Age -->
       <div style="background:var(--dark);padding:32px;">
         <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:20px;">Age Ranges</div>
         <div style="display:grid;gap:10px;">
@@ -345,7 +341,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
           </div>
         </div>
       </div>
-      <!-- Location -->
       <div style="background:var(--dark);padding:32px;">
         <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:20px;">Top Cities</div>
         <div style="display:grid;gap:10px;">
@@ -365,7 +360,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
   <!-- TOP REELS -->
   <div class="section" style="border-top:1px solid rgba(255,255,255,0.04);">
     <div class="section-label">Instagram — All-Time</div>
@@ -414,23 +408,22 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
     <div style="padding-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#333;">3M + 1.3M viral reels prove outsized reach vs. follower count — brands integrating now get in at the inflection point.</div>
   </div>
-
   <!-- STATS ROW -->
   <div class="stats-row">
     <div class="stat-block">
-      <div class="stat-label">Tracked Opportunities</div>
+      <div class="stat-label">Brands Pitched</div>
+      <div class="stat-value">100</div>
+      <div class="stat-sub">18 Jun 2026 · outreach blitz</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Active Opportunities</div>
       <div class="stat-value">1</div>
       <div class="stat-sub">Napapijri · rate proposed</div>
     </div>
     <div class="stat-block">
       <div class="stat-label">Deals Closed — 2026</div>
       <div class="stat-value">0</div>
-      <div class="stat-sub">New to Ampvox</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-label">PR / Gifted</div>
-      <div class="stat-value">0</div>
-      <div class="stat-sub">Coming soon</div>
+      <div class="stat-sub">First deal incoming</div>
     </div>
     <div class="stat-block">
       <div class="stat-label">Earned — 2026</div>
@@ -438,7 +431,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <div class="stat-sub">Just getting started</div>
     </div>
   </div>
-
   <!-- BRAND PIPELINE -->
   <div class="section">
     <div class="section-label">01 — Brand Pipeline</div>
@@ -468,19 +460,299 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
+  <!-- OUTREACH LOG -->
+  <div class="section" style="border-top:1px solid rgba(255,255,255,0.04);">
+    <div class="section-label">02 — Outreach Log</div>
+    <div class="section-title">100 BRANDS PITCHED.</div>
+    <!-- Summary bar -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:24px;">
+      <div style="background:var(--dark);padding:24px;border-top:2px solid var(--gold);">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:8px;">Total Sent</div>
+        <div style="font-family:var(--display);font-size:48px;color:var(--white);line-height:1;">100</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:6px;">18 Jun 2026</div>
+      </div>
+      <div style="background:var(--dark);padding:24px;border-top:2px solid var(--gold);">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:8px;">Delivered</div>
+        <div style="font-family:var(--display);font-size:48px;color:var(--gold);line-height:1;">60</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:6px;">7 auto-replies received</div>
+      </div>
+      <div style="background:var(--dark);padding:24px;border-top:2px solid rgba(255,107,107,0.5);">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:8px;">Bounced</div>
+        <div style="font-family:var(--display);font-size:48px;color:#ff6b6b;line-height:1;">40</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:6px;">Email addresses to fix</div>
+      </div>
+    </div>
+    <div class="outreach-legend" style="margin-bottom:20px;">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>Delivered</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(78,205,196,0.5);border:1px solid var(--gold);"></div>Auto-reply received</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b;opacity:0.7;"></div>Bounced — needs fix</div>
+    </div>
+    <!-- Tech & Cameras -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Tech &amp; Cameras</div>
+        <div class="outreach-cat-count">10 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">10</div>
+        <div class="outreach-cat-bounced">0</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">GoPro</div>
+        <div class="brand-pill">Insta360</div>
+        <div class="brand-pill">DJI</div>
+        <div class="brand-pill">Sony Alpha</div>
+        <div class="brand-pill">Peak Design</div>
+        <div class="brand-pill">Nomatic</div>
+        <div class="brand-pill">Anker</div>
+        <div class="brand-pill">Jackery</div>
+        <div class="brand-pill">EcoFlow</div>
+        <div class="brand-pill">Garmin</div>
+      </div>
+    </div>
+    <!-- Outdoor Clothing & Gear -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Outdoor Clothing</div>
+        <div class="outreach-cat-count">20 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">14</div>
+        <div class="outreach-cat-bounced">6 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Patagonia</div>
+        <div class="brand-pill">Arc'teryx</div>
+        <div class="brand-pill">Columbia</div>
+        <div class="brand-pill">Fjallraven</div>
+        <div class="brand-pill">Rab</div>
+        <div class="brand-pill">Alpkit</div>
+        <div class="brand-pill">Mountain Equipment</div>
+        <div class="brand-pill auto-reply">Montane ↩</div>
+        <div class="brand-pill auto-reply">Berghaus ↩</div>
+        <div class="brand-pill">Cotopaxi</div>
+        <div class="brand-pill">Tropicfeel</div>
+        <div class="brand-pill">Roark</div>
+        <div class="brand-pill auto-reply">Finisterre ↩</div>
+        <div class="brand-pill">Rapanui</div>
+        <div class="brand-pill bounced">The North Face ❌</div>
+        <div class="brand-pill bounced">Black Diamond ❌</div>
+        <div class="brand-pill bounced">Unbound Merino ❌</div>
+        <div class="brand-pill bounced">Vollebak ❌</div>
+        <div class="brand-pill bounced">Passenger ❌</div>
+        <div class="brand-pill">Ellis Brigham</div>
+      </div>
+    </div>
+    <!-- Bags & Packs -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Bags &amp; Packs</div>
+        <div class="outreach-cat-count">5 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">4</div>
+        <div class="outreach-cat-bounced">1 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Osprey</div>
+        <div class="brand-pill">Deuter</div>
+        <div class="brand-pill">Gregory Packs</div>
+        <div class="brand-pill">Sea to Summit</div>
+        <div class="brand-pill bounced">WANDRD ❌</div>
+      </div>
+    </div>
+    <!-- Footwear -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Footwear</div>
+        <div class="outreach-cat-count">6 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">2</div>
+        <div class="outreach-cat-bounced">4 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Keen</div>
+        <div class="brand-pill">Vivobarefoot</div>
+        <div class="brand-pill bounced">Salomon ❌</div>
+        <div class="brand-pill bounced">Merrell ❌</div>
+        <div class="brand-pill bounced">Hoka ❌</div>
+        <div class="brand-pill bounced">Teva ❌</div>
+      </div>
+    </div>
+    <!-- Outdoor Retail -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Outdoor Retail</div>
+        <div class="outreach-cat-count">4 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">1</div>
+        <div class="outreach-cat-bounced">3 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill bounced">Decathlon UK ❌</div>
+        <div class="brand-pill bounced">Cotswold Outdoor ❌</div>
+        <div class="brand-pill bounced">GO Outdoors ❌</div>
+        <div class="brand-pill bounced">Blacks ❌</div>
+        <div class="brand-pill bounced">Millets ❌</div>
+      </div>
+    </div>
+    <!-- Hydration & Tools -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Hydration &amp; Tools</div>
+        <div class="outreach-cat-count">5 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">1</div>
+        <div class="outreach-cat-bounced">4 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Nalgene</div>
+        <div class="brand-pill bounced">CamelBak ❌</div>
+        <div class="brand-pill bounced">Hydro Flask ❌</div>
+        <div class="brand-pill bounced">LifeStraw ❌</div>
+        <div class="brand-pill bounced">Leatherman ❌</div>
+      </div>
+    </div>
+    <!-- Connectivity & VPN -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Connectivity &amp; VPN</div>
+        <div class="outreach-cat-count">7 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">5</div>
+        <div class="outreach-cat-bounced">2 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Airalo</div>
+        <div class="brand-pill">Holafly</div>
+        <div class="brand-pill">NordVPN</div>
+        <div class="brand-pill">ExpressVPN</div>
+        <div class="brand-pill">Surfshark</div>
+        <div class="brand-pill bounced">Nomad eSIM ❌</div>
+        <div class="brand-pill bounced">Saily ❌</div>
+      </div>
+    </div>
+    <!-- Finance & Insurance -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Finance &amp; Insurance</div>
+        <div class="outreach-cat-count">6 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">4</div>
+        <div class="outreach-cat-bounced">2 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Wise</div>
+        <div class="brand-pill">Monzo</div>
+        <div class="brand-pill">World Nomads</div>
+        <div class="brand-pill">SafetyWing</div>
+        <div class="brand-pill bounced">Revolut ❌</div>
+        <div class="brand-pill bounced">Battleface ❌</div>
+      </div>
+    </div>
+    <!-- Travel & Transport -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Travel &amp; Transport</div>
+        <div class="outreach-cat-count">17 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">10</div>
+        <div class="outreach-cat-bounced">7 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Skyscanner</div>
+        <div class="brand-pill">BlaBlaCar</div>
+        <div class="brand-pill">FlixBus</div>
+        <div class="brand-pill">Eurail</div>
+        <div class="brand-pill">Interrail</div>
+        <div class="brand-pill auto-reply">Omio ↩</div>
+        <div class="brand-pill">DiscoverCars</div>
+        <div class="brand-pill auto-reply">GetYourGuide ↩</div>
+        <div class="brand-pill auto-reply">AllTrails ↩</div>
+        <div class="brand-pill bounced">Trainline ❌</div>
+        <div class="brand-pill bounced">Viator ❌</div>
+        <div class="brand-pill bounced">Klook ❌</div>
+        <div class="brand-pill bounced">Stasher ❌</div>
+        <div class="brand-pill bounced">Komoot ❌</div>
+        <div class="brand-pill bounced">Jack's Flight Club ❌</div>
+        <div class="brand-pill bounced">Hostelworld ❌</div>
+        <div class="brand-pill">DiscoverCars</div>
+      </div>
+    </div>
+    <!-- Tour Operators -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Tour Operators</div>
+        <div class="outreach-cat-count">8 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">5</div>
+        <div class="outreach-cat-bounced">3 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">G Adventures</div>
+        <div class="brand-pill">Contiki</div>
+        <div class="brand-pill">WeRoad</div>
+        <div class="brand-pill">Much Better Adventures</div>
+        <div class="brand-pill">Explore Worldwide</div>
+        <div class="brand-pill bounced">Intrepid Travel ❌</div>
+        <div class="brand-pill bounced">Exodus Adventures ❌</div>
+        <div class="brand-pill bounced">TruTravels ❌</div>
+      </div>
+    </div>
+    <!-- Accommodation -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Accommodation</div>
+        <div class="outreach-cat-count">7 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">3</div>
+        <div class="outreach-cat-bounced">4 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">St Christopher's Inns</div>
+        <div class="brand-pill">The Social Hub</div>
+        <div class="brand-pill">Hostelling International</div>
+        <div class="brand-pill bounced">Generator Hostels ❌</div>
+        <div class="brand-pill bounced">Selina ❌</div>
+        <div class="brand-pill bounced">YHA ❌</div>
+        <div class="brand-pill bounced">Hostelworld ❌</div>
+      </div>
+    </div>
+    <!-- Automotive -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Automotive</div>
+        <div class="outreach-cat-count">4 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">1</div>
+        <div class="outreach-cat-bounced">3 ❌</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill">Toyota UK</div>
+        <div class="brand-pill bounced">Dacia UK ❌</div>
+        <div class="brand-pill bounced">Nissan UK ❌</div>
+        <div class="brand-pill bounced">Suzuki UK ❌</div>
+      </div>
+    </div>
+    <!-- Moment note -->
+    <div class="outreach-category">
+      <div class="outreach-cat-header">
+        <div class="outreach-cat-name">Photo Gear</div>
+        <div class="outreach-cat-count">1 contacted</div>
+        <div class="outreach-cat-sent" style="color:var(--gold);">1</div>
+        <div class="outreach-cat-bounced">0</div>
+      </div>
+      <div class="outreach-brands">
+        <div class="brand-pill auto-reply">Moment ↩</div>
+      </div>
+    </div>
+    <div style="padding-top:20px;font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#333;">↩ = auto-reply received (delivered) · ❌ = bounced (bad address — needs fixing) · All others delivered, awaiting response.</div>
+  </div>
   <!-- TIMELINE -->
   <div class="section">
-    <div class="section-label">02 — Timeline & Deadlines</div>
+    <div class="section-label">03 — Timeline &amp; Deadlines</div>
     <div class="section-title">WHAT'S MOVING.</div>
     <div class="timeline-list">
+      <div class="timeline-item">
+        <div class="timeline-date">18 JUN<span>2026</span></div>
+        <div>
+          <div class="timeline-title">100-Brand Outreach Blitz</div>
+          <div class="timeline-desc">First major outreach wave sent on George's behalf. 100 brands across tech, outdoor clothing, footwear, travel, VPN, finance, accommodation and automotive. 60 delivered, 40 bounced due to incorrect email addresses. 7 auto-replies received from Moment, Berghaus, Omio, Montane, GetYourGuide, AllTrails, Finisterre. Bounced addresses to be fixed and resent.</div>
+        </div>
+        <div class="timeline-pill active">Sent Today</div>
+      </div>
       <div class="timeline-item">
         <div class="timeline-date">W/C 2 JUN<span>2026</span></div>
         <div>
           <div class="timeline-title">Napapijri — Internal Meeting</div>
-          <div class="timeline-desc">Napapijri are meeting internally next week to discuss the £1,000 partnership proposal. Not a no. George's Napapijri-branded reel hit 85.1K views organically. His wider content has produced a 3M and 1.3M view reel — the reach is real.</div>
+          <div class="timeline-desc">Napapijri are meeting internally to discuss the £1,000 partnership proposal. Not a no. George's Napapijri-branded reel hit 85.1K views organically. His wider content has produced a 3M and 1.3M view reel — the reach is real.</div>
         </div>
-        <div class="timeline-pill active">Meeting Booked</div>
+        <div class="timeline-pill active">Awaiting Response</div>
       </div>
       <div class="timeline-item">
         <div class="timeline-date">28 MAY<span>2026</span></div>
@@ -488,14 +760,13 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
           <div class="timeline-title">George joins the Ampvox roster</div>
           <div class="timeline-desc">Not Standard Issue officially onboarded to Ampvox. Dashboard live, outreach and brand pitching to begin.</div>
         </div>
-        <div class="timeline-pill active">New</div>
+        <div class="timeline-pill active">Onboarded</div>
       </div>
     </div>
   </div>
-
   <!-- EARNINGS -->
   <div class="section">
-    <div class="section-label">03 — Earnings Tracker</div>
+    <div class="section-label">04 — Earnings Tracker</div>
     <div class="section-title">THE NUMBERS.</div>
     <div class="earnings-table">
       <div class="earning-row earning-head">
@@ -511,11 +782,19 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <div class="empty-desc">First deals will appear here once closed.</div>
     </div>
   </div>
-
   <!-- MANAGER UPDATES -->
   <div class="section">
-    <div class="section-label">04 — Manager Updates</div>
+    <div class="section-label">05 — Manager Updates</div>
     <div class="section-title">FROM YOUR TEAM.</div>
+    <div class="update-item">
+      <div>
+        <div class="update-date">18 JUN 2026</div>
+        <div class="update-tag">Outreach</div>
+      </div>
+      <div class="update-text">
+        Big day. Sent 100 brand outreach emails on your behalf across every relevant category — tech, outdoor clothing, bags, footwear, travel, VPN, finance, accommodation, automotive. 60 landed. 40 bounced due to bad email addresses — I'll track down correct contacts and resend those. 7 brands already sent auto-replies (Berghaus, Montane, Finisterre, Omio, GetYourGuide, AllTrails, Moment) — those are all confirmed delivered and in someone's inbox. Expect responses to start coming in over the next week or two. Will update the dashboard as anything moves.
+      </div>
+    </div>
     <div class="update-item">
       <div>
         <div class="update-date" id="update-date"></div>
@@ -535,10 +814,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
   <!-- NICHE & FIT -->
   <div class="section">
-    <div class="section-label">05 — Creator Profile</div>
+    <div class="section-label">06 — Creator Profile</div>
     <div class="section-title">THE FIT.</div>
     <div class="pipeline-grid">
       <div class="deal-card" style="border-top-color:rgba(78,205,196,0.3);">
@@ -577,7 +855,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
             </div>
           </div>
         </div>
-        <div class="deal-note">Outreach starting soon</div>
+        <div class="deal-note">Outreach live</div>
       </div>
       <div class="deal-card" style="border-top-color:rgba(78,205,196,0.3);">
         <div>
@@ -608,10 +886,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
   <!-- DOCUMENTS -->
   <div class="section">
-    <div class="section-label">06 — Documents & Links</div>
+    <div class="section-label">07 — Documents &amp; Links</div>
     <div class="section-title">YOUR FILES.</div>
     <div class="docs-grid">
       <div class="doc-card">
@@ -646,21 +923,18 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
     </div>
   </div>
-
   <div class="dash-footer">
     <div class="footer-logo">AMP<span>VOX</span></div>
     <div class="footer-meta">Not Standard Issue · Talent Portal · Ampvox 2026</div>
     <div class="footer-meta">ampvox.co.uk</div>
   </div>
 </div>
-
 <script>
   const d = new Date();
   const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
   document.getElementById('dash-date').innerHTML = `Last updated<br>${d.toLocaleDateString('en-GB', opts).toUpperCase()}`;
-  document.getElementById('update-date').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
-  document.getElementById('update-date-2').textContent = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }).toUpperCase();
-
+  document.getElementById('update-date').textContent = '18 JUN 2026';
+  document.getElementById('update-date-2').textContent = '28 MAY 2026';
   const PASSWORD = 'nsi2026';
   function tryLogin() {
     const val = document.getElementById('pw-input').value;
