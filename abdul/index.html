@@ -144,6 +144,41 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 .timeline-pill { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#777; border:1px solid #333; padding:8px 10px; white-space:nowrap; }
 .timeline-pill.active { border-color:rgba(78,205,196,0.4); color:var(--gold); }
 
+/* ═══ MEETING SUMMARIES ═══ */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:2px; }
+.summary-card {
+  background:var(--dark);
+  padding:32px;
+  border-top:2px solid rgba(78,205,196,0.3);
+  display:flex; flex-direction:column;
+  min-height:240px;
+  transition:border-top-color 0.2s;
+  position:relative; overflow:hidden;
+}
+.summary-card::after {
+  content:'';
+  position:absolute; top:0; left:0; width:3px; height:0;
+  background:var(--gold); transition:height 0.4s ease;
+}
+.summary-card:hover { border-top-color:var(--gold); }
+.summary-card:hover::after { height:100%; }
+.summary-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.summary-date { font-family:var(--mono); font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+.summary-badge { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--black); background:var(--gold); padding:4px 8px; }
+.summary-title { font-family:var(--display); font-size:30px; letter-spacing:1px; color:var(--white); line-height:1.05; margin-bottom:12px; }
+.summary-desc { font-size:13px; color:#888; line-height:1.7; flex:1; margin-bottom:24px; }
+.summary-themes { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+.summary-theme { font-family:var(--mono); font-size:8px; letter-spacing:2px; text-transform:uppercase; padding:4px 8px; border:1px solid rgba(78,205,196,0.2); color:#666; }
+.summary-open {
+  font-family:var(--display); font-size:16px; letter-spacing:2px;
+  color:var(--gold); text-decoration:none;
+  display:inline-flex; align-items:center; gap:10px;
+  transition:gap 0.2s;
+  margin-top:auto;
+}
+.summary-open:hover { gap:16px; }
+.summary-open-arrow { font-size:18px; }
+
 /* ═══ UPDATES ═══ */
 .update-item { display:grid; grid-template-columns:160px 1fr; gap:32px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:start; }
 .update-item:first-child { border-top:1px solid rgba(255,255,255,0.04); }
@@ -191,15 +226,15 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <span class="ticker-item">Lululemon UK — Re-pitched</span><span class="ticker-sep"></span>
     <span class="ticker-item">On Running — Under Review</span><span class="ticker-sep"></span>
     <span class="ticker-item">Starling Bank — Acknowledged</span><span class="ticker-sep"></span>
-    <span class="ticker-item">100+ Brands Outreached This Week</span><span class="ticker-sep"></span>
+    <span class="ticker-item">200+ Brands Outreached Across Two Waves</span><span class="ticker-sep"></span>
     <span class="ticker-item">Finance · Corporate London · Day-in-the-Life · London Lifestyle</span><span class="ticker-sep"></span>
     <span class="ticker-item">TrainPal — Active Deal</span><span class="ticker-sep"></span>
     <span class="ticker-item">Trading 212 — Response Received</span><span class="ticker-sep"></span>
     <span class="ticker-item">Snoop — Marketing Contact Made</span><span class="ticker-sep"></span>
-    <span class="ticker-item">Lululemon UK — Re-pitched</span><span class="ticker-sep"></span>
+    <span class="ticker-item">Wave 2 Sent — 19 Jun 2026 — 100 New Brands</span><span class="ticker-sep"></span>
     <span class="ticker-item">826.7K TikTok Likes · 6,398 Followers</span><span class="ticker-sep"></span>
     <span class="ticker-item">Defo Maximising Shareholder Value</span><span class="ticker-sep"></span>
-    <span class="ticker-item">100+ Brands Outreached This Week</span><span class="ticker-sep"></span>
+    <span class="ticker-item">200+ Brands Outreached Across Two Waves</span><span class="ticker-sep"></span>
     <span class="ticker-item">Finance · Corporate London · Day-in-the-Life · London Lifestyle</span><span class="ticker-sep"></span>
   </div>
 </div>
@@ -223,8 +258,8 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
 <div class="stats-row">
   <div class="stat-block">
     <div class="stat-label">Brands Outreached</div>
-    <div class="stat-value">100+</div>
-    <div class="stat-sub">This week — 25–28 May</div>
+    <div class="stat-value">200+</div>
+    <div class="stat-sub">Two waves — May &amp; June 2026</div>
   </div>
   <div class="stat-block">
     <div class="stat-label">Active Deals</div>
@@ -278,7 +313,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   <div class="section-label">Brand Partnerships</div>
   <div class="section-title">Pipeline</div>
   <div class="pipeline-grid">
-
     <!-- TrainPal - ACTIVE -->
     <div class="deal-card is-active">
       <div>
@@ -299,7 +333,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
       <div class="deal-note">Ongoing · Rail / Travel · Looped In 26 May</div>
     </div>
-
     <!-- Trading 212 - HOT LEAD -->
     <div class="deal-card is-new">
       <div>
@@ -320,7 +353,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
       <div class="deal-note">Hot Lead · Fintech · Replied 25 May</div>
     </div>
-
     <!-- Snoop - WARM -->
     <div class="deal-card is-new">
       <div>
@@ -341,7 +373,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
       <div class="deal-note">Warm · Personal Finance App · Followed Up 28 May</div>
     </div>
-
     <!-- Lululemon UK - WARM -->
     <div class="deal-card is-new">
       <div>
@@ -362,7 +393,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
       <div class="deal-note">Warm · Activewear · Re-emailed 28 May</div>
     </div>
-
     <!-- On Running - AUTO-REPLY -->
     <div class="deal-card">
       <div>
@@ -383,15 +413,13 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       </div>
       <div class="deal-note">Pending Review · Running · Sent 27 May</div>
     </div>
-
   </div>
 </div>
 
-<!-- OUTREACH TABLE -->
+<!-- OUTREACH TABLE — JUNE 2026 WAVE -->
 <div class="section">
-  <div class="section-label">Week of 25–28 May 2026</div>
-  <div class="section-title">Full Outreach Log</div>
-
+  <div class="section-label">19 Jun 2026 — Wave 2</div>
+  <div class="section-title">Second Outreach Wave</div>
   <div class="outreach-table">
     <div class="outreach-head">
       <span>Brand</span>
@@ -399,11 +427,111 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
       <span>Date Sent</span>
       <span>Status</span>
     </div>
+    <div class="outreach-row"><div><div class="outreach-brand">Booking.com</div></div><div class="outreach-cat">Travel / Hotels</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Hotels.com</div></div><div class="outreach-cat">Travel / Hotels</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Expedia UK</div></div><div class="outreach-cat">Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Kayak</div></div><div class="outreach-cat">Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Trip.com</div></div><div class="outreach-cat">Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Lastminute.com</div></div><div class="outreach-cat">Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Secret Escapes</div></div><div class="outreach-cat">Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Eurotunnel LeShuttle</div></div><div class="outreach-cat">Travel / Rail</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Heathrow Express</div></div><div class="outreach-cat">Travel / Rail</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Priority Pass</div></div><div class="outreach-cat">Travel / Lounge</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Chase UK</div></div><div class="outreach-cat">Fintech / Banking</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Motion</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Superhuman</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Slack</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Asana</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">ClickUp</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Monday.com</div></div><div class="outreach-cat">Productivity</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Canva</div></div><div class="outreach-cat">Productivity / Creative</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Adobe Express</div></div><div class="outreach-cat">Productivity / Creative</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Kindle / Amazon Devices</div></div><div class="outreach-cat">Tech / Learning</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Audible UK</div></div><div class="outreach-cat">Learning / Audio</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Blinkist</div></div><div class="outreach-cat">Learning</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Headway</div></div><div class="outreach-cat">Learning</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">WHOOP</div></div><div class="outreach-cat">Health / Wearable</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Oura</div></div><div class="outreach-cat">Health / Wearable</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Ultrahuman</div></div><div class="outreach-cat">Health / Wearable</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">MyFitnessPal</div></div><div class="outreach-cat">Health / Fitness</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Fitbit</div></div><div class="outreach-cat">Health / Wearable</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Withings</div></div><div class="outreach-cat">Health / Wearable</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Eight Sleep</div></div><div class="outreach-cat">Health / Sleep</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Therabody</div></div><div class="outreach-cat">Recovery</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Hyperice</div></div><div class="outreach-cat">Recovery</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Gym+Coffee</div></div><div class="outreach-cat">Athleisure</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Vuori</div></div><div class="outreach-cat">Athleisure</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">L'Estrange London</div></div><div class="outreach-cat">Menswear</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Suitsupply</div></div><div class="outreach-cat">Menswear</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">ARNE</div></div><div class="outreach-cat">Menswear</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Luca Faloni</div></div><div class="outreach-cat">Menswear / Luxury</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Spoke London</div></div><div class="outreach-cat">Menswear</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Mr Porter</div></div><div class="outreach-cat">Menswear / Fashion</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Flannels</div></div><div class="outreach-cat">Fashion / Luxury</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">END.</div></div><div class="outreach-cat">Streetwear / Fashion</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">TUMI</div></div><div class="outreach-cat">Bags / Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Carl Friedrik</div></div><div class="outreach-cat">Bags / Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Troubadour</div></div><div class="outreach-cat">Bags</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Maverick &amp; Co.</div></div><div class="outreach-cat">Bags</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Ekster</div></div><div class="outreach-cat">Accessories / Wallets</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Ridge</div></div><div class="outreach-cat">Accessories / Wallets</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Antler</div></div><div class="outreach-cat">Luggage / Travel</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">July</div></div><div class="outreach-cat">Luggage</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Away</div></div><div class="outreach-cat">Luggage</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Horizn Studios</div></div><div class="outreach-cat">Luggage</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">IT Luggage</div></div><div class="outreach-cat">Luggage</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Bose</div></div><div class="outreach-cat">Audio</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Sennheiser</div></div><div class="outreach-cat">Audio</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Beats</div></div><div class="outreach-cat">Audio</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Lenovo UK</div></div><div class="outreach-cat">Tech</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Logitech</div></div><div class="outreach-cat">Tech / Desk</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Keychron</div></div><div class="outreach-cat">Tech / Desk</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Twelve South</div></div><div class="outreach-cat">Tech / Desk</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Native Union</div></div><div class="outreach-cat">Tech / Accessories</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Belkin</div></div><div class="outreach-cat">Tech / Accessories</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Google UK</div></div><div class="outreach-cat">Tech</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Nothing</div></div><div class="outreach-cat">Tech</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Samsung UK</div></div><div class="outreach-cat">Tech</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Canon UK</div></div><div class="outreach-cat">Camera</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Panasonic Lumix</div></div><div class="outreach-cat">Camera</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Rode</div></div><div class="outreach-cat">Audio / Creator</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Shure</div></div><div class="outreach-cat">Audio / Creator</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Ole &amp; Steen</div></div><div class="outreach-cat">Coffee / Food</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Pure</div></div><div class="outreach-cat">Food</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Tossed</div></div><div class="outreach-cat">Food</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Foodery</div></div><div class="outreach-cat">Food / Halal</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Frive</div></div><div class="outreach-cat">Food / Meal Prep</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Simmer Eats</div></div><div class="outreach-cat">Food / Meal Prep</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Prep Kitchen</div></div><div class="outreach-cat">Food / Meal Prep</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Mindful Chef</div></div><div class="outreach-cat">Food / Recipe Box</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Kroo</div></div><div class="outreach-cat">Fintech / Banking</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Tide</div></div><div class="outreach-cat">Fintech / Banking</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Zopa</div></div><div class="outreach-cat">Finance</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Raisin UK</div></div><div class="outreach-cat">Finance / Savings</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Moneyfarm</div></div><div class="outreach-cat">Finance / Investing</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">InvestEngine</div></div><div class="outreach-cat">Finance / Investing</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Lightyear</div></div><div class="outreach-cat">Finance / Investing</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">eToro UK</div></div><div class="outreach-cat">Finance / Investing</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">IG</div></div><div class="outreach-cat">Finance / Trading</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Interactive Investor</div></div><div class="outreach-cat">Finance / Investing</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Wall Street Oasis</div></div><div class="outreach-cat">Finance / Careers</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">The Forage</div></div><div class="outreach-cat">Careers</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">Bright Network</div></div><div class="outreach-cat">Careers / Graduate</div><div class="outreach-date">19 Jun</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
+  </div>
+</div>
 
-    <!-- ACTIVE -->
+<!-- OUTREACH TABLE — MAY 2026 WAVE -->
+<div class="section">
+  <div class="section-label">Week of 25–28 May 2026</div>
+  <div class="section-title">Full Outreach Log</div>
+  <div class="outreach-table">
+    <div class="outreach-head">
+      <span>Brand</span>
+      <span>Category</span>
+      <span>Date Sent</span>
+      <span>Status</span>
+    </div>
     <div class="outreach-row"><div><div class="outreach-brand">TrainPal</div></div><div class="outreach-cat">Travel / Rail</div><div class="outreach-date">25 May</div><div><span class="outreach-status status-active">Active Deal</span></div></div>
-
-    <!-- HOT / WARM -->
     <div class="outreach-row"><div><div class="outreach-brand">Trading 212</div></div><div class="outreach-cat">Fintech</div><div class="outreach-date">25 May</div><div><span class="outreach-status status-warm">Response — Interested</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Snoop</div></div><div class="outreach-cat">Finance App</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-warm">Forwarded to Marketing</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Lululemon UK</div></div><div class="outreach-cat">Activewear</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-warm">Re-pitched — Awaiting</span></div></div>
@@ -415,13 +543,9 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="outreach-row"><div><div class="outreach-brand">Wealthify</div></div><div class="outreach-cat">Fintech / Investing</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reply">Auto-reply</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">LinkedIn UK</div></div><div class="outreach-cat">Professional Platform</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reply">Auto-reply</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">COS</div></div><div class="outreach-cat">Menswear</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reply">Auto-reply</span></div></div>
-
-    <!-- REJECTIONS -->
     <div class="outreach-row"><div><div class="outreach-brand">MVMT</div></div><div class="outreach-cat">Watches</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reject">No Collabs — Keep on File</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Bolt</div></div><div class="outreach-cat">Transport / App</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reject">Not Working With Creators</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Flat Iron</div></div><div class="outreach-cat">Restaurant</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-reject">No Collaborations</span></div></div>
-
-    <!-- SENT / AWAITING -->
     <div class="outreach-row"><div><div class="outreach-brand">Moneybox</div></div><div class="outreach-cat">Fintech / Savings</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Nutmeg</div></div><div class="outreach-cat">Fintech / Investing</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Wise</div></div><div class="outreach-cat">Fintech / FX</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
@@ -472,10 +596,7 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     <div class="outreach-row"><div><div class="outreach-brand">Gordon Ramsay Restaurants</div></div><div class="outreach-cat">Restaurant</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">The Ivy Collection</div></div><div class="outreach-cat">Restaurant</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Black+Blum</div></div><div class="outreach-cat">Lifestyle / Accessories</div><div class="outreach-date">25 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
-    <div class="outreach-row"><div><div class="outreach-brand">TrainPal (re-pitch)</div></div><div class="outreach-cat">Travel / Rail</div><div class="outreach-date">25 May</div><div><span class="outreach-status status-sent">Sent — Awaiting</span></div></div>
-
-    <!-- BOUNCED -->
-    <div class="outreach-row"><div><div class="outreach-brand">adidas UK</div><div class="outreach-cat">Sportswear</div></div><div class="outreach-cat">Sportswear</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-bounce">Bad Address</span></div></div>
+    <div class="outreach-row"><div><div class="outreach-brand">adidas UK</div></div><div class="outreach-cat">Sportswear</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-bounce">Bad Address</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">New Balance UK</div></div><div class="outreach-cat">Running</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-bounce">Bad Address</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Hoka</div></div><div class="outreach-cat">Running</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-bounce">Bad Address</span></div></div>
     <div class="outreach-row"><div><div class="outreach-brand">Saucony</div></div><div class="outreach-cat">Running</div><div class="outreach-date">27 May</div><div><span class="outreach-status status-bounce">Bad Address</span></div></div>
@@ -510,6 +631,14 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   <div class="section-label">Activity Log</div>
   <div class="section-title">Timeline</div>
   <div class="timeline-list">
+    <div class="timeline-item">
+      <div class="timeline-date">19<span>Jun 2026</span></div>
+      <div>
+        <div class="timeline-title">Second Outreach Wave — 100 New Brand Drafts Sent</div>
+        <div class="timeline-desc">Blair sent 100 new brand partnership pitches via Gmail across travel (Booking.com, Expedia, Heathrow Express, Priority Pass), productivity (Slack, Notion, Superhuman, Canva, Adobe), health/wearables (WHOOP, Oura, Ultrahuman, Eight Sleep, Therabody), menswear (Suitsupply, Mr Porter, ARNE, L'Estrange, Spoke), bags/luggage (TUMI, Carl Friedrik, Away, Antler), audio/tech (Bose, Sennheiser, Lenovo, Logitech, Keychron, Samsung, Google, Nothing), food (Ole &amp; Steen, Mindful Chef, Prep Kitchen), fintech (Kroo, Zopa, Moneyfarm, InvestEngine, eToro), and careers (Wall Street Oasis, The Forage, Bright Network).</div>
+      </div>
+      <div class="timeline-pill active">100 Brands</div>
+    </div>
     <div class="timeline-item">
       <div class="timeline-date">28<span>May 2026</span></div>
       <div>
@@ -561,11 +690,63 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     MEETING SUMMARIES
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Coaching &amp; Strategy Sessions</div>
+  <div class="section-title">Meeting Summaries</div>
+  <div class="summary-grid">
+
+    <!-- SESSION 1 — June 2026 -->
+    <div class="summary-card">
+      <div>
+        <div class="summary-meta">
+          <div class="summary-date">June 2026</div>
+          <div class="summary-badge">Session 01</div>
+        </div>
+        <div class="summary-title">Creator Strategy &amp; Monetisation</div>
+        <div class="summary-desc">Brand deal pipeline, TikTok content system, corporate handbook concept, and long-term monetisation planning. Covered pricing frameworks, income projections, and where Abdul's creator brand could go.</div>
+        <div class="summary-themes">
+          <span class="summary-theme">Brand Deals</span>
+          <span class="summary-theme">Monetisation</span>
+          <span class="summary-theme">Content System</span>
+          <span class="summary-theme">Corporate Handbook</span>
+          <span class="summary-theme">Strategy</span>
+        </div>
+      </div>
+      <a class="summary-open" href="Abdul_Coaching_Session_Summary.html" target="_blank">
+        Open Summary <span class="summary-open-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- PLACEHOLDER CARD — add future sessions here -->
+    <div class="summary-card" style="border-top-color:#222; opacity:0.4;">
+      <div>
+        <div class="summary-meta">
+          <div class="summary-date" style="color:#444;">Upcoming</div>
+        </div>
+        <div class="summary-title" style="color:#333;">Next Session</div>
+        <div class="summary-desc" style="color:#2a2a2a;">Summary will appear here after your next coaching call.</div>
+      </div>
+      <span class="summary-open" style="color:#2a2a2a; cursor:default;">Scheduled <span class="summary-open-arrow">—</span></span>
+    </div>
+
+  </div>
+  <!-- Add new session cards above the placeholder to build your archive -->
+</div>
+
 <!-- MANAGER UPDATES -->
 <div class="section">
   <div class="section-label">From Blair</div>
   <div class="section-title">Manager Updates</div>
-
+  <div class="update-item">
+    <div>
+      <div class="update-date">19 Jun 2026</div>
+      <div class="update-tag">Outreach Wave 2</div>
+    </div>
+    <div class="update-text">Second wave complete — 100 brand pitches sent today across travel, productivity, health/wearables, menswear, bags/luggage, audio, tech, food, fintech, and finance careers. All 200+ total outreaches are now logged above. Start monitoring your inbox for responses. First replies typically come within 48–72 hours. I'll be watching for any warm leads to follow up on.</div>
+  </div>
   <div class="update-item">
     <div>
       <div class="update-date">28 May 2026</div>
@@ -573,7 +754,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
     <div class="update-text">TrainPal deal is live and active. I've introduced myself to Bella at TrainPal and will handle negotiations from here. Abdul's concerns about the brief are being addressed — expecting clarity soon. Keep an eye on your inbox in case they come back to you directly.</div>
   </div>
-
   <div class="update-item">
     <div>
       <div class="update-date">28 May 2026</div>
@@ -581,7 +761,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
     <div class="update-text">Four brands to watch this week: Trading 212 (real response — Kiril Pan, likely to progress), Snoop (in marketing's hands, strong niche fit), Lululemon UK (re-chasing, perfect alignment), On Running (genuine comms review underway). We should have news on at least one of these within 7–10 days.</div>
   </div>
-
   <div class="update-item">
     <div>
       <div class="update-date">28 May 2026</div>
@@ -589,7 +768,6 @@ body { background:var(--black); color:var(--white); font-family:var(--body); ove
     </div>
     <div class="update-text">100+ brands pitched this week across fintech, running, menswear, food, lifestyle and media. Strong foundations laid. Around 25 bounced due to bad email addresses — we'll find the right contacts for brands like adidas, Hoka, New Balance and Reiss and re-pitch next week.</div>
   </div>
-
   <div class="update-item">
     <div>
       <div class="update-date">28 May 2026</div>
