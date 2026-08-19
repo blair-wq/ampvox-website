@@ -66,6 +66,7 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
 .tab-btn.active{color:var(--black);border-bottom-color:var(--mint);font-weight:700}
 .tab-panel{display:none}.tab-panel.active{display:block}
 .services-grid{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid rgba(0,0,0,.08)}
+.services-grid-3{grid-template-columns:repeat(3,1fr)}
 .service-card{background:var(--white);padding:52px 44px;transition:box-shadow .2s;border-right:1px solid rgba(0,0,0,.08)}
 .service-card:last-child{border-right:none}
 .service-card:hover{box-shadow:inset 0 0 0 2px var(--mint)}
@@ -180,7 +181,7 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
 .nav{padding:0 24px}.nav-links{display:none}.nav-hamburger{display:flex}
 .hero{padding:80px 32px;min-height:70vh}.hero-headline{font-size:64px}
 .section{padding:60px 32px}
-.problem-grid,.stats-grid,.process-grid,.services-grid{grid-template-columns:1fr}
+.problem-grid,.stats-grid,.process-grid,.services-grid,.services-grid-3{grid-template-columns:1fr}
 .problem-card,.stat-card,.process-step{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
 .service-card{border-right:none;border-bottom:1px solid rgba(0,0,0,.08)}
 .about-grid{grid-template-columns:1fr;gap:40px;align-items:start}
@@ -351,19 +352,34 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
   <!-- SOCIAL -->
   <div class="tab-panel active" id="tab-social">
     <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--grey);padding:20px 0 32px">We run the account · You approve and get on with your day</p>
-    <div class="services-grid">
+    <div class="services-grid services-grid-3">
+      <div class="service-card">
+        <span class="service-tag tag-dark">Start Here</span>
+        <div class="service-title">CONTENT<br>BATCH</div>
+        <div class="service-price">£600</div>
+        <div class="service-duration">One-off · 10 videos · 2 weeks</div>
+        <p class="service-desc">Ten short-form videos, scripted, edited and delivered ready to post. The simplest way to see what we produce before committing to anything ongoing.</p>
+        <ul class="feature-list">
+          <li>10 short-form videos for TikTok, Reels or Shorts</li>
+          <li>Hooks and scripts written for your brand</li>
+          <li>Fully edited: captions, cuts, sound, thumbnails</li>
+          <li>Delivered ready to post, in your hands within 14 days</li>
+          <li>One round of revisions included</li>
+        </ul>
+        <a href="#contact" class="service-cta">Enquire</a>
+      </div>
       <div class="service-card featured">
         <span class="service-tag tag-mint">Most Popular</span>
         <div class="service-title">FULLY MANAGED<br>SOCIAL</div>
-        <div class="service-price">£[X]</div>
+        <div class="service-price">£1,750</div>
         <div class="service-duration">Per month · 3-month minimum</div>
         <p class="service-desc">We take the whole thing off your desk. Strategy, content production, scheduling, posting, community management and reporting. You approve a monthly plan; we handle everything else.</p>
         <ul class="feature-list">
           <li>Full strategy and 30-day content calendar, refreshed monthly</li>
-          <li>Content produced and edited by our production partners</li>
-          <li>Scheduling and posting across your platforms</li>
-          <li>Comment and DM management within agreed hours</li>
-          <li>Monthly performance report with plain-English recommendations</li>
+          <li>16 pieces of content produced and edited each month</li>
+          <li>Scheduling and posting across up to 3 platforms</li>
+          <li>Comment and DM management, weekdays</li>
+          <li>Monthly performance report in plain English</li>
           <li>Direct line for anything urgent</li>
         </ul>
         <a href="#contact" class="service-cta">Enquire</a>
@@ -371,9 +387,9 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
       <div class="service-card">
         <span class="service-tag tag-dark">Fixed Scope</span>
         <div class="service-title">LAUNCH<br>SPRINT</div>
-        <div class="service-price">£[X]</div>
-        <div class="service-duration">One-off · Delivered in 30 days</div>
-        <p class="service-desc">A standing start to a live, working account in 30 days. Everything set up, built and shipped by us, so you finish with a channel that's already running rather than a plan you have to execute.</p>
+        <div class="service-price">£2,000</div>
+        <div class="service-duration">One-off · 30 days · or 3 × £750</div>
+        <p class="service-desc">A standing start to a live, working account in 30 days. Everything set up, built and shipped by us, so you finish with a channel already running rather than a plan you have to execute.</p>
         <ul class="feature-list">
           <li>Full audit and competitor teardown</li>
           <li>Brand voice and positioning locked in</li>
@@ -393,8 +409,8 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
       <div class="service-card featured">
         <span class="service-tag tag-mint">Fastest Payback</span>
         <div class="service-title">AI VOICE<br>AGENT</div>
-        <div class="service-price">£[X]</div>
-        <div class="service-duration">One-off build · Live in 2 weeks</div>
+        <div class="service-price">£1,800</div>
+        <div class="service-duration">Build · then £120/mo hosting &amp; tuning</div>
         <p class="service-desc">An AI agent that answers your phone, qualifies the caller and books straight into your calendar. It doesn't take lunch, doesn't miss calls at 9pm, and doesn't leave.</p>
         <ul class="feature-list">
           <li>Custom voice agent trained on your business</li>
@@ -409,8 +425,8 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
       <div class="service-card">
         <span class="service-tag tag-dark">Systems</span>
         <div class="service-title">AUTOMATION<br>BUILD</div>
-        <div class="service-price">£[X]</div>
-        <div class="service-duration">Scoped per project</div>
+        <div class="service-price">From £950</div>
+        <div class="service-duration">Scoped and fixed-priced per project</div>
         <p class="service-desc">The manual work in your business, automated. Email sequences that qualify leads, chat flows that book appointments, websites that do more than sit there.</p>
         <ul class="feature-list">
           <li>Email agents for outreach, follow-up and qualification</li>
@@ -432,9 +448,9 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
       <div class="service-card featured">
         <span class="service-tag tag-mint">For Brands</span>
         <div class="service-title">CREATOR<br>CAMPAIGNS</div>
-        <div class="service-price">Bespoke</div>
-        <div class="service-duration">Priced per campaign</div>
-        <p class="service-desc">Work with creators without the usual chaos. We match you to the right people on our roster, write the brief, contract the deal properly and make sure it actually gets delivered.</p>
+        <div class="service-price">No fee</div>
+        <div class="service-duration">You pay the creator · Our commission comes from them</div>
+        <p class="service-desc">Work with creators without the usual chaos. We match you to the right people on our roster, write the brief, contract the deal properly and make sure it actually gets delivered — and it costs you nothing on top of the creator's rate.</p>
         <ul class="feature-list">
           <li>Matched to creators whose audience fits your product</li>
           <li>Full creative brief written and agreed before filming</li>
@@ -590,7 +606,7 @@ body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you charge?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><p>Fixed price against a written scope, agreed before anything starts. Managed social is a monthly retainer with a three-month minimum. Builds and sprints are one-off fees, split into a deposit and a balance on delivery. Creator management is commission-only.</p></div>
+      <div class="faq-a"><p>Fixed price against a written scope, agreed before anything starts. Managed social is £1,750 a month with a three-month minimum. Builds and sprints are one-off fees, split into a 50% deposit and the balance on delivery. Ad spend, software licences and API costs are billed at cost on top, always with your approval first. Creator management is commission-only — brands pay no fee to us at all.</p></div>
     </div>
   </div>
 </section>
