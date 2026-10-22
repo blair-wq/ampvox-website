@@ -995,7 +995,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
     var fe=joinEl.getBoundingClientRect();
     var cr=copyEl.getBoundingClientRect(),fanY=(1-(cr.top+cr.bottom)/innerHeight)*2.73;
     var fan=fe.top<innerHeight*.62,hide=false;
-    if(!fan){for(var h=0;h<hideEls.length;h++){var hr=hideEls[h].getBoundingClientRect();if(hr.top<innerHeight*.9&&hr.bottom>innerHeight*.1){hide=true;break;}}}
+    if(!fan&&f<0){for(var h=0;h<hideEls.length;h++){var hr=hideEls[h].getBoundingClientRect();if(hr.top<innerHeight*.9&&hr.bottom>innerHeight*.1){hide=true;break;}}}
     if(mobile){fan=false;hide=false;}
     var gx=mobile?0:asp*1.4,gy=mobile?1.9:(fan?fanY:0),gs=mobile?.5:Math.min(1,asp/1.6);
     gcur.x+=(gx-gcur.x)*k;gcur.y+=(gy-gcur.y)*k;gcur.s+=(gs-gcur.s)*k;
