@@ -480,6 +480,19 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   .hero::before{content:"";position:absolute;inset:-24px -16px -8px;z-index:-1;background:linear-gradient(180deg,rgba(7,11,15,.78),rgba(7,11,15,.55) 70%,rgba(7,11,15,0));pointer-events:none}
   .stick{padding:12px 22px;font-size:.9rem;bottom:calc(10px + env(safe-area-inset-bottom,0px))}
   body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  /* shorter page on phones */
+  section{padding-block:44px 0}
+  .card .mlist{display:none}
+  .card.open .mlist{display:grid}
+  .card .mtoggle{align-self:flex-start;font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;min-height:40px}
+  .card .mtoggle::after{content:" +"}
+  .card.open .mtoggle::after{content:" \2212"}
+  #lesson,.links li:has(a[href="#lesson"]){display:none}
+  .mockwrap{display:none}
+  .row{padding:16px 18px;gap:6px}
+  .fit{gap:12px}.fitcol{padding:20px}.fitcol ul{gap:10px}
+  .faqgrid .ask{display:none}
+  .final{min-height:0}
 }
 </style>
 
@@ -1143,6 +1156,21 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   addEventListener('scroll',upd,{passive:true});
   if(menu)new MutationObserver(upd).observe(menu,{attributes:true,attributeFilter:['aria-hidden','class']});
   upd();
+})();
+/* phones: module lists start collapsed to keep the page short */
+(function(){
+  if(!window.matchMedia||!matchMedia('(max-width:700px)').matches)return;
+  document.querySelectorAll('#modules .card').forEach(function(c){
+    var l=c.querySelector('.mlist');if(!l)return;
+    var b=document.createElement('button');b.type='button';b.className='mtoggle';
+    var n=l.children.length;b.textContent='See the '+n+' modules';
+    b.setAttribute('aria-expanded','false');
+    b.addEventListener('click',function(){
+      var o=c.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');
+      b.textContent=o?'Hide modules':'See the '+n+' modules';
+    });
+    c.insertBefore(b,l);
+  });
 })();
 </script>
 </body>
