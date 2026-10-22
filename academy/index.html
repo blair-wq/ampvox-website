@@ -739,7 +739,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   }
 
   /* sign up forms. Set SIGNUP_ENDPOINT to your form service URL (for example a Formspree form) on the live site. */
-  var SIGNUP_ENDPOINT='';
+  var SIGNUP_ENDPOINT='https://formspree.io/f/maeewllq';
   document.querySelectorAll('form.signup').forEach(function(form){
     var note=form.nextElementSibling,input=form.querySelector('input'),btn=form.querySelector('button');
     form.addEventListener('submit',function(e){
@@ -748,8 +748,8 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){note.textContent='Please enter a valid email address.';input.focus();return;}
       if(!SIGNUP_ENDPOINT){note.textContent='Sign up is not switched on in this preview yet. Email blair@ampvox.co.uk and we will add you.';return;}
       btn.disabled=true;
-      fetch(SIGNUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:v})})
-        .then(function(r){if(!r.ok)throw new Error('bad');note.textContent='You are on the list. We will be in touch soon.';input.value='';})
+      fetch(SIGNUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:v,source:form.id||'academy',list:'Academy launch list 1 November'})})
+        .then(function(r){if(!r.ok)throw new Error('bad');note.textContent='You are on the list. We will email you before launch on 1 November.';input.value='';})
         .catch(function(){note.textContent='Something went wrong. Please try again, or email blair@ampvox.co.uk.';})
         .then(function(){btn.disabled=false;});
     });
