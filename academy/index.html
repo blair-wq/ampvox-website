@@ -481,7 +481,6 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   .stick{padding:12px 22px;font-size:.9rem;bottom:calc(10px + env(safe-area-inset-bottom,0px))}
   body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }
-@media (hover:none){html{scroll-behavior:auto}}
 </style>
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "Ampvox Academy", "description": "A self paced online course for creators and small businesses. Learn to use AI to plan, create, automate and measure your social media with far less manual work.", "provider": {"@type": "Organization", "name": "Ampvox", "url": "https://ampvox.co.uk", "email": "blair@ampvox.co.uk"}, "inLanguage": "en-GB", "teaches": ["Social media audits", "Writing hooks", "AI assisted content calendars", "AI characters for brands without a face", "DM and email automation", "Social media analytics"], "audience": {"@type": "Audience", "audienceType": "Creators and small business owners"}, "syllabusSections": [{"@type": "Syllabus", "name": "Why isn't it working?", "description": "Modules: Find out why your posts flop; Pick who you are talking to; Spot what works in your niche."}, {"@type": "Syllabus", "name": "Stop getting scrolled past", "description": "Modules: Why people scroll past you; Build a hook swipe file; Write captions that sound like you; Test hooks, keep the winners."}, {"@type": "Syllabus", "name": "What do I post today?", "description": "Modules: Pick your content pillars; Plan a month in one sitting; Film once, post everywhere."}, {"@type": "Syllabus", "name": "Don't want to be on camera?", "description": "Modules: Give your brand a face; Turn scripts into video with AI; Keep your character consistent."}, {"@type": "Syllabus", "name": "Stop answering the same DMs", "description": "Modules: Map your repeat questions; Build your first DM flow; Let AI reply in your voice; Set up follow up agents."}, {"@type": "Syllabus", "name": "What's actually working?", "description": "Modules: Make sense of your analytics; Run a weekly review; Your 30 day plan."}], "hasCourseInstance": [{"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-01"}]}</script>
@@ -844,10 +843,10 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   var renderer;
   try{
     if(!window.THREE)throw new Error('no three');
-    var phone=Math.min(innerWidth,innerHeight)<700;
+    var phone=innerWidth<700;
     renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:!phone,alpha:true,powerPreference:phone?'low-power':'default'});
   }catch(e){root.classList.add('no-gl');return;}
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,Math.min(innerWidth,innerHeight)<700?1.5:2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,innerWidth<700?1.5:2));
   renderer.outputEncoding=THREE.sRGBEncoding;
   var scene=new THREE.Scene();
   var camera=new THREE.PerspectiveCamera(40,1,.1,100);
@@ -965,7 +964,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   function size(force){
     var w=innerWidth,h=innerHeight;
     /* phones: the address bar showing/hiding fires resize with a small height change; ignore it so the canvas does not rebuild and flicker while scrolling */
-    if(!force&&lastW===w&&Math.abs(h-lastH)<150)return;
+    if(!force&&w<700&&lastW===w&&Math.abs(h-lastH)<150)return;
     lastW=w;lastH=h;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
   }
   function progress(){var m=document.documentElement.scrollHeight-innerHeight;return m>0?Math.min(1,Math.max(0,scrollY/m)):0;}
@@ -1014,7 +1013,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
   if(reduce){draw(0);addEventListener('scroll',function(){draw(0);},{passive:true});}
   else{
     /* phones: cap at ~30fps and stop drawing while the tab is hidden, to save battery and keep scrolling smooth */
-    var slow=innerWidth<1000,lastT=0,hidden=document.hidden;
+    var slow=innerWidth<700,lastT=0,hidden=document.hidden;
     document.addEventListener('visibilitychange',function(){hidden=document.hidden;});
     (function loop(ms){
       requestAnimationFrame(loop);
