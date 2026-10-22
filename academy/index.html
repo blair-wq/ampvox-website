@@ -993,7 +993,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
         if(i===f){tx=0;ty=0;tz=1.5;ts=1.3;to=1;try_=0;}
         else{tx=b[0]*1.25;ty=b[1]*1.25;tz=b[2]-1.2;ts=.55;to=.2;try_=-b[0]*.2;}
       }else{tx=b[0];ty=b[1];tz=b[2];ts=.62;to=hero?.95:.3;try_=-b[0]*.2;}
-      if(mobile){to=hero?.4:.12;}
+      if(mobile){to=innerWidth<700?(hero?.1:.06):(hero?.4:.12);}
       ty+=Math.sin(t*.7+i*1.3)*.08;
       m.position.x+=(tx-m.position.x)*k;m.position.y+=(ty-m.position.y)*k;m.position.z+=(tz-m.position.z)*k;
       m.scale.setScalar(m.scale.x+(ts-m.scale.x)*k);
@@ -1004,7 +1004,7 @@ footer{margin-top:90px;padding-top:22px;border-top:1px solid var(--line);display
     var a=lg.attributes.position.array;
     for(var q=0;q<6;q++){a[q*3]=panels[q].position.x;a[q*3+1]=panels[q].position.y;a[q*3+2]=panels[q].position.z-.01;}
     lg.attributes.position.needsUpdate=true;
-    lineMat.opacity+=(((fan||hide)?0:(f>=0?.12:(hero?.4:.15)))-lineMat.opacity)*k;
+    lineMat.opacity+=(((fan||hide||innerWidth<700)?0:(f>=0?.12:(hero?.4:.15)))-lineMat.opacity)*k;
     pts.rotation.y=t*.01+p*.6;
     renderer.render(scene,camera);
   }
